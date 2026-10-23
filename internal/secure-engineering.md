@@ -1,7 +1,7 @@
 # Secure engineering in the existing workflow
 
 Use this guide when a change touches the controls below. It applies to any team's repository,
-not only payment services. Keep the existing risk-selected reviewers and approval boundaries.
+not only one service type. Keep the existing risk-selected reviewers and approval boundaries.
 Documentation-only work does not need a security questionnaire or new tests unless it changes
 security instructions. Do not generate a ten-category report for every task.
 

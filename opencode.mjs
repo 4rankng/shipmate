@@ -6,7 +6,7 @@ const root = new URL('./', import.meta.url);
 const manifest = JSON.parse(readFileSync(new URL('plugin.json', root), 'utf8'));
 
 export default {
-  id: `gx-marketplace.${manifest.name}`,
+  id: `shipmate-marketplace.${manifest.name}`,
   async setup(ctx) {
     const skills = readdirSync(new URL('skills/', root), { withFileTypes: true })
       .filter(entry => entry.isDirectory()).sort((a, b) => a.name.localeCompare(b.name))

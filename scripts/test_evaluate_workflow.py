@@ -109,7 +109,7 @@ class WorkflowScorerTests(unittest.TestCase):
         document = json.loads((root / "workflow-cases.json").read_text())
         expected = json.loads((root / "workflow-expected.json").read_text())
         cases = {case["id"]: case for case in document["cases"]}
-        for case_id in ("linked_parser_candidate", "adopt_old_payment_mr"):
+        for case_id in ("linked_parser_candidate", "adopt_old_mr"):
             self.assertEqual(expected[case_id]["action"], "adopt_existing")
         self.assertEqual(expected["linked_parser_candidate"],
                          decision("adopt_existing", "high", "two_personas"))

@@ -36,7 +36,7 @@ the comment alone. Cite the required boundary, actual result and affected caller
 
 For a walkthrough, explain the inspected behavior and flag the misleading comment; do not
 rewrite it. For an MR quiz, ask about the code at the selected revision and make that source
-mode clear. For a Jira quiz, use settled requirements rather than importing a code behavior.
+mode clear. For a requirements quiz, use settled requirements rather than importing a code behavior.
 Drop a scored question if a material ambiguity cannot be resolved from the selected source.
 
 ## Tests: name the counterexample

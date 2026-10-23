@@ -19,7 +19,7 @@ current candidate and intended scope, not an earlier run, another agent's summar
 
 Do not weaken a test, scanner or policy to obtain green. Required failing tests, security findings
 and secret hits block delivery. An unavailable check is not a failed test and is never a PASS.
-Optional hook/telemetry failures are advisory. An equivalent required CI job on the same candidate
+Optional hook failures are advisory. An equivalent required CI job on the same candidate
 can replace unavailable local tooling only when repository policy allows it.
 
 After available checks and independent review pass, the authorized draft MR may obtain that CI
@@ -39,7 +39,7 @@ If equivalent coverage is unavailable, retain the work/draft and state the exact
 | Candidate reviewed | Independent current-candidate response(s), full diff and selected risk coverage |
 | Security review passed | Bounded independent findings plus applicable required scanner evidence |
 | Requested draft delivered | Read-back MR and reviewed candidate with all required CI verified |
-| Merged/deployed | Authoritative GitLab/deployment status, not merely a green MR pipeline |
+| Merged/deployed | Authoritative platform/deployment status, not merely a green MR pipeline |
 
 Controller specification/plan checks are not independent reviews. An adopted existing-MR review
 does not certify prior lifecycle phases. Use `review_scope: adopted-candidate`; full-lifecycle
@@ -69,8 +69,8 @@ old PASS to a new SHA. A no-code retry on the same content does not repeat unrel
 
 Keep it concise: MR/result link, meaningful changes, commands/results and real limitations, then
 the next human action. Do not dump internal hashes, persona tables or cohort identities into chat,
-Jira or MR prose. Keep testing details out of MR descriptions; follow the bundled
-[MR-description guidance](../gitlab-mr/references/mr-description.md). Mention relevant
+MR prose. Keep testing details out of MR descriptions; follow the bundled
+MR-description guidance of the delivery procedure. Mention relevant
 manual/non-production validation in the chat handoff, distinguishing performed from not performed.
 Machine-local artifacts carry the detailed reproducibility record.
 

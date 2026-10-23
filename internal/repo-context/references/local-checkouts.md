@@ -1,32 +1,28 @@
-# Local Payment Checkouts
+# Local Project Checkouts
 
 ## Purpose
 
-Reuse repositories already cloned on the engineer's machine. Never clone Dakota Payment or DBMY
-Payment as part of L3.
+Reuse repositories already cloned on the engineer's machine. Never clone a repository as part of
+L3 when a validated local checkout exists.
 
 ## Machine-local registry
 
-Store validated checkout roots in `~/.gx-payment-repositories.json`:
+Store validated checkout roots in `~/.shipmate-repositories.json`:
 
 ```json
 {
   "schema_version": 1,
   "repositories": {
-    "dakota_payment": {
-      "path": "/absolute/path/to/dakota/payment",
-      "remote": "gitlab.com/gx-regional/dakota/payment"
-    },
-    "dbmy_payment": {
-      "path": "/absolute/path/to/dbmy/payment",
-      "remote": "gitlab.com/gx-regional/dbmy/payment"
+    "example_service": {
+      "path": "/absolute/path/to/example-service",
+      "remote": "host.example/example-org/example-service"
     }
   }
 }
 ```
 
 This file contains checkout paths and canonical remote identities only—never credentials—and must
-not be committed or copied into a requirement, Jira, an MR, a plan, or a review record. Human-facing artifacts use
+not be committed or copied into a requirement, an MR, a plan, or a review record. Human-facing artifacts use
 canonical repository identities.
 Writing this registry is the only machine-setup write outside the declared target repository.
 
@@ -34,12 +30,12 @@ Writing this registry is the only machine-setup write outside the declared targe
 
 1. Read the registry when it exists.
 2. Otherwise inspect the current Git root and nearby existing checkouts.
-3. If either root remains unresolved, ask once for the absolute Dakota Payment and DBMY Payment
-   paths. This is environment setup before work-item execution, not a specification decision.
+3. If a required root remains unresolved, ask once for its absolute path. This is environment setup
+   before work-item execution, not a specification decision.
 4. Resolve each path with `git -C <path> rev-parse --show-toplevel`.
 5. Read `git -C <root> remote get-url origin`, normalize SSH and HTTPS forms, and require the
    canonical remotes above. Reject a similarly named directory or mismatched fork.
-6. Write both validated roots to the registry. Reuse them on later runs without asking again.
+6. Write validated roots to the registry. Reuse them on later runs without asking again.
 
 If a stored path disappears or its remote no longer matches, repeat validation for that entry. Do
 not search the entire home directory, reclone a repository, or silently substitute a fork.
@@ -63,7 +59,7 @@ identities before and after each review wave.
 Pass every reviewer the controller-validated absolute snapshot root alongside its canonical
 repository identity and inspected SHA. Recheck that the root still resolves to that clean SHA after
 review. Snapshot paths are machine-local routing data: exclude them from the plan-review digest,
-persisted plan, review summary, requirement source, Jira, and MR. A reviewer must never discover or substitute a nearby
+persisted plan, review summary, requirement source, and MR. A reviewer must never discover or substitute a nearby
 workspace path.
 
 ## Mutation boundary

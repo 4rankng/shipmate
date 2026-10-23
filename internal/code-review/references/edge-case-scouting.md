@@ -13,7 +13,7 @@ the call graph and contracts define what can break.
 - cache invalidation, event publication, audit, metrics, and other side effects;
 - schema, migration, public API, protobuf, event, and configuration compatibility;
 - generated-file sources and regeneration commands;
-- read-only contracts in Dakota or DBMY context repositories.
+- read-only contracts in additional context repositories.
 
 Context repositories may expand the review surface but never the writable scope. If an acceptance
 criterion requires a second repository change, return a blocking scope finding.

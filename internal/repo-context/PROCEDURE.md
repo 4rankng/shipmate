@@ -30,10 +30,10 @@ detached temporary worktree created from that existing clone. Pass validated sna
 reviewers as machine-local routing data, exclude paths from portable hashes/artifacts, and recheck
 SHA and cleanliness after every review wave.
 
-For work in `gitlab.com/gx-regional/dakota/payment` or `gitlab.com/gx-regional/dbmy/payment`, read
-`references/local-checkouts.md` as a conditional compatibility reference. Its historical
-`~/.gx-payment-repositories.json` registry and service map may accelerate those repositories, but
-neither checkout is required for unrelated teams or targets.
+For repositories with pre-existing local checkouts registered on this machine, read
+`references/local-checkouts.md` as a conditional compatibility reference. Its machine-local
+`~/.shipmate-repositories.json` registry and repository map may accelerate reuse of existing
+clones, but no local checkout is required for any target.
 
 ## Discover module and verification boundaries
 
@@ -46,7 +46,7 @@ files, build files, and CI configuration that actually apply to the changed path
 - full build, test, lint, coverage, and static/security commands enforced by CI;
 - environment or tool prerequisites that are unavailable.
 
-Run commands from the module directory required by the repository. Never assume Go, a Dakota
+Run commands from the module directory required by the repository. Never assume a language, a
 service layout, `make test`, a default branch name, or a coverage command. If commands are not
 defined, report them as unknown instead of inventing them. Follow local history and repository
 instructions for naming and generated output.

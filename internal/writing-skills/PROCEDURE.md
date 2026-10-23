@@ -83,7 +83,7 @@ For third-party guidance, pin an immutable repository revision, read the selecte
 source and every retained dependency completely, copy the exact license, record
 upstream and adapted SHA-256 digests, and document reviewer and review date.
 Never import executable support files, active configuration, hooks, MCP,
-credentials, telemetry, automatic fetch behavior, or upstream write authority.
+credentials, automatic fetch behavior, or upstream write authority.
 
 Prefer technical enforcement in permissions, CI, branch protection, schemas, and allowlists. Skills should guide judgment, not impersonate a security boundary.
 

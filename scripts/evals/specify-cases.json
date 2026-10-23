@@ -3,8 +3,8 @@
   "cases": [
     {
       "id": "translate-recovery-shorthand",
-      "brief": "Specify: 210/400 replay on boot, same eid; PC dedup; no ack resend. Draft only.",
-      "evidence": "Synthetic verified facts: 210 and 400 represent verified results awaiting publication. Boot means adapter restart. eid is event ID. Restart recovery republishes pending results with the stored event ID and never resends the bank acknowledgment. PC means Payment Core; its existing consumer ignores duplicate event IDs and is not changed by this task. Transport can deliver duplicates. All design choices are settled."
+      "brief": "Specify: 210/400 replay on boot, same eid; RS dedup; no ack resend. Draft only.",
+      "evidence": "Synthetic verified facts: 210 and 400 represent verified results awaiting publication. Boot means adapter restart. eid is event ID. Restart recovery republishes pending results with the stored event ID and never resends the upstream acknowledgment. RS means the report service; its existing consumer ignores duplicate event IDs and is not changed by this task. Transport can deliver duplicates. All design choices are settled."
     },
     {
       "id": "unknown-state-meaning",
@@ -18,13 +18,13 @@
     },
     {
       "id": "justified-over-target",
-      "brief": "Specify RGPAYM-9999 \"FPX exactly-once to PC\": 210/400 replay on boot, same eid; publish fail stays 400; commit fail republish; race on 100 first-final wins; buyer cancel pre-redirect = local fail, no publish; PC dedup; no ack resend. Draft only.",
-      "evidence": "Synthetic verified facts: 100 awaits callback or timeout; 210 is a verified result awaiting publication; 400 is pending or failed publication and retryable; 500 is final FAILED; 900 is final SUCCESS. eid is event ID and is never regenerated. PC means Payment Core; its duplicate handling is owned by RGPAYM-3956 and is not verified here. Acknowledgment resend is excluded. All design choices are settled."
+      "brief": "Specify ABC-9999 \"gateway-result exactly-once publication to RS\": 210/400 replay on boot, same eid; publish fail stays 400; commit fail republish; race on 100 first-final wins; buyer cancel pre-redirect = local fail, no publish; RS dedup; no ack resend. Draft only.",
+      "evidence": "Synthetic verified facts: 100 awaits callback or timeout; 210 is a verified result awaiting publication; 400 is pending or failed publication and retryable; 500 is final FAILED; 900 is final SUCCESS. eid is event ID and is never regenerated. RS means the report service; its duplicate handling is owned by ABC-3956 and is not verified here. Acknowledgment resend is excluded. All design choices are settled."
     },
     {
       "id": "reuse-framework-before-new-helper",
-      "brief": "Specify an ordinary JSON payout endpoint using the same request contract as our other services. No coding or tracker writes.",
-      "evidence": "Synthetic inspected sources: framework/http.go:80 defaultDecoder decodes JSON and binds request fields; sibling/routes.go:22 registers an equivalent endpoint without a custom decoder; sibling/handlers.go:40 uses injected clients and standard error mapping. The candidate design proposes decodePayoutJSON, PayoutClientWrapper and a new validation middleware solely for future flexibility. No requirement changes JSON parsing, request validation, client behavior or error mapping. Existing authentication remains unchanged."
+      "brief": "Specify an ordinary JSON export endpoint using the same request contract as our other services. No coding or tracker writes.",
+      "evidence": "Synthetic inspected sources: framework/http.go:80 defaultDecoder decodes JSON and binds request fields; sibling/routes.go:22 registers an equivalent endpoint without a custom decoder; sibling/handlers.go:40 uses injected clients and standard error mapping. The candidate design proposes decodeExportJSON, ExportClientWrapper and a new validation middleware solely for future flexibility. No requirement changes JSON parsing, request validation, client behavior or error mapping. Existing authentication remains unchanged."
     },
     {
       "id": "reuse-does-not-erase-protocol-gap",
@@ -47,28 +47,28 @@
       "evidence": "User-approved outcome: authorized users get all their records with existing CSV columns and ordering. Current endpoint buffers rows and times out on large datasets. Existing streaming and job-worker mechanisms are both available; no approach or file retention policy has been selected. The generic run instruction is the only implementation authorization."
     },
     {
-      "id": "jira-original-content",
-      "brief": "Specify TEAM-123 using a readable concise replacement. Preserve the original in a local backup, not inside the new description. Prepare a draft only.",
+      "id": "requirement-original-content",
+      "brief": "Specify the region-selection requirement using a readable concise replacement. Preserve the original in a local backup, not inside the new description. Prepare a draft only.",
       "evidence": "Full original description: 'Refreshing oncall-app resets MY to SG. Keep my choice.\n\n- Keep the `region` field.\n- Background: https://example.org/region-notes\n\n| Input | Value |\n|---|---|\n| region | MY |'. Accepted decision: selection lasts only for the current browser-tab session, no cross-tab sync. Repository confirms choices SG/MY, existing SG default and server permission checks. No other comments or linked requirements."
     },
     {
-      "id": "jira-original-content-repeat",
-      "brief": "Polish TEAM-123 again using the concise format. Back up the existing description without nesting it inside the replacement. No live writes.",
-      "evidence": "Current description: '## Original Intent and Goal\n- Problem: Refresh resets the selection.\n- Desired outcome: Keep selection for this tab session.\n- Why it matters: Refresh should not change environment.\n### Original ticket content\nRemember my environment forever.\n\n## Required Behaviour\nRestore the permitted selection for this tab session only; the owner explicitly replaced the original forever request with session-only persistence. A fresh tab uses SG.\n\n## Acceptance Criteria\n| AC | Scenario | Given | When | Then |\n|---|---|---|---|---|\n| AC-01 | Refresh | MY selected and permitted | Refresh | MY remains |\n| AC-02 | Fresh tab | New tab | Load | SG selected |\n| AC-03 | Permission revoked | MY no longer permitted | Load | Existing permitted default used |\n\n## Out of Scope\n- Persistence after the session.' All decisions settled; no missing facts or comments."
+      "id": "requirement-original-content-repeat",
+      "brief": "Polish the region-selection spec again using the concise format. Back up the existing description without nesting it inside the replacement. No live writes.",
+      "evidence": "Current description: '## Original Intent and Goal\n- Problem: Refresh resets the selection.\n- Desired outcome: Keep selection for this tab session.\n- Why it matters: Refresh should not change environment.\n### Original requirement content\nRemember my environment forever.\n\n## Required Behaviour\nRestore the permitted selection for this tab session only; the owner explicitly replaced the original forever request with session-only persistence. A fresh tab uses SG.\n\n## Acceptance Criteria\n| AC | Scenario | Given | When | Then |\n|---|---|---|---|---|\n| AC-01 | Refresh | MY selected and permitted | Refresh | MY remains |\n| AC-02 | Fresh tab | New tab | Load | SG selected |\n| AC-03 | Permission revoked | MY no longer permitted | Load | Existing permitted default used |\n\n## Out of Scope\n- Persistence after the session.' All decisions settled; no missing facts or comments."
     },
     {
-      "id": "jira-original-content-empty",
-      "brief": "Specify TEAM-124: keep the selected environment during this browser-tab session, fresh tabs use SG, discard revoked or unknown selections. No cross-tab sync. Draft only.",
-      "evidence": "The ticket description is empty and there are no comments. Repository confirms choices SG/MY, default SG and existing permission enforcement."
+      "id": "requirement-original-content-empty",
+      "brief": "Specify the region-selection requirement: keep the selected environment during this browser-tab session, fresh tabs use SG, discard revoked or unknown selections. No cross-tab sync. Draft only.",
+      "evidence": "The requirement file is empty and there are no comments. Repository confirms choices SG/MY, default SG and existing permission enforcement."
     },
     {
       "id": "environment-lifetime-unknown",
-      "brief": "My oncall-app forgets the selected environment when I refresh. Specify a fix; no Jira.",
+      "brief": "My oncall-app forgets the selected environment when I refresh. Specify a fix; no external tracker.",
       "evidence": "Choices SG/MY; existing permitted default SG; server enforces permissions; no persistence today. Lifetime and cross-tab behavior are not decided."
     },
     {
       "id": "environment-settled",
-      "brief": "Remember the selected environment in this browser tab until the tab session ends. Fresh tabs use existing SG default. Never restore a no-longer-permitted value. No cross-tab sync or server profile. Write the spec; no Jira.",
+      "brief": "Remember the selected environment in this browser tab until the tab session ends. Fresh tabs use existing SG default. Never restore a no-longer-permitted value. No cross-tab sync or server profile. Write the spec; no external tracker.",
       "evidence": "Choices SG/MY; existing permitted default SG; server enforces permissions; no persistence today."
     },
     {
@@ -84,7 +84,7 @@
     {
       "id": "meaningful-spec-not-process",
       "brief": "Specify this MR: bundle useful upstream interview/grill sources locally in our existing plugin, use them to produce concise requirements, and pair a grilling reviewer with a separate answer/repair agent.",
-      "evidence": "Exactly three public skills are required. Review is read-only unless a fix is authorized. Only efficient Claude/GPT models. No live Jira comments, plugin installation or deployment. Current third_party directories have licenses but no source copies."
+      "evidence": "Exactly three public skills are required. Review is read-only unless a fix is authorized. Only efficient Claude/GPT models. No live tracker comments, plugin installation or deployment. Current third_party directories have licenses but no source copies."
     },
     {
       "id": "dense-status-recovery-contract",
@@ -93,8 +93,8 @@
     },
     {
       "id": "happy-path-only-brief",
-      "brief": "Specify: the payout endpoint returns the bank reference to the caller on success. Draft only, no tracker writes.",
-      "evidence": "Synthetic inspected sources: the bank client returns a reference, a rejection code, or times out. The existing handler maps rejections to HTTP 422 through standard error mapping and timeouts to HTTP 504; neither path changes in this task. No retry decision is needed."
+      "brief": "Specify: the export endpoint returns the upstream reference to the caller on success. Draft only, no tracker writes.",
+      "evidence": "Synthetic inspected sources: the upstream client returns a reference, a rejection code, or times out. The existing handler maps rejections to HTTP 422 through standard error mapping and timeouts to HTTP 504; neither path changes in this task. No retry decision is needed."
     },
     {
       "id": "surprising-default-disclosed",

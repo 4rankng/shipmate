@@ -1,6 +1,6 @@
 # Shipmate Plugin Installation Guide
 
-Shipmate delivers engineering work from Jira or local requirements, with multi-persona reviews, layered walkthroughs, and diagnostic quizzes for merge requests.
+Shipmate delivers engineering work from local requirements, with multi-persona reviews, layered walkthroughs, and diagnostic quizzes for merge requests.
 
 This guide explains how to install and activate Shipmate in each supported AI coding harness.
 

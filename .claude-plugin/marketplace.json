@@ -3,17 +3,15 @@
   "name": "shipmate-marketplace",
   "description": "Shipmate engineering workflow plugin marketplace",
   "owner": {
-    "name": "Frank Nguyen",
-    "email": "frank.nguyen@gxs.com.sg"
+    "name": "Frank Nguyen"
   },
   "plugins": [
     {
       "name": "shipmate",
       "version": "4.5.0",
-      "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+      "description": "Delivers engineering work from local requirements, with reviews, walkthroughs and quizzes for local changes and pull requests.",
       "author": {
-        "name": "GXS Engineering",
-        "email": "frank.nguyen@gxs.com.sg"
+        "name": "Frank Nguyen"
       },
       "category": "development",
       "source": {

@@ -61,8 +61,8 @@ Never duplicate an unmerged dependency or require everything to merge before pla
 Honor the user's one-MR-at-a-time choice; do not create extra tickets or expand scope yourself.
 
 For genuinely multi-slice work, add only the dependency edges, owning files/shared interfaces and
-completion checks needed to schedule it. A small change needs no graph or tracker setup. Jira
-and local Markdown are equally valid sources. Settle shared names/contracts once from repository
+completion checks needed to schedule it. A small change needs no graph or tracker setup. Local
+Markdown is the requirement source. Settle shared names/contracts once from repository
 evidence; serialize slices touching the same schema, generated inputs, registry or configuration.
 Do not assume separate worktrees make conflicting edits independent. Prefer sequential execution
 unless explicitly authorized parallel delegation will reduce the critical path without increasing

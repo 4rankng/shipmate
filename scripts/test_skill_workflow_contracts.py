@@ -40,15 +40,10 @@ class SpecificationAdmissionContractTests(TestCase):
         cls.requirements_source = (
             PLUGIN_ROOT / "internal/requirements-source/PROCEDURE.md"
         ).read_text(encoding="utf-8")
-        cls.jira = (PLUGIN_ROOT / "internal/jira/PROCEDURE.md").read_text(encoding="utf-8")
         cls.using_superpowers = (
             PLUGIN_ROOT / "internal/using-superpowers/PROCEDURE.md"
         ).read_text(encoding="utf-8")
         cls.git_commit = (PLUGIN_ROOT / "internal/git-commit/PROCEDURE.md").read_text(encoding="utf-8")
-        cls.gitlab_mr = (PLUGIN_ROOT / "internal/gitlab-mr/PROCEDURE.md").read_text(encoding="utf-8")
-        cls.mr_description = (
-            PLUGIN_ROOT / "internal/gitlab-mr/references/mr-description.md"
-        ).read_text(encoding="utf-8")
         cls.executing = (PLUGIN_ROOT / "internal/executing-plans/PROCEDURE.md").read_text(
             encoding="utf-8"
         )
@@ -58,9 +53,6 @@ class SpecificationAdmissionContractTests(TestCase):
         cls.writing_plans = (PLUGIN_ROOT / "internal/writing-plans/PROCEDURE.md").read_text(
             encoding="utf-8"
         )
-        cls.artifacts = (
-            PLUGIN_ROOT / "internal/gitlab-mr/references/artifacts.md"
-        ).read_text(encoding="utf-8")
         cls.tdd = (
             PLUGIN_ROOT / "internal/test-driven-development/PROCEDURE.md"
         ).read_text(encoding="utf-8")
@@ -87,7 +79,6 @@ class SpecificationAdmissionContractTests(TestCase):
     def test_clear_current_requirement_runs_without_sha_admission_lock(self):
         normalized = " ".join((self.l3 + self.requirements_source).split())
         self.assertIn("A clear current requirement is sufficient admission", normalized)
-        self.assertIn("Formatting-only Jira edits never block", normalized)
         self.assertIn("material but clear change", normalized)
         self.assertIn("fresh specification and plan review", normalized)
         self.assertIn("Only a vague, contradictory, or decision-incomplete requirement blocks", normalized)
@@ -96,24 +87,16 @@ class SpecificationAdmissionContractTests(TestCase):
         self.assertNotIn("spec_gate_sha256", self.l3)
         self.assertIn("candidate commit SHA", self.l3)
 
-    def test_jira_is_optional_and_local_markdown_is_first_class(self):
+    def test_local_markdown_is_the_requirement_source(self):
         combined = "\n".join((
             self.l3, self.specify, self.requirements_source, self.spec_personas,
             self.plan_personas, self.review_manifest, self.writing_plans,
-            self.verification, self.git_commit, self.gitlab_mr,
+            self.verification, self.git_commit,
         ))
-        self.assertIn("Jira mode", self.requirements_source)
-        self.assertIn("Local Markdown mode", self.requirements_source)
-        self.assertIn(
-            "must not ask the user to create a Jira ticket",
-            " ".join(self.requirements_source.split()),
-        )
         self.assertIn("docs/requirements/", combined)
-        self.assertIn("do not append\n   self-referential digests", self.requirements_source)
         self.assertIn("current_requirement", combined)
         self.assertIn("work_item", combined)
-        self.assertIn("--group core,gitlab", self.l3)
-        self.assertIn("add `jira` only in Jira mode", self.l3)
+        self.assertIn("--group core,delivery", self.l3)
         self.assertNotIn("A Jira ticket is required", combined)
         self.assertNotIn("take one Jira ticket to a draft merge request", self.l3)
 
@@ -154,49 +137,17 @@ class SpecificationAdmissionContractTests(TestCase):
             self.spec_personas,
         )
 
-    def test_l3_reads_jira_comments_but_never_writes_them(self):
-        combined = "\n".join((
-            self.l3,
-            self.specify,
-            self.review,
-            self.reviewer,
-            self.requirements_source,
-            self.spec_personas,
-            self.review_manifest,
-            self.jira,
-            self.executing,
-            self.finishing,
-            self.using_superpowers,
-        ))
-        for stale in (
-            "comment on the ticket",
-            "conditional Jira evidence comment",
-            "conditional Jira evidence comments",
-            "jira-comment-or-chat-turn",
-            "Add a comment",
-            "Delete a comment",
-            "post one\n  compact Jira comment",
-        ):
-            self.assertNotIn(stale, combined)
-        self.assertIn("Jira comments are read-only requirement evidence", combined)
-        self.assertIn("Never create, edit, or delete a Jira comment", combined)
-        self.assertIn("approving chat-turn/body digest", self.spec_personas)
-
-    def test_jira_runs_use_a_dedicated_worktree_for_concurrency(self):
+    def test_runs_use_a_dedicated_worktree_for_concurrency(self):
         normalized_l3 = " ".join(self.l3.split())
         normalized_worktrees = " ".join(self.worktrees.split())
         self.assertIn(
             "[`using-git-worktrees`](../../internal/using-git-worktrees/PROCEDURE.md)",
             self.l3,
         )
-        self.assertIn("Jira mode always uses a dedicated Git worktree", normalized_l3)
-        self.assertIn("one ticket cannot share writable branch state with another", normalized_l3)
-        self.assertIn("unique run-owned child", normalized_worktrees)
-        self.assertIn(
-            "Jira-mode L3 must never fall back to the current checkout",
-            normalized_worktrees,
-        )
-        self.assertIn("multiple Jira tickets", normalized_worktrees)
+        self.assertIn("Every run uses a dedicated Git worktree", normalized_l3)
+        self.assertIn("one run never shares writable branch state with another", normalized_l3)
+        self.assertIn("Concurrent L3 runs", normalized_worktrees)
+        self.assertNotIn("Jira", normalized_l3)
 
     def test_l3_never_repairs_missing_business_decisions(self):
         self.assertIn("Never repair or infer business behavior", self.l3)
@@ -327,7 +278,7 @@ class SpecificationAdmissionContractTests(TestCase):
     def test_core_workflow_metadata_is_general_engineering(self):
         combined = "\n".join((
             self.l3, self.reviewer, self.repo_context, self.using_superpowers, self.git_commit,
-            self.gitlab_mr, self.mr_description, self.executing, self.finishing,
+            self.executing, self.finishing,
             self.writing_plans, self.verification, self.tdd, self.debugging,
             self.brainstorming, self.grill,
         )).lower()
@@ -344,34 +295,20 @@ class SpecificationAdmissionContractTests(TestCase):
         self.assertIn("conditional compatibility reference", self.repo_context.lower())
         self.assertIn("engineering review roles", self.reviewer.lower())
         self.assertIn("refs/remotes/origin/head", self.git_commit.lower())
-        self.assertIn("validated target remote", self.gitlab_mr.lower())
+        self.assertIn("canonical repository identity", self.repo_context.lower())
         self.assertIn("money-handling changes", combined)
         self.assertIn("## domain invariants", self.tdd.lower())
         self.assertIn("authoritative entity", self.debugging.lower())
         self.assertIn("authority and data ownership across domain entities", self.brainstorming.lower())
         self.assertIn("keep each domain entity", self.grill.lower())
 
-    def test_payment_artifact_helpers_are_conditional_compatibility_only(self):
-        gitlab_mr = " ".join(self.gitlab_mr.split())
-        artifacts = " ".join(self.artifacts.split())
-        self.assertIn("conditional compatibility tools", gitlab_mr)
-        self.assertIn("supported Dakota Payment/SHIPRM services only", gitlab_mr)
-        self.assertIn("Never fall back to the payment registry", gitlab_mr)
-        self.assertIn("Conditional Dakota Payment / SHIPRM Artifact Compatibility", artifacts)
-        self.assertIn("Do not use these registry mappings or scripts for unrelated repositories", artifacts)
-        self.assertIn("follow the target repository's documented artifact or CI lookup", artifacts)
-        self.assertIn("never substitute the payment registry as a fallback", artifacts)
-
-    def test_internal_l3_evidence_is_never_published_in_mr_descriptions(self):
-        self.assertNotIn("## L3 review evidence", self.mr_description)
-        self.assertNotIn("## L3 Review Evidence", self.gitlab_mr)
-        self.assertIn("Keep internal L3 evidence out", self.mr_description)
-        self.assertIn("machine-local review manifest", self.mr_description)
-        self.assertIn("remove the entire legacy L3 review-evidence", self.mr_description)
-        self.assertIn("Never publish", self.gitlab_mr)
-        self.assertNotIn("MR description read-back", self.gitlab_mr)
-        self.assertNotIn("MR evidence read-back", self.verification)
-        self.assertIn("GitLab API", self.gitlab_mr)
+    def test_internal_evidence_is_never_published_in_pr_descriptions(self):
+        delivery = (PLUGIN_ROOT / "internal/pr-delivery/PROCEDURE.md").read_text(encoding="utf-8")
+        self.assertIn("Never publish L3 source snapshots", delivery)
+        self.assertIn("machine-local review manifest", delivery)
+        self.assertNotIn("MR description read-back", self.verification)
+        self.assertNotIn("PR evidence read-back", self.verification)
+        self.assertNotIn("## L3 review evidence", delivery)
 
     def test_specify_can_resume_a_detailed_but_unattested_ticket(self):
         self.assertIn("Resume and finalize an existing specification", self.specify)
@@ -510,8 +447,8 @@ class WalkthroughContractTests(TestCase):
 
     def test_walkthrough_is_read_only_and_stays_in_chat(self):
         self.assertIn(
-            "Walkthrough is read-only: never edit code, Jira or Confluence, comment, label, "
-            "approve, push, merge, deploy or change pipeline state.",
+            "Walkthrough is read-only: never edit code, comment, approve, push, merge, deploy "
+            "or change pipeline state.",
             self.skill,
         )
         self.assertIn("Keep the explanation in chat", self.skill)
@@ -592,46 +529,6 @@ class PluginVersionContractTests(TestCase):
             self.assertTrue(versions, f"{relative} has no version field")
             for found in versions:
                 self.assertEqual(found, version, relative)
-
-
-class RunObservationContractTests(TestCase):
-    def test_all_public_actions_disable_automatic_local_run_records(self):
-        workflow = " ".join(
-            (PLUGIN_ROOT / "internal/workflow-policy.md").read_text(encoding="utf-8").split()
-        )
-        self.assertIn("Do not create or update local run JSON/CSV", workflow)
-        self.assertNotIn("Capture is on by default", workflow)
-        self.assertIn("Langfuse is the source for AI-session metrics", workflow)
-        self.assertIn("only when the user explicitly requests local metrics files", workflow)
-        self.assertIn("never create a local metrics file as a fallback or invent values", workflow)
-        self.assertIn(
-            "without creating a local run record or enabling external tracking at intake", workflow
-        )
-        # The canonical telemetry rules live once in workflow-policy; public skills carry only
-        # the pointer, never a copied paragraph.
-        pointer = "workflow-policy.md#langfuse-metrics-and-workflow-status"
-        for action in ("run", "specify", "review"):
-            skill = (PLUGIN_ROOT / f"skills/{action}/SKILL.md").read_text(encoding="utf-8")
-            self.assertIn(pointer, skill)
-            self.assertNotIn("Local run records are off by default", skill)
-            self.assertNotIn("capture-disabled notices in handoffs", skill)
-            self.assertNotIn("Capture is on by default", skill)
-            self.assertNotIn("Include the local record link", skill)
-            self.assertNotIn("start a best-effort local", skill)
-        policy = (PLUGIN_ROOT / "internal/run-metrics.md").read_text(encoding="utf-8")
-        self.assertIn("Langfuse is the source for AI-session metrics", policy)
-        self.assertIn("Do not start or resume collection just because old files exist", policy)
-        self.assertIn("Do not estimate missing costs", policy)
-        self.assertIn("No local run file is required for publishing", policy)
-        self.assertNotIn("run_metrics.py` start", policy)
-        self.assertNotIn("Billed and estimated costs", policy)
-        self.assertNotIn("--source-kind chat", policy)
-
-    def test_reviewer_observations_are_controller_owned_and_parent_linked(self):
-        procedure = (PLUGIN_ROOT / "internal/reviewer/PROCEDURE.md").read_text(encoding="utf-8")
-        self.assertIn("workflow_run_id", procedure)
-        self.assertIn("reviewer never starts a separate root run", procedure)
-        self.assertIn("already child-inclusive parent total", procedure)
 
 
 class UntrustedSourceContractTests(TestCase):

@@ -5,9 +5,8 @@ sphinx-ci's upstream English prompt ([source](../../../third_party/sphinx-ci/lib
 MIT), verbatim minus its "respond only with JSON" line: Shipmate keeps the answer key in private
 working state instead of receiving it as output. `${numQuestions}` is the count from sizing.
 
-In MR/local-branch mode the input is the MR title, changed files and the diff, plus surrounding
-context. In Jira mode, use the same answer-key schema and validation but ground questions in the
-settled ticket context described in SKILL.md, not the upstream code-diff-only instructions.
+In PR/local-branch mode the input is the PR title, changed files and the diff, plus surrounding
+context.
 
 > **System:** You are a code review expert. Analyze the Pull Request diff and generate exactly
 > ${numQuestions} multiple-choice questions to test the developer's understanding of their own code.

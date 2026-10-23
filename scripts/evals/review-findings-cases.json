@@ -2,11 +2,11 @@
   "cases": [
     {
       "id": "offbyone-ac-limit",
-      "requirement": "Make the transfer limit configurable per merchant. AC-01: Given a payout amount equal to the merchant's limit, When the payout is submitted, Then it is accepted. AC-02: Given a payout amount above the merchant's limit, When the payout is submitted, Then CheckLimit returns ErrLimitExceeded.",
-      "diff": "--- a/payout/limit.go\n+++ b/payout/limit.go\n@@ -12,7 +12,7 @@ var ErrLimitExceeded = errors.New(\"payout limit exceeded\")\n // CheckLimit enforces AC-01 and AC-02 for a single payout.\n-func CheckLimit(amountCents int64) error {\n-\tif amountCents <= DailyLimitCents {\n+func CheckLimit(amountCents, limitCents int64) error {\n+\tif amountCents < limitCents {\n \t\treturn nil\n \t}\n \treturn ErrLimitExceeded\n }\n",
+      "requirement": "Make the transfer limit configurable per merchant. AC-01: Given an export amount equal to the merchant's limit, When the export is submitted, Then it is accepted. AC-02: Given an export amount above the merchant's limit, When the export is submitted, Then CheckLimit returns ErrLimitExceeded.",
+      "diff": "--- a/export/limit.go\n+++ b/export/limit.go\n@@ -12,7 +12,7 @@ var ErrLimitExceeded = errors.New(\"export limit exceeded\")\n // CheckLimit enforces AC-01 and AC-02 for a single export.\n-func CheckLimit(amountCents int64) error {\n-\tif amountCents <= DailyLimitCents {\n+func CheckLimit(amountCents, limitCents int64) error {\n+\tif amountCents < limitCents {\n \t\treturn nil\n \t}\n \treturn ErrLimitExceeded\n }\n",
       "context_slices": [
         {
-          "file": "payout/submit.go",
+          "file": "export/submit.go",
           "start_line": 31,
           "code": "\tif err := CheckLimit(req.AmountCents, merchant.LimitCents); err != nil {\n\t\treturn nil, err\n\t}\n"
         }
@@ -32,18 +32,18 @@
     },
     {
       "id": "retry-non-idempotent",
-      "requirement": "AC-01: Given a transient bank error (timeout or 503), When a transfer is submitted, Then the submission is retried up to 3 attempts in total. AC-02: One Transfer.ID never creates more than one bank transfer.",
-      "diff": "--- a/transfer/submit.go\n+++ b/transfer/submit.go\n@@ -18,9 +18,16 @@ func NewSubmitter(bank BankClient) *Submitter {\n \n // Submit sends the transfer to the bank.\n func (s *Submitter) Submit(ctx context.Context, t Transfer) (string, error) {\n-\tref, err := s.bank.CreateTransfer(ctx, t.FromAccount, t.ToAccount, t.AmountCents)\n-\tif err != nil {\n-\t\treturn \"\", fmt.Errorf(\"create transfer: %w\", err)\n-\t}\n-\treturn ref, nil\n+\tvar lastErr error\n+\tfor attempt := 0; attempt < 3; attempt++ {\n+\t\tref, err := s.bank.CreateTransfer(ctx, t.FromAccount, t.ToAccount, t.AmountCents)\n+\t\tif err == nil {\n+\t\t\treturn ref, nil\n+\t\t}\n+\t\tif !isTransient(err) {\n+\t\t\treturn \"\", fmt.Errorf(\"create transfer: %w\", err)\n+\t\t}\n+\t\tlastErr = err\n+\t}\n+\treturn \"\", fmt.Errorf(\"create transfer after retries: %w\", lastErr)\n }\n",
+      "requirement": "AC-01: Given a transient upstream error (timeout or 503), When a transfer is submitted, Then the submission is retried up to 3 attempts in total. AC-02: One Transfer.ID never creates more than one upstream transfer.",
+      "diff": "--- a/transfer/submit.go\n+++ b/transfer/submit.go\n@@ -18,9 +18,16 @@ func NewSubmitter(upstream UpstreamClient) *Submitter {\n \n // Submit sends the transfer to the upstream.\n func (s *Submitter) Submit(ctx context.Context, t Transfer) (string, error) {\n-\tref, err := s.upstream.CreateTransfer(ctx, t.FromAccount, t.ToAccount, t.AmountCents)\n-\tif err != nil {\n-\t\treturn \"\", fmt.Errorf(\"create transfer: %w\", err)\n-\t}\n-\treturn ref, nil\n+\tvar lastErr error\n+\tfor attempt := 0; attempt < 3; attempt++ {\n+\t\tref, err := s.upstream.CreateTransfer(ctx, t.FromAccount, t.ToAccount, t.AmountCents)\n+\t\tif err == nil {\n+\t\t\treturn ref, nil\n+\t\t}\n+\t\tif !isTransient(err) {\n+\t\t\treturn \"\", fmt.Errorf(\"create transfer: %w\", err)\n+\t\t}\n+\t\tlastErr = err\n+\t}\n+\treturn \"\", fmt.Errorf(\"create transfer after retries: %w\", lastErr)\n }\n",
       "context_slices": [
         {
-          "file": "bank/client.go",
+          "file": "upstream/client.go",
           "start_line": 40,
-          "code": "// CreateTransfer creates a new bank transfer on every call. A timeout can be\n// returned after the bank has already created the transfer.\nfunc (c *Client) CreateTransfer(ctx context.Context, from, to string, amountCents int64) (string, error)\n\n// CreateTransferWithKey deduplicates calls that share key for 24 hours.\nfunc (c *Client) CreateTransferWithKey(ctx context.Context, key, from, to string, amountCents int64) (string, error)\n"
+          "code": "// CreateTransfer creates a new upstream transfer on every call. A timeout can be\n// returned after the upstream has already created the transfer.\nfunc (c *Client) CreateTransfer(ctx context.Context, from, to string, amountCents int64) (string, error)\n\n// CreateTransferWithKey deduplicates calls that share key for 24 hours.\nfunc (c *Client) CreateTransferWithKey(ctx context.Context, key, from, to string, amountCents int64) (string, error)\n"
         },
         {
           "file": "transfer/retry.go",
           "start_line": 9,
-          "code": "func isTransient(err error) bool {\n\treturn errors.Is(err, context.DeadlineExceeded) || errors.Is(err, bank.ErrUnavailable)\n}\n"
+          "code": "func isTransient(err error) bool {\n\treturn errors.Is(err, context.DeadlineExceeded) || errors.Is(err, upstream.ErrUnavailable)\n}\n"
         }
       ]
     },
@@ -61,13 +61,13 @@
     },
     {
       "id": "clean-change",
-      "requirement": "AC-01: Given a completed payout with a bank reference, When GET /payouts/{id} is called, Then the response includes bank_reference. Payouts without a reference omit the field.",
-      "diff": "--- a/payout/dto.go\n+++ b/payout/dto.go\n@@ -8,12 +8,14 @@ type PayoutResponse struct {\n \tID          string `json:\"id\"`\n \tStatus      string `json:\"status\"`\n \tAmountCents int64  `json:\"amount_cents\"`\n+\tBankReference string `json:\"bank_reference,omitempty\"`\n }\n \n func toResponse(p Payout) PayoutResponse {\n \treturn PayoutResponse{\n \t\tID:          p.ID,\n \t\tStatus:      string(p.Status),\n \t\tAmountCents: p.AmountCents,\n+\t\tBankReference: p.BankReference,\n \t}\n }\n--- a/payout/dto_test.go\n+++ b/payout/dto_test.go\n@@ -20,3 +20,17 @@ func TestToResponseMapsStatus(t *testing.T) {\n \t\tt.Fatalf(\"status = %q\", got.Status)\n \t}\n }\n+\n+func TestToResponseIncludesBankReference(t *testing.T) {\n+\tgot := toResponse(Payout{ID: \"p1\", Status: StatusCompleted, BankReference: \"BR-77\"})\n+\tif got.BankReference != \"BR-77\" {\n+\t\tt.Fatalf(\"bank_reference = %q\", got.BankReference)\n+\t}\n+}\n+\n+func TestToResponseOmitsMissingBankReference(t *testing.T) {\n+\tbody, _ := json.Marshal(toResponse(Payout{ID: \"p2\", Status: StatusPending}))\n+\tif strings.Contains(string(body), \"bank_reference\") {\n+\t\tt.Fatalf(\"unexpected bank_reference in %s\", body)\n+\t}\n+}\n",
+      "requirement": "AC-01: Given a completed export with an upstream reference, When GET /exports/{id} is called, Then the response includes upstream_reference. Exports without a reference omit the field.",
+      "diff": "--- a/export/dto.go\n+++ b/export/dto.go\n@@ -8,12 +8,14 @@ type ExportResponse struct {\n \tID          string `json:\"id\"`\n \tStatus      string `json:\"status\"`\n \tAmountCents int64  `json:\"amount_cents\"`\n+\tUpstreamReference string `json:\"upstream_reference,omitempty\"`\n }\n \n func toResponse(p Export) ExportResponse {\n \treturn ExportResponse{\n \t\tID:          p.ID,\n \t\tStatus:      string(p.Status),\n \t\tAmountCents: p.AmountCents,\n+\t\tUpstreamReference: p.UpstreamReference,\n \t}\n }\n--- a/export/dto_test.go\n+++ b/export/dto_test.go\n@@ -20,3 +20,17 @@ func TestToResponseMapsStatus(t *testing.T) {\n \t\tt.Fatalf(\"status = %q\", got.Status)\n \t}\n }\n+\n+func TestToResponseIncludesUpstreamReference(t *testing.T) {\n+\tgot := toResponse(Export{ID: \"p1\", Status: StatusCompleted, UpstreamReference: \"BR-77\"})\n+\tif got.UpstreamReference != \"BR-77\" {\n+\t\tt.Fatalf(\"upstream_reference = %q\", got.UpstreamReference)\n+\t}\n+}\n+\n+func TestToResponseOmitsMissingUpstreamReference(t *testing.T) {\n+\tbody, _ := json.Marshal(toResponse(Export{ID: \"p2\", Status: StatusPending}))\n+\tif strings.Contains(string(body), \"upstream_reference\") {\n+\t\tt.Fatalf(\"unexpected upstream_reference in %s\", body)\n+\t}\n+}\n",
       "context_slices": [
         {
-          "file": "payout/model.go",
+          "file": "export/model.go",
           "start_line": 10,
-          "code": "type Payout struct {\n\tID            string\n\tStatus        Status\n\tAmountCents   int64\n\tBankReference string // set when the bank confirms the payout; empty otherwise\n}\n"
+          "code": "type Export struct {\n\tID            string\n\tStatus        Status\n\tAmountCents   int64\n\tUpstreamReference string // set when the upstream confirms the export; empty otherwise\n}\n"
         }
       ]
     },
@@ -91,18 +91,18 @@
     },
     {
       "id": "division-guarded-by-callers",
-      "requirement": "AC-01: Given a daily or monthly report with at least one payout, When the summary is built, Then AverageCents equals TotalCents / Count, truncated to whole cents. Periods with zero payouts keep returning ErrNoPayouts (unchanged).",
+      "requirement": "AC-01: Given a daily or monthly report with at least one export, When the summary is built, Then AverageCents equals TotalCents / Count, truncated to whole cents. Periods with zero exports keep returning ErrNoExports (unchanged).",
       "diff": "--- a/report/stats.go\n+++ b/report/stats.go\n@@ -20,6 +20,11 @@ type Summary struct {\n \tAverageCents int64\n }\n \n+// averageCents implements AC-01. Callers must pass count > 0.\n+func averageCents(total, count int64) int64 {\n+\treturn total / count\n+}\n+\n func newSummary(total, count int64) Summary {\n-\treturn Summary{TotalCents: total, Count: count}\n+\treturn Summary{TotalCents: total, Count: count, AverageCents: averageCents(total, count)}\n }\n",
       "context_slices": [
         {
           "file": "report/daily.go",
           "start_line": 40,
-          "code": "func (b *Builder) Daily(ctx context.Context, day time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, day, day)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count == 0 {\n\t\treturn nil, ErrNoPayouts\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n"
+          "code": "func (b *Builder) Daily(ctx context.Context, day time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, day, day)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count == 0 {\n\t\treturn nil, ErrNoExports\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n"
         },
         {
           "file": "report/monthly.go",
           "start_line": 33,
-          "code": "func (b *Builder) Monthly(ctx context.Context, month time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, monthStart(month), monthEnd(month))\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count <= 0 {\n\t\treturn nil, ErrNoPayouts\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n",
+          "code": "func (b *Builder) Monthly(ctx context.Context, month time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, monthStart(month), monthEnd(month))\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count <= 0 {\n\t\treturn nil, ErrNoExports\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n",
           "note": "Repository search: newSummary is called only from Daily and Monthly; averageCents only from newSummary."
         }
       ]

@@ -11,7 +11,7 @@ Provide one reusable, host-neutral dispatch contract for engineering review role
 lives in this procedure's versioned references; each selected persona receives complete evidence in a
 separate review-only subagent context.
 
-This procedure contains behavior and evidence rules. It does not grant implementation, Jira, GitLab,
+This procedure contains behavior and evidence rules. It does not grant implementation,
 shell, network, or file-mutation authority.
 
 ## Reference routing
@@ -77,13 +77,12 @@ only receives evidence-backed questions/findings; it may repair only under the c
 `run`/fix scope and only in a separate writable worktree. A changed candidate always receives a
 fresh independent challenger invocation before any pass is accepted.
 
-Use a unique `review_run_id` for each invocation as review evidence. Local
-[review metrics](references/review-metrics.md) are collected only when explicitly requested.
+Use a unique `review_run_id` for each invocation as review evidence.
 Only then may the controller link to an existing requested `workflow_run_id`; do not create
-a parent local run file for review. A reviewer never starts a separate root run or writes
-telemetry. Keep requested and runtime-observed model/usage distinct. Do not add child usage to an
+a parent local run file for review. A reviewer never starts a separate root run. Keep requested
+and runtime-observed model/usage distinct. Do not add child usage to an
 already child-inclusive parent total. Batch observations after the wave, without extra agents.
-Runtime metadata never participates in an input or gate digest and missing telemetry never blocks.
+Runtime metadata never participates in an input or gate digest and missing runtime metadata never blocks.
 Review validity comes from the phase-appropriate freshness rules, distinct invocation, exact
 response, adjudication, and before/after repository checks. A current candidate identity always
 requires an independent affected-scope readback; a prior `PASS` is never reused for a new SHA.

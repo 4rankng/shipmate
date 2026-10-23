@@ -5,8 +5,8 @@ Run before every commit. This is deliberately small and high-signal: it only
 matches credential formats that are unambiguous, so a hit is worth stopping for
 rather than something to habitually override.
 
-    python3 "${PAYMENT_PLUGIN_ROOT}/scripts/scan_secrets.py" [path ...]
-    python3 "${PAYMENT_PLUGIN_ROOT}/scripts/scan_secrets.py" --staged
+    python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/scan_secrets.py" [path ...]
+    python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/scan_secrets.py" --staged
 
 Exits 1 on any finding. Values are never printed — only the file, line and the
 kind of credential — so the scanner cannot itself leak the secret into a log.
@@ -39,10 +39,10 @@ LITERAL = (
 PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("JWT", re.compile(r"eyJ[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{10,}\.[A-Za-z0-9_\-]{10,}")),
     ("AWS access key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
-    ("GitLab PAT", re.compile(r"\bglpat-[A-Za-z0-9_\-]{20,}")),
+    ("Project access token", re.compile(r"\bglpat-[A-Za-z0-9_\-]{20,}")),
     ("GitHub token", re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}")),
     ("Slack token", re.compile(r"\bxox[abprs]-[A-Za-z0-9-]{10,}")),
-    ("Atlassian API token", re.compile(r"\bATATT[A-Za-z0-9_\-=]{20,}")),
+    ("Atlassian Cloud API token", re.compile(r"\bATATT[A-Za-z0-9_\-=]{20,}")),
     ("private key", re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")),
     ("Google API key", re.compile(r"\bAIza[0-9A-Za-z_\-]{35}\b")),
     # A credential-named key assigned a *quoted literal*. Requiring quotes is

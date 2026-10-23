@@ -1,28 +1,27 @@
 {
   "name": "shipmate",
-  "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+  "description": "Delivers engineering work from local requirements, with reviews, walkthroughs and quizzes for local changes and pull requests.",
   "version": "4.5.0",
   "author": {
-    "name": "GXS Engineering",
-    "email": "frank.nguyen@gxs.com.sg"
+    "name": "Frank Nguyen"
   },
-  "repository": "https://gitlab.com/gx-regional/dakota/payment",
+  "repository": "https://github.com/4rankng/shipmate",
   "license": "MIT",
-  "keywords": ["engineering", "sdlc", "requirements", "tdd", "gitlab", "code-review"],
+  "keywords": ["engineering", "sdlc", "requirements", "tdd", "github", "code-review"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Shipmate",
     "shortDescription": "Engineering specification-to-MR workflow",
     "longDescription": "Five public actions—Specify, Run, Review, Walkthrough and Quiz—backed by internal engineering delivery procedures.",
-    "developerName": "GXS Engineering",
+    "developerName": "Frank Nguyen",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
     "defaultPrompt": [
       "Use shipmate:specify to prepare a reviewed engineering contract.",
-      "Use shipmate:run to deliver Jira or local requirements to a verified draft MR.",
+      "Use shipmate:run to deliver local requirements to a verified draft pull request.",
       "Use shipmate:review to challenge a specification, plan or candidate.",
-      "Use shipmate:walkthrough to explain this Jira ticket or merge request in layers.",
-      "Use shipmate:quiz to check my understanding of this Jira ticket or merge request and show a report."
+      "Use shipmate:walkthrough to explain this merge request or local change in layers.",
+      "Use shipmate:quiz to check my understanding of this merge request or local change and show a report."
     ]
   }
 }

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Produce an evidence-backed implementation contract from Jira or Local Markdown before autonomous L3 starts. Select the
+Produce an evidence-backed implementation contract from Local Markdown before autonomous L3 starts. Select the
 focused existing persona(s) required by the shared workflow policy; the phase maximum is four and there is no quota. Persona names are
 review lenses, not installed agents. Every persona runs through `reviewer` in a distinct review-only
 delegated context using the explicit model routing in `persona-catalog.md`.
@@ -26,7 +26,7 @@ typed `PASS` without the response and adjudication artifacts is not evidence.
 
 The controller builds the evidence input from the `work_item`, current requirement, sources actually
 inspected, repository evidence, and a source ledger separating facts, inferences, contradictions,
-and unknowns. In Jira mode it reads the full current description and complete comment inventory.
+and unknowns. In ticket-based source mode it reads the full current description and complete comment inventory.
 In Local Markdown mode it reads the current requirement file. It corrects source gaps before
 drafting without requiring an earlier snapshot or digest.
 
@@ -64,7 +64,7 @@ For rewrites, compare source and draft obligations, numbers, deadlines, permitte
 side-effect ordering. Missing constraints or must-to-may changes are requirements defects, not
 writing preferences. Distinct outcomes need distinct test oracles even if that adds AC rows.
 For Specify rewrites, confirm the complete original is backed up locally rather than duplicated
-inside Jira. If the validated draft exceeds the 1,200-character / fewer-than-150-words target,
+inside the source. If the validated draft exceeds the 1,200-character / fewer-than-150-words target,
 check that the stated reason is strong (distinct ticket-owned outcomes, needed Definitions or
 essential dependency constraints) and flag unjustified length as an editorial correction. Check
 that ACs state only ticket-owned behaviour and other teams' work sits in Out of Scope. Assess
@@ -83,7 +83,7 @@ Ask the human only for a decision gap, then resume automatically when it is answ
 `specify`, when the selected reviews pass, present the requirements and technical approach together
 for explicit human approval before declaring the specification complete. In both source modes,
 record approval evidence as the approving chat-turn/body digest in the machine-local review record;
-never create, edit, or delete a Jira comment. Direct `run` does not require a historic approval
+never create, edit, or delete a source comment. Direct `run` does not require a historic approval
 artifact, but must resolve and confirm any new material design choice before coding. A review PASS
 does not substitute for human agreement.
 
@@ -96,14 +96,14 @@ not fail a concise requirement merely because an irrelevant domain has no dedica
 Persist a safe `Specification Review Record` JSON object containing the current requirement
 reference, source ledger, contract files, every review artifact and disposition, and optional
 approval identity as a separate machine-local artifact in both source modes.
-Never append it to the Jira description or Local Markdown requirement: human-facing requirements
+Never append it to the source description or Local Markdown requirement: human-facing requirements
 contain only the concise specification contract. Redact
 protected data. The record is traceability, not proof that a reviewer ran; L3 performs the
 current policy-selected clarity assessment before planning.
 
 Cross-session traceability comes from the machine-local record. Do not paste the source ledger,
-phase inputs, reviewer responses, adjudications, hashes, verdicts, or canonical JSON into the Jira
-description, and never use a Jira comment as attestation transport.
+phase inputs, reviewer responses, adjudications, hashes, verdicts, or canonical JSON into the source
+description, and never use a source comment as attestation transport.
 
 A normal L3 intake reads the current source and dispatches the policy-selected clarity review. It never requires
 this prior record, reconstructs approval, or blocks on a changed requirement hash. Formatting-only

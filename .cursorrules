@@ -1,9 +1,9 @@
 # Shipmate Cursor Rules
 
-Shipmate delivers engineering work from Jira or local requirements to verified draft merge requests, with multi-persona reviews, layered walkthroughs, and diagnostic quizzes.
+Shipmate delivers engineering work from local requirements to verified draft merge requests, with multi-persona reviews, layered walkthroughs, and diagnostic quizzes.
 
 ## Core Capabilities
-- **Specify**: Turn Jira or local requirements into an implementation-ready specification (`skills/specify/SKILL.md`).
+- **Specify**: Turn local requirements into an implementation-ready specification (`skills/specify/SKILL.md`).
 - **Run**: Deliver verified code through strict TDD, plan review, and candidate review into a draft MR (`skills/run/SKILL.md`).
 - **Review**: Multi-persona independent review challenging specifications, plans, and diffs (`skills/review/SKILL.md`).
 - **Walkthrough**: Layered explanation of intent, architecture, changes, and verification (`skills/walkthrough/SKILL.md`).

@@ -1,12 +1,12 @@
 # Coding guideline for L3 implementation and review
 
-Adapted from the supplied payment-service coding guideline. Apply the engineering principles to
+Adapted from a supplied service coding guideline. Apply the engineering principles to
 existing and new services in any team's repository. Financial rules apply only to money-handling
 code; service-creation requirements apply only when a new service is authorized. Service-specific
 agent instructions, approved contracts, protocol rules and security requirements govern the
 concrete implementation. Resolve a material conflict rather than silently replacing them with this
 guide. Inspect current code first: an older implementation is evidence of behaviour, not
-automatically the pattern to extend. Do not introduce payment-specific dependencies into other teams.
+automatically the pattern to extend. Do not introduce service-specific dependencies into unrelated modules.
 
 Run applies this guide while planning, implementing and verifying. Review checks the actual diff
 and affected callers against applicable rules, with code evidence and concrete impact. Do not
@@ -99,7 +99,7 @@ create a finding for an irrelevant rule or demand a new document for each headin
   identity where callers use it. Use existing transport error mapping. Avoid panics in request
   and business logic; startup may fail fast on invalid mandatory configuration.
 - Use structured logs and existing trace/correlation IDs, safe references and operation/state.
-  Redact credentials, account/personal data, signed messages and full payment payloads. Add
+  Redact credentials, account/personal data, signed messages and full transaction payloads. Add
   metrics for meaningful failures or stalled work, with bounded tag cardinality.
 - Use typed, startup-validated configuration through the existing deployment mechanism. Do not
   hardcode environment endpoints, credentials, account numbers, partner IDs, topic names or

@@ -17,7 +17,7 @@ identities. Semantically stale specification/plan evidence or mismatched base, c
 Read the [coding guideline](../../coding-guideline.md). Check ownership, dependency wiring,
 contract compatibility, generated sources, state/side effects and meaningful tests where affected.
 Legacy patterns are not automatically approved; new abstractions need a concrete capability gap.
-Do not request payment rules or new-service foundations for unrelated changes.
+Do not request domain rules or new-service foundations for unrelated changes.
 
 Trace every applicable acceptance criterion through its selected requirement source, available plan
 task when one exists, implementation `file:line`, and verification evidence. For an

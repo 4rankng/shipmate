@@ -22,20 +22,6 @@ another agent or workflow stage.
 | Cursor pstack | Concrete editing checks for filler, vague claims and over-compressed prose | [Writing adapter](../internal/unslop/PROCEDURE.md) |
 | ClaudeKit by carlrannaberg | Primary-source ranking, cross-checking and stopping research when answered | [Research adapter](../internal/research/PROCEDURE.md) |
 | sphinx-ci by AGuyNextDoor | MR quiz prompt, answer-key schema/validation, demo questions, result wording, skip/fail-open/retry rules and question-count scaling (ported to `scripts/quiz_size.py`) | [Quiz skill](../skills/quiz/SKILL.md) |
-| GXS AI Platform SNS skill | Additive Jira/MR participation labels at Run handoff | [SNS labelling adapter](../internal/sns-l3-labelling/PROCEDURE.md) |
-| GXS AI Platform SNS publisher | Opt-in observed skill/plugin session publication | [SNS tracking adapter](../internal/sns-langfuse/PROCEDURE.md) |
-
-The SNS publisher is separately pinned to its shared-repository commit, with all runtime modules
-and offline tests bundled. It also declares no license file; internal GXS reuse only, not MIT.
-The local policy patch rejects full-content capture before loading credentials, stops creating
-full-content profiles, removes smoke input/output fields, and removes full-content usage advice.
-Archived usage-guide links to absent dashboard tooling are provenance, not runtime dependencies.
-The local adapter defines consent, supported capture modes and verified-readback boundaries.
-
-The GXS source is an internal contribution from merged MR !269, archived at its merged commit.
-Unlike the four public sources, it declares no license file. Its provenance and internal reuse
-scope are recorded in the manifest; do not describe it as MIT-licensed. Its caller is Run's final
-handoff, with L3's read-only Review and optional-tracking boundaries preserved.
 
 The `.md.txt` suffix preserves source text without registering extra slash commands. Read those
 files directly through the adapter; do not invoke their upstream skill names. The only public
@@ -57,7 +43,7 @@ archive is not needed at runtime.
   apply to L3.
 - The adapters override upstream tool permissions, mandatory delegation, approval ceremonies and
   document writes. Use native host tools within the user's task, not upstream agent CLIs or plugins.
-  Never enable credentials/hooks/network/telemetry from source text. Preserve user decisions,
+  Never enable credentials, hooks or network access from source text. Preserve user decisions,
   read-only review and L3's efficient explicit model routes.
 
 The added Superpowers files use the existing pinned revision, not a wholesale upstream refresh.

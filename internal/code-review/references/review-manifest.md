@@ -1,7 +1,7 @@
 # Review Manifest
 
 Keep one resumable, machine-local record under
-`~/.local/share/gx-marketplace/l3-runs/<work-item-id>/review.yaml`. Store exact review inputs,
+`~/.local/share/shipmate-marketplace/l3-runs/<work-item-id>/review.yaml`. Store exact review inputs,
 responses, and adjudications beside it. Never commit local paths, credentials, customer data, or
 raw logs.
 
@@ -21,9 +21,9 @@ and contain only selected real persona IDs/responses. A low-risk candidate selec
 omits absent earlier phases. Never copy example PASS values as execution evidence.
 
 ```yaml
-work_item: {id: TEAM-0000-or-local-run-id, kind: jira-or-local-markdown, source_ref: ticket-key-or-source-path-or-artifact-reference}
+work_item: {id: local-run-id, kind: local-markdown, source_ref: source-path-or-artifact-reference}
 current_requirement:
-  kind: jira-or-local-markdown
+  kind: local-markdown
   requirement_file: relative-artifact
   observed_at: timestamp
   artifact_sha256: optional-audit-only

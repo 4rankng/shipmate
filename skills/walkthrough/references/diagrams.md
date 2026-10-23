@@ -9,7 +9,7 @@ immediately below the diagram, not inside it.
 
 | Situation | Medium |
 |---|---|
-| Host renders Markdown diagrams (most chat UIs, GitLab/GitHub web) | Fenced `mermaid` block |
+| Host renders Markdown diagrams (most chat UIs, GitHub web) | Fenced `mermaid` block |
 | Plain terminal, quick overview, or a diagram that renders poorly as Mermaid | Fenced `text` block of Unicode box art |
 | Diagram too tangled to keep aligned by hand and a renderer is already installed | `termaid`, `mmaid-go` or `plantuml -tutxt` |
 | Reader explicitly asks for an artifact | Standalone HTML file (last section) |
@@ -34,7 +34,7 @@ Boundary map for the orientation layer — the components and contracts this cha
 
 ```mermaid
 flowchart LR
-  API[Order API] -->|publishes| Q[Payment queue]
+  API[Order API] -->|publishes| Q[Report queue]
   Q -->|consumes| W[Settlement worker]
   W -->|writes| DB[(Ledger)]
 ```
@@ -53,8 +53,7 @@ sequenceDiagram
   Note over A,L: timeout after reserve -> compensating refund
 ```
 
-In Jira-only sessions, mark each message or add a legend line as required or proposed; never
-dress a requirement up as implemented behavior.
+never dress a requirement up as implemented behavior.
 
 ## Terminal box art
 
