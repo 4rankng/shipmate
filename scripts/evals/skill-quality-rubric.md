@@ -30,7 +30,8 @@ high-risk discipline wording, repeat in fresh sessions as required by `writing-s
   premature explanation, participant response or completed report. Subsequent interactive turns
   must be observed separately before claiming clarification or scoring behavior passed.
 - **quiz-tier-coverage:** the question set samples at least 3 named coverage tiers (intent,
-  mechanism, blast radius, failure modes, security/money paths), and no stem is answerable by a
+  mechanism, blast radius, failure modes, security/money paths, scope delimitation, verification),
+  and no stem is answerable by a
   single grep or single-line read. Four neutral unselected A–D options each, with explanations
   citing `file:line`. No gate or pass-loop; the dashboard report format is unchanged.
 - **quiz-unsettled-jira-default:** does not turn an open comment into a scored fact. Explains that

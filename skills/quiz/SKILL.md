@@ -106,8 +106,10 @@ upstream example omits this Shipmate-only field. Shipmate adds:
 - for MR/local-branch questions, the quiz never asks about behaviour the code does not evidence.
   For Jira questions, require settled ticket evidence. When unsure, drop the question;
 - cover intent (requirements/acceptance-criteria alignment), mechanism (how the change works),
-  blast radius (callers and downstream contracts), failure modes, and security/money paths; with 5
-  or more planned questions sample at least 3 distinct tiers, with 3–4 questions at least 2.
+  blast radius (callers and downstream contracts), failure modes, security/money paths, scope
+  delimitation (what the change deliberately leaves out), and verification (how correctness
+  would be observed or falsified in operation); with 5 or more planned questions sample at least
+  3 distinct tiers, with 3–4 questions at least 2.
   Distribute the correct letter across A–D instead of favouring one position.
 - write best-answer items: keep options parallel in length and grammar (the correct option must not be the noticeably longest or most detailed); no "all/none of the above"; no absolute words such as always, never or "all cases" unless the source says so; no stem word repeated only in the correct option; the stem sets up the scenario without stating the conclusion. Build each distractor from a real misconception: the pre-change behaviour, a sibling code path's behaviour, or a guard this change does not have.
 

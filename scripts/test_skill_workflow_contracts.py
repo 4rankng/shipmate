@@ -486,6 +486,8 @@ class QuizContractTests(TestCase):
         self.assertIn("blast radius", self.normalized)
         self.assertIn("at least 3 distinct tiers", self.normalized)
         self.assertIn("answerable by a single grep or by reading one line", self.normalized)
+        self.assertIn("scope delimitation (what the change deliberately leaves out)", self.normalized)
+        self.assertIn("how correctness would be observed or falsified", self.normalized)
 
 
 class WalkthroughContractTests(TestCase):
