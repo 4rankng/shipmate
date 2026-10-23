@@ -4,7 +4,7 @@ Execute Shipmate's run procedure using the complete contract below.
 
 # Run Shipmate
 
-Apply [contextual questions](../../internal/user-questions.md) when asking the user: include the
+Apply [contextual questions](../../internal/user-questions.md)) when asking the user: include the
 situation and a concrete example/reference. Ask facts neutrally; compare decision options fairly
 and recommend only from known goals. Apply the answer and resume without repeating settled choices.
 
@@ -14,14 +14,14 @@ ask only for material missing decisions, and resume without throwing away useful
 
 ## Authority
 
-Read [workflow-policy](../../internal/workflow-policy.md) completely first: it defines recovery,
+Read [workflow-policy](../../internal/workflow-policy.md)) completely first: it defines recovery,
 engineering discretion, review risk, artifacts, and required-versus-optional checks for every
 stage, including the shared
-[telemetry rules](../../internal/workflow-policy.md#langfuse-metrics-and-workflow-status) — local
+[telemetry rules](../../internal/workflow-policy.md#langfuse-metrics-and-workflow-status)) — local
 run records stay off, and an already opted-in SNS session follows its optional skill-session
 reporting step for this actual `run` entry.
-Read the bundled [coding guideline](../../internal/coding-guideline.md) and
-[secure engineering](../../internal/secure-engineering.md); apply relevant rules during planning,
+Read the bundled [coding guideline](../../internal/coding-guideline.md)) and
+[secure engineering](../../internal/secure-engineering.md)); apply relevant rules during planning,
 implementation and verification, using the target repository's actual contracts and tooling.
 
 An explicit run authorizes implementation, its isolated feature branch, draft MR, and bounded CI
@@ -59,18 +59,18 @@ Substitute a requirement source only through the documented same-authority recov
 
 | # | Stage | Read at stage start | Key output |
 |---|---|---|---|
-| 0 | Resolve repository context | [`repo-context`](../../internal/repo-context/PROCEDURE.md) | writable target, canonical remote, default branch |
-| 1 | Intake and dependency discovery | [`requirements-source`](../../internal/requirements-source/PROCEDURE.md); [`jira`](../../internal/jira/PROCEDURE.md) in Jira mode | `work_item`, current requirement |
-| 2 | Fresh specification clarity review | [reviewer catalog](../../internal/reviewer/references/persona-catalog.md), [specification personas](../../internal/reviewer/references/specification-personas.md) | `clarity_status`, selected roster |
+| 0 | Resolve repository context | [`repo-context`](../../internal/repo-context/PROCEDURE.md)) | writable target, canonical remote, default branch |
+| 1 | Intake and dependency discovery | [`requirements-source`](../../internal/requirements-source/PROCEDURE.md)); [`jira`](../../internal/jira/PROCEDURE.md)) in Jira mode | `work_item`, current requirement |
+| 2 | Fresh specification clarity review | [reviewer catalog](../../internal/reviewer/references/persona-catalog.md)), [specification personas](../../internal/reviewer/references/specification-personas.md)) | `clarity_status`, selected roster |
 | 3 | Ground context and scope | repository instructions, README, build/CI config | base + inspected dependency revisions |
-| 4 | Resolve material decisions only | [`grill-with-docs`](../../internal/grill-with-docs/PROCEDURE.md) | human-agreed material design |
-| 5 | Prepare the writable branch | [`using-git-worktrees`](../../internal/using-git-worktrees/PROCEDURE.md), [`git-commit`](../../internal/git-commit/PROCEDURE.md) | isolated feature branch |
-| 6 | Plan proportionally | [`writing-plans`](../../internal/writing-plans/PROCEDURE.md) | compact plan, plan reviews |
-| 7 | Implement and test | [`executing-plans`](../../internal/executing-plans/PROCEDURE.md), [`test-driven-development`](../../internal/test-driven-development/PROCEDURE.md) | failing-test-first change |
-| 8 | Verify and classify checks | [`verification-before-completion`](../../internal/verification-before-completion/PROCEDURE.md); [`systematic-debugging`](../../internal/systematic-debugging/PROCEDURE.md) on failure | classified check results |
-| 9 | Review the current candidate | [`code-review`](../../internal/code-review/PROCEDURE.md), [findings & adjudication](../../internal/reviewer/references/findings-and-adjudication.md) | bounded candidate verdict |
-| 10 | Deliver and verify CI | [`gitlab-mr`](../../internal/gitlab-mr/PROCEDURE.md); [`unslop`](../../internal/unslop/PROCEDURE.md) for prose | draft MR + required CI status |
-| 11 | Hand back | [`sns-l3-labelling`](../../internal/sns-l3-labelling/PROCEDURE.md) | labels, handback report |
+| 4 | Resolve material decisions only | [`grill-with-docs`](../../internal/grill-with-docs/PROCEDURE.md)) | human-agreed material design |
+| 5 | Prepare the writable branch | [`using-git-worktrees`](../../internal/using-git-worktrees/PROCEDURE.md)), [`git-commit`](../../internal/git-commit/PROCEDURE.md)) | isolated feature branch |
+| 6 | Plan proportionally | [`writing-plans`](../../internal/writing-plans/PROCEDURE.md)) | compact plan, plan reviews |
+| 7 | Implement and test | [`executing-plans`](../../internal/executing-plans/PROCEDURE.md)), [`test-driven-development`](../../internal/test-driven-development/PROCEDURE.md)) | failing-test-first change |
+| 8 | Verify and classify checks | [`verification-before-completion`](../../internal/verification-before-completion/PROCEDURE.md)); [`systematic-debugging`](../../internal/systematic-debugging/PROCEDURE.md)) on failure | classified check results |
+| 9 | Review the current candidate | [`code-review`](../../internal/code-review/PROCEDURE.md)), [findings & adjudication](../../internal/reviewer/references/findings-and-adjudication.md)) | bounded candidate verdict |
+| 10 | Deliver and verify CI | [`gitlab-mr`](../../internal/gitlab-mr/PROCEDURE.md)); [`unslop`](../../internal/unslop/PROCEDURE.md)) for prose | draft MR + required CI status |
+| 11 | Hand back | [`sns-l3-labelling`](../../internal/sns-l3-labelling/PROCEDURE.md)) | labels, handback report |
 
 ## Stage 0 — Resolve repository context
 
@@ -106,15 +106,15 @@ when selected; scheduling never creates extra tickets or MRs.
 ## Stage 2 — Fresh specification clarity review
 
 Do not mutate the selected source. Read the reviewer
-[catalog](../../internal/reviewer/references/persona-catalog.md) and
-[specification personas](../../internal/reviewer/references/specification-personas.md); assess
+[catalog](../../internal/reviewer/references/persona-catalog.md)) and
+[specification personas](../../internal/reviewer/references/specification-personas.md)); assess
 risk using workflow-policy. Low risk uses an independent Requirements & Testability reviewer;
 higher-risk work uses the two applicable independent specification personas. Record the selected
 roster and why. Review hashes may identify local evidence but are not admission locks.
 Check goal, required behaviour, observable Given/When/Then criteria, scope and applicable domain,
 security, integration and failure constraints against real capabilities. Also inspect the
 technical approach and human-settled choices using Specify's
-[technical-design interview](../../skills/specify/references/technical-design.md): requirements clarity
+[technical-design interview](../../skills/specify/references/technical-design.md)): requirements clarity
 alone does not authorize coding while material design choices remain open. Fix evidence-backed
 wording in the working copy, never business decisions. Record `clarity_status: PASS` only with no
 unresolved material ambiguity; distinguish controller assessment from independent review.
@@ -152,7 +152,7 @@ question, not the whole workflow.
 
 ## Stage 5 — Prepare the writable branch
 
-Use [`using-git-worktrees`](../../internal/using-git-worktrees/PROCEDURE.md), then
+Use [`using-git-worktrees`](../../internal/using-git-worktrees/PROCEDURE.md)), then
 `git-commit`. Jira mode always uses a dedicated Git worktree from the recorded base: one ticket
 cannot share writable branch state with another, and multiple Jira tickets may run concurrently.
 Repair unverified isolation or report `needs-input`; never fall back to a shared writable
@@ -254,13 +254,13 @@ green.
 ## Stage 11 — Hand back
 
 Read and use the bundled
-[`sns-l3-labelling`](../../internal/sns-l3-labelling/PROCEDURE.md) once for this run's eligible
+[`sns-l3-labelling`](../../internal/sns-l3-labelling/PROCEDURE.md)) once for this run's eligible
 SNS Jira/MR targets: add/read back `sns-l3` and `l3-agent`, preserving existing labels, with the
 run context and verified ticket/MR association — eligibility comes from the target, not AI usage.
 Local Markdown, manual/L2, non-SNS and reference-only work is skipped; tagging failures are
 advisory, so report the per-target outcome and continue the handoff with the actual engineering
 status. If the session already opted into SNS usage publishing, follow
-[its handoff rules](../../internal/sns-langfuse/PROCEDURE.md): publication stays pending until
+[its handoff rules](../../internal/sns-langfuse/PROCEDURE.md)): publication stays pending until
 CLI exit and is verified only by remote readback.
 Never comment on the Jira ticket. Report the MR link, what changed, meaningful verification and
 limitations, and the next human action; keep internal traceability machine-local. State

@@ -48,18 +48,19 @@ def rewrite_links(body: str, source_dir: str, output_dir: str) -> str:
             return match.group(0)
         resolved = posixpath.normpath(posixpath.join(source_dir, target))
         relative = posixpath.relpath(resolved, output_dir)
-        return f"]({relative}{anchor})"
+        return f"]({relative}{anchor}{match.group(3)})"
 
     return LINK.sub(replace, body)
 
 
-def render(surface: dict, skill_doc: dict, title: str, tree: str) -> str:
+def render(surface: dict, skill_doc: dict, title: str, tree: str, argument_hint: str) -> str:
     body = rewrite_links(skill_doc["body"], source_dir=f"skills/{skill_doc['skill']}",
                          output_dir=tree)
     text = surface["header"] + body + surface["footer"]
     return (text.replace("{skill}", skill_doc["skill"])
                 .replace("{title}", title)
-                .replace("{description}", skill_doc["description"]))
+                .replace("{description}", skill_doc["description"])
+                .replace("{argument_hint}", argument_hint))
 
 
 def generate(root: Path) -> dict[str, str]:
@@ -70,7 +71,7 @@ def generate(root: Path) -> dict[str, str]:
         doc = load_skill(root, skill)
         for tree, surface in spec["trees"].items():
             output_dir = root / tree
-            body = render(surface, doc, titles[skill], tree)
+            body = render(surface, doc, titles[skill], tree, spec["argument_hints"][skill])
             outputs[str(output_dir / surface["file"].replace("{skill}", skill))] = body
     return outputs
 

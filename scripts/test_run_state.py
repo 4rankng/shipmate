@@ -62,6 +62,29 @@ class ValidateRunStateTests(unittest.TestCase):
         self.assertIn("decisions[0].source must be a nonempty string", result["errors"])
         self.assertIn("pending.question must be a nonempty string", result["errors"])
 
+    def test_rejects_corrupt_candidate_anchor_and_review_verdict(self):
+        result = validate(state(candidate={"branch": 42, "sha": True, "base": None},
+                                review={"roster": "solo"}))
+        self.assertFalse(result["valid"])
+        self.assertIn("candidate.branch must be a nonempty string", result["errors"])
+        self.assertIn("candidate.sha must be a nonempty string", result["errors"])
+        self.assertIn("candidate.base must be a nonempty string", result["errors"])
+        self.assertIn("review.roster must be a list", result["errors"])
+        self.assertIn("review.verdict must be a nonempty string", result["errors"])
+
+    def test_rejects_non_iso_timestamp_and_float_version(self):
+        result = validate(state(updated_at="yesterday", version=1.0))
+        self.assertFalse(result["valid"])
+        self.assertIn("updated_at must be a nonempty ISO-8601 string", result["errors"])
+        self.assertIn("version must be 1", result["errors"])
+
+    def test_cli_reports_unreadable_state_file_as_machine_verdict(self):
+        run = subprocess.run([sys.executable, str(SCRIPT), "--check", "does/not/exist.json"],
+                             capture_output=True, text=True)
+        self.assertEqual(run.returncode, 1)
+        self.assertIn("cannot read state file", run.stdout)
+        self.assertNotIn("Traceback", run.stderr)
+
     def test_rejects_non_list_decisions(self):
         result = validate(state(decisions="settled"))
         self.assertFalse(result["valid"])

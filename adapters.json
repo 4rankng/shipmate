@@ -7,10 +7,17 @@
     "walkthrough": "Walkthrough",
     "quiz": "Quiz"
   },
+  "argument_hints": {
+    "specify": "[jira-key-or-requirement-file]",
+    "run": "[jira-key-or-requirement-file]",
+    "review": "[spec-plan-or-diff]",
+    "walkthrough": "[jira-key-or-mr-url]",
+    "quiz": "[jira-key-or-mr-url]"
+  },
   "trees": {
     "commands": {
       "file": "{skill}.md",
-      "header": "---\ndescription: {description}\nargument-hint: \"[jira-key-or-requirement-file]\"\n---\n\n# Shipmate: {title}\n\nUse this command to invoke Shipmate's {title} capability.\n\nFollow the complete procedure in [skills/{skill}/SKILL.md](../skills/{skill}/SKILL.md), reproduced below.\n\n## Usage\n\n`/{skill} $ARGUMENTS`\n\n---\n\n",
+      "header": "---\ndescription: {description}\nargument-hint: \"{argument_hint}\"\n---\n\n# Shipmate: {title}\n\nUse this command to invoke Shipmate's {title} capability.\n\nFollow the complete procedure in [skills/{skill}/SKILL.md](../skills/{skill}/SKILL.md), reproduced below.\n\n## Usage\n\n`/{skill} $ARGUMENTS`\n\n---\n\n",
       "footer": "\n"
     },
     ".cursor/rules": {

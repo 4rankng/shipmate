@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 
 STAGES = range(0, 12)
 
@@ -21,11 +22,22 @@ def _nonempty(value) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+def _iso8601(value) -> bool:
+    if not _nonempty(value):
+        return False
+    try:
+        datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        return True
+    except ValueError:
+        return False
+
+
 def validate(state) -> dict:
     errors: list[str] = []
     if not isinstance(state, dict):
         return {"valid": False, "errors": ["run state must be a JSON object"]}
-    if state.get("version") != 1 or isinstance(state.get("version"), bool):
+    version = state.get("version")
+    if not isinstance(version, int) or isinstance(version, bool) or version != 1:
         errors.append("version must be 1")
     stage = state.get("stage")
     if not isinstance(stage, int) or isinstance(stage, bool) or stage not in STAGES:
@@ -39,7 +51,7 @@ def validate(state) -> dict:
             errors.append("work_item.key must be a nonempty string")
         if work_item.get("source") not in ("jira", "local"):
             errors.append("work_item.source must be jira or local")
-    if not _nonempty(state.get("updated_at")):
+    if not _iso8601(state.get("updated_at")):
         errors.append("updated_at must be a nonempty ISO-8601 string")
     decisions = state.get("decisions")
     if decisions is not None:
@@ -57,6 +69,17 @@ def validate(state) -> dict:
     for optional in ("candidate", "review"):
         if state.get(optional) is not None and not isinstance(state.get(optional), dict):
             errors.append(f"{optional} must be an object")
+    candidate = state.get("candidate")
+    if isinstance(candidate, dict):
+        for field in ("branch", "sha", "base"):
+            if not _nonempty(candidate.get(field)):
+                errors.append(f"candidate.{field} must be a nonempty string")
+    review = state.get("review")
+    if isinstance(review, dict):
+        if "roster" in review and not isinstance(review["roster"], list):
+            errors.append("review.roster must be a list")
+        if not _nonempty(review.get("verdict")):
+            errors.append("review.verdict must be a nonempty string")
     pending = state.get("pending")
     if pending is not None:
         if not isinstance(pending, dict):
@@ -83,6 +106,9 @@ def main(argv=None) -> int:
                 payload = json.load(handle)
     except json.JSONDecodeError as error:
         print(json.dumps({"valid": False, "errors": [f"invalid JSON: {error}"]}))
+        return 1
+    except OSError as error:
+        print(json.dumps({"valid": False, "errors": [f"cannot read state file: {error}"]}))
         return 1
     result = validate(payload)
     print(json.dumps(result))
