@@ -9,14 +9,10 @@ Turn intent into a short contract a human can review and an agent can implement.
 [workflow-policy](../../internal/workflow-policy.md) and
 [requirements-source](../../internal/requirements-source/PROCEDURE.md). Jira is optional.
 
-Local run records are off by default. Do not create/update local run JSON/CSV or invoke
-`run_metrics.py` unless the user explicitly requests local metrics files. Do not include record
-links or capture-disabled notices in handoffs. The optional [legacy utility](../../internal/run-metrics.md)
-is separate from opted-in Langfuse telemetry; keep resumable status in the conversation.
-Use verified Langfuse observations for AI-session metrics. Missing telemetry is unavailable;
-never create a local metrics file as a fallback or invent values.
-For an already opted-in SNS session, follow its optional skill-session reporting step for this
-actual `specify` entry, without creating a local run record. Do not enable external tracking at intake.
+Apply the shared
+[telemetry rules](../../internal/workflow-policy.md#langfuse-metrics-and-workflow-status): local
+run records stay off, and an already opted-in SNS session follows its optional skill-session
+reporting step for this actual `specify` entry.
 
 ## 1. Understand the problem
 
@@ -162,7 +158,6 @@ Beside the draft, in chat only, name each observable default you chose without a
   Jira or invent a ticket to complete this path.
 
 Return the approved spec/location, publication state and any unresolved material question.
-Do not create/update local metrics files or include local record links or capture-disabled notices.
 Specify ends here; coding needs a subsequent authorized run with no open material decision.
 
 ## Resume and finalize an existing specification

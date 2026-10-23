@@ -71,25 +71,11 @@ then pipe `git diff "$TARGET_SHA...$SOURCE_SHA"` with the same pathspecs instead
 are the MR's target-branch and source heads.
 
 Derive `PAYMENT_PLUGIN_ROOT` from this skill's installed path (the directory containing
-`plugin.json`). The script prints `lines`, `files`, `weight`, `questions` and `skip`. If Python
-is unavailable, apply the same logic: every diff line (including headers and context) plus 20 per
-changed file:
-
-```ts
-const weight = lines + files * 20;
-let factor: number;
-if (weight < 30) factor = 0.5;
-else if (weight < 100) factor = 0.75;
-else if (weight < 300) factor = 1;
-else if (weight < 800) factor = 1.5;
-else factor = 2;
-const scaled = Math.round(5 * factor);   // baseline 5
-```
-
-This gives 3, 4, 5, 8 and 8 questions across the five bands. Move up one band when the change is
-money-moving or security-sensitive: authorization, idempotency, retries, amount, currency and
-rounding, state transitions, ledger, settlement, reversal, reconciliation, or cross-service
-contracts. Never go below 3 or above 8. Tell the developer the count and scope before starting.
+`plugin.json`). The script is the only sizing implementation; it prints `lines`, `files`,
+`weight`, `questions` and `skip`. Move up one band when the change is money-moving or
+security-sensitive: authorization, idempotency, retries, amount, currency and rounding, state
+transitions, ledger, settlement, reversal, reconciliation, or cross-service contracts. Never go
+below 3 or above 8. Tell the developer the count and scope before starting.
 
 When `skip` is true (fewer than 50 characters of in-scope diff, the sphinx-ci rule), do not quiz.
 Reply with the upstream message adapted to chat: "No quiz needed — this MR doesn't contain enough
@@ -97,40 +83,12 @@ code changes to generate a quiz."
 
 ## Write the questions privately
 
-Prepare all questions and a hidden answer key before asking the first one, using the sphinx-ci
-question-generation prompt below for MR/local-branch mode (upstream English prompt verbatim,
-minus its "respond only with JSON" line because the key stays private; `${numQuestions}` is the
-count from sizing). For Jira, use the same answer-key schema and validation but ground questions
-in the settled ticket context described above, not the upstream code-diff-only instructions.
-In MR mode, the input is the MR title, changed files and the diff, plus the surrounding context.
-
-> **System:** You are a code review expert. Analyze the Pull Request diff and generate exactly
-> ${numQuestions} multiple-choice questions to test the developer's understanding of their own code.
->
-> Exact structure:
->
-> ```json
-> {
->   "questions": [
->     {
->       "id": 1,
->       "question": "Precise question about the code",
->       "options": ["A) ...", "B) ...", "C) ...", "D) ..."],
->       "correct": 0,
->       "explanation": "Short explanation (1-2 sentences)"
->     }
->   ]
-> }
-> ```
->
-> Mandatory rules:
-> - Generate exactly ${numQuestions} questions
-> - Questions ONLY about the code in the provided diff (no generic questions)
-> - Cover: business logic, error handling, side effects, patterns used, edge cases, potential impacts
-> - "correct" is the index (0-3) of the correct answer in "options"
-> - Difficulty level: senior developer reviewing their own work
-> - Vary types: comprehension, impact analysis, potential bug detection
-> - Wrong answers must be plausible (not trivial)
+Prepare all questions and a hidden answer key before asking the first one, using the bundled
+[upstream generation prompt](references/question-generation.md) for MR/local-branch mode
+(`${numQuestions}` is the count from sizing). For Jira, use the same answer-key schema and
+validation but ground questions in the settled ticket context described above, not the upstream
+code-diff-only instructions. In MR mode, the input is the MR title, changed files and the diff,
+plus the surrounding context.
 
 Keep the key in that structure in your private working state; never show it. Before question one,
 add a nonempty `topic` to each private question record and freeze it with the correct answer.
@@ -190,10 +148,8 @@ blocked, and that the user can run `shipmate:quiz` again.
 
 ### Example source
 
-sphinx-ci's demo questions ([source](../../third_party/sphinx-ci/components/DemoQuiz.tsx.txt)) show
-the wanted shape: a concrete change, a consequence-focused question and a one-sentence
-evidence-based explanation. Do not copy their cues: each correct option is the longest, and two
-stems state the defect. Never reuse them for a real target.
+The demo-question cautions live with the
+[generation prompt](references/question-generation.md); apply them before freezing the key.
 
 ## Ask one question at a time
 

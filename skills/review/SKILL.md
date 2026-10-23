@@ -16,16 +16,11 @@ Read the bundled [coding guideline](../../internal/coding-guideline.md) and
 selected artifact and affected code, not a generic checklist. Findings need concrete evidence and
 impact; these guides do not authorize fixes or demand irrelevant financial/service-creation work.
 
-Local run records are off by default. Do not create/update local run JSON/CSV or invoke
-`run_metrics.py` unless the user explicitly requests local metrics files. Do not include record
-links or capture-disabled notices in handoffs. The optional [legacy utility](../../internal/run-metrics.md)
-is separate from opted-in Langfuse telemetry; keep resumable status in the conversation.
-Use verified Langfuse observations for AI-session metrics. Missing telemetry is unavailable;
-never create a local metrics file as a fallback or invent values.
-For an already opted-in SNS session, follow its optional skill-session reporting step for this
-actual `review` entry, without creating a local run record. Do not enable external tracking at intake.
+Apply the shared
+[telemetry rules](../../internal/workflow-policy.md#langfuse-metrics-and-workflow-status): local
+run records stay off, and an already opted-in SNS session follows its optional skill-session
+reporting step for this actual `review` entry.
 Standalone completion means the requested review was delivered, not that its artifact passed.
-Do not enable external tracking during intake.
 
 ## Select one review phase
 

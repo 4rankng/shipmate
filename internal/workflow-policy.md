@@ -51,6 +51,8 @@ capture-disabled notices to handoffs during ordinary Specify, Run or Review work
 status in the conversation and report the actual result, MR, checks and unresolved next action.
 The legacy [local metrics utility](run-metrics.md) is available only when the user explicitly
 requests local metrics files. Opted-in Langfuse telemetry remains independent of local run files.
+For an already opted-in SNS session, follow its optional skill-session reporting step for the
+actual skill entry, without creating a local run record or enabling external tracking at intake.
 
 ## Evidence before scope expansion
 

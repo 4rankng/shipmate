@@ -427,7 +427,10 @@ class QuizContractTests(TestCase):
     def setUpClass(cls):
         cls.quiz = (PLUGIN_ROOT / "skills/quiz/SKILL.md").read_text(encoding="utf-8")
         report = (PLUGIN_ROOT / "skills/quiz/references/understanding-report.md").read_text()
-        cls.normalized = " ".join((cls.quiz + "\n" + report).split())
+        generation = (
+            PLUGIN_ROOT / "skills/quiz/references/question-generation.md"
+        ).read_text(encoding="utf-8")
+        cls.normalized = " ".join((cls.quiz + "\n" + report + "\n" + generation).split())
 
     def test_quiz_is_read_only_and_stays_in_chat(self):
         self.assertIn("five public entrypoints", self.quiz)
@@ -449,7 +452,6 @@ class QuizContractTests(TestCase):
             "`file:line` evidence",
             "never asks about behaviour the code does not evidence",
             "Distribute the correct letter across A–D",
-            "lines + files * 20",
             "Wrong answers must be plausible (not trivial)",
             "third_party/sphinx-ci/lib/claude.ts.txt",
             "scripts/quiz_size.py",
@@ -462,6 +464,10 @@ class QuizContractTests(TestCase):
             "Never go below 3 or above 8",
         ):
             self.assertIn(phrase, self.normalized)
+        # quiz_size.py is the single sizing implementation; no hand-ported formula in prose.
+        self.assertIn("only sizing implementation", self.quiz)
+        for formula_marker in ("const weight", "factor = 0.5", "Math.round(5 * factor)"):
+            self.assertNotIn(formula_marker, self.quiz)
 
     def test_quiz_waits_for_the_human_one_question_at_a_time(self):
         self.assertIn("one question at a time", self.normalized)
@@ -539,7 +545,7 @@ class PluginVersionContractTests(TestCase):
         )
 
         self.assertEqual(plugin["name"], "shipmate")
-        self.assertEqual(plugin["version"], "4.4.1")
+        self.assertEqual(plugin["version"], "4.5.0")
         self.assertEqual(codex_plugin["name"], plugin["name"])
         self.assertEqual(codex_plugin["version"], plugin["version"])
         self.assertEqual(codex_plugin["description"], plugin["description"])
@@ -554,23 +560,29 @@ class PluginVersionContractTests(TestCase):
 
 class RunObservationContractTests(TestCase):
     def test_all_public_actions_disable_automatic_local_run_records(self):
-        policy = (PLUGIN_ROOT / "internal/run-metrics.md").read_text(encoding="utf-8")
-        for action in ("run", "specify", "review"):
-            skill = (PLUGIN_ROOT / f"skills/{action}/SKILL.md").read_text(encoding="utf-8")
-            self.assertIn("../../internal/run-metrics.md", skill)
-            self.assertIn("Local run records are off by default", skill)
-            self.assertIn("unless the user explicitly requests local metrics files", skill)
-            self.assertIn("Do not include record", skill)
-            self.assertNotIn("Capture is on by default", skill)
-            self.assertNotIn("Include the local record link", skill)
-            self.assertNotIn("start a best-effort local", skill)
-            self.assertIn("Use verified Langfuse observations for AI-session metrics", skill)
-            self.assertIn("never create a local metrics file as a fallback or invent values", skill)
-        workflow = (PLUGIN_ROOT / "internal/workflow-policy.md").read_text(encoding="utf-8")
+        workflow = " ".join(
+            (PLUGIN_ROOT / "internal/workflow-policy.md").read_text(encoding="utf-8").split()
+        )
         self.assertIn("Do not create or update local run JSON/CSV", workflow)
         self.assertNotIn("Capture is on by default", workflow)
         self.assertIn("Langfuse is the source for AI-session metrics", workflow)
+        self.assertIn("only when the user explicitly requests local metrics files", workflow)
         self.assertIn("never create a local metrics file as a fallback or invent values", workflow)
+        self.assertIn(
+            "without creating a local run record or enabling external tracking at intake", workflow
+        )
+        # The canonical telemetry rules live once in workflow-policy; public skills carry only
+        # the pointer, never a copied paragraph.
+        pointer = "workflow-policy.md#langfuse-metrics-and-workflow-status"
+        for action in ("run", "specify", "review"):
+            skill = (PLUGIN_ROOT / f"skills/{action}/SKILL.md").read_text(encoding="utf-8")
+            self.assertIn(pointer, skill)
+            self.assertNotIn("Local run records are off by default", skill)
+            self.assertNotIn("capture-disabled notices in handoffs", skill)
+            self.assertNotIn("Capture is on by default", skill)
+            self.assertNotIn("Include the local record link", skill)
+            self.assertNotIn("start a best-effort local", skill)
+        policy = (PLUGIN_ROOT / "internal/run-metrics.md").read_text(encoding="utf-8")
         self.assertIn("Langfuse is the source for AI-session metrics", policy)
         self.assertIn("Do not start or resume collection just because old files exist", policy)
         self.assertIn("Do not estimate missing costs", policy)

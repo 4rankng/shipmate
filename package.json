@@ -1,6 +1,6 @@
 {
   "name": "@gx-marketplace/shipmate",
-  "version": "4.4.1",
+  "version": "4.5.0",
   "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
   "author": {
     "name": "GXS Engineering",

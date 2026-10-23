@@ -3,7 +3,7 @@
   "name": "Shipmate",
   "kind": "tool",
   "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
-  "version": "4.4.1",
+  "version": "4.5.0",
   "author": "GXS Engineering",
   "repository": "https://github.com/4rankng/shipmate",
   "license": "MIT",
