@@ -56,7 +56,7 @@ questions or a new architecture to make the interview look thorough.
 
 Keep the final spec concise. Record consequential choices and their reasons under
 `Technical Notes` or a named accessible supporting reference; keep the interview transcript and detailed
-implementation plan out of Jira. A technical constraint that determines correctness belongs in
+implementation plan out of the requirement file. A technical constraint that determines correctness belongs in
 the spec even when it is not directly user-visible.
 
 Before ending Specify, present the requirements and approach together for human confirmation.

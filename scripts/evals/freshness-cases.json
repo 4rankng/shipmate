@@ -1,6 +1,6 @@
 [
-  {"id":"local","context":"User asks run for an oncall-app bug. A local Markdown file has clear goal, behavior, Given/When/Then AC and scope. No Jira or past review record exists. Can normal intake begin?"},
-  {"id":"format","context":"Both spec reviewers passed. Jira now uses bold headings and a table instead of bullets; every requirement and AC is identical in meaning. Its updated timestamp changed. What happens to the existing semantic review?"},
+  {"id":"local","context":"User asks run for an oncall-app bug. A local Markdown file has clear goal, behavior, Given/When/Then AC and scope. No prior requirement file or past review record exists. Can normal intake begin?"},
+  {"id":"format","context":"Both spec reviewers passed. The requirement file now uses bold headings and a table instead of bullets; every requirement and AC is identical in meaning. Its updated timestamp changed. What happens to the existing semantic review?"},
   {"id":"reorder","context":"The reviewed plan and spec only reorder independent AC rows, retaining IDs and behavior. No execution dependency changed."},
   {"id":"negation","context":"After review, the current clear requirement changes from 'retry failed requests' to 'do not retry failed requests'. Code has not changed."},
   {"id":"limit","context":"The current spec changes a settled timeout from 30 seconds to 5 seconds. Everything else remains clear. No code change yet."},
@@ -8,5 +8,5 @@
   {"id":"uncertainty","context":"The requirement says 'return an appropriate error and retry if needed'. Error outcome and safe retry conditions cannot be inferred from repo or sources."},
   {"id":"code","context":"The candidate commit changed after reviewers passed. The source specification is unchanged and the new diff appears small."},
   {"id":"evidence","context":"Code commit is unchanged, but the verification evidence supplied to candidate reviewers was corrected to include a previously omitted failing required test."},
-  {"id":"pagination","context":"The first Jira comment page reports 120 comments. The next page is empty at offset 100. Description is clear, but omitted comments may contain decisions."}
+  {"id":"pagination","context":"The first page of requirement comments reports 120 comments. The next page is empty at offset 100. Description is clear, but omitted comments may contain decisions."}
 ]

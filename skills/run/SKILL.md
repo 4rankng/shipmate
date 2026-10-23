@@ -1,6 +1,6 @@
 ---
 name: run
-description: Use when Jira, local Markdown, or a clear task should become a verified draft merge request with risk-proportional review and resumable clarification
+description: Use when a local requirement or a clear task should become a verified draft pull request with risk-proportional review and resumable clarification
 ---
 
 # Run Shipmate
@@ -9,25 +9,22 @@ Apply [contextual questions](../../internal/user-questions.md) when asking the u
 situation and a concrete example/reference. Ask facts neutrally; compare decision options fairly
 and recommend only from known goals. Apply the answer and resume without repeating settled choices.
 
-Take a clear requirement to a verified draft MR. Jira is optional; local Markdown is a
-first-class source. Guided execution is the default: resolve evidence-backed details yourself,
+Take a clear requirement to a verified draft pull request. The requirement source is a local
+Markdown file or a clear task statement. Guided execution is the default: resolve evidence-backed details yourself,
 ask only for material missing decisions, and resume without throwing away useful work.
 
 ## Authority
 
 Read [workflow-policy](../../internal/workflow-policy.md) completely first: it defines recovery,
 engineering discretion, review risk, artifacts, and required-versus-optional checks for every
-stage, including the shared
-[telemetry rules](../../internal/workflow-policy.md#langfuse-metrics-and-workflow-status) — local
-run records stay off, and an already opted-in SNS session follows its optional skill-session
-reporting step for this actual `run` entry.
+stage.
 Read the bundled [coding guideline](../../internal/coding-guideline.md) and
 [secure engineering](../../internal/secure-engineering.md); apply relevant rules during planning,
 implementation and verification, using the target repository's actual contracts and tooling.
 
-An explicit run authorizes implementation, its isolated feature branch, draft MR, and bounded CI
+An explicit run authorizes implementation, its isolated feature branch, draft pull request, and bounded CI
 repair in the selected scope. It does not authorize new business behaviour, additional writable
-repositories/MRs, merging, deploying, production customer data access, or Doorman DML.
+repositories, merging, deploying, production customer data access.
 Never merge, approve or deploy.
 
 Never repair or infer business behavior, authorization, domain invariants, ownership, or state
@@ -39,20 +36,17 @@ successful completion.
 
 ## Preflight
 
-Derive `PAYMENT_PLUGIN_ROOT` from this skill's ancestor containing `plugin.json` (a compatibility
+Derive `SHIPMATE_PLUGIN_ROOT` from this skill's ancestor containing `plugin.json` (a compatibility
 name, not a payment-repository requirement). Read each stage's bundled procedure when that stage
 starts — the index below is the router, not a pre-read list. Prefer bundled procedures over
 similarly named personal/global skills; same-authority tool recovery follows workflow-policy.
 
 ```bash
-python3 "${PAYMENT_PLUGIN_ROOT}/scripts/doctor.py" --group core,gitlab
-# add `jira` only in Jira mode:
-python3 "${PAYMENT_PLUGIN_ROOT}/scripts/doctor.py" --group core,gitlab,jira
+python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/doctor.py" --group core,delivery
 ```
 
 Treat diagnostics individually, not as a blanket veto. Missing delivery credentials can leave
-implementation/review useful but delivery pending; missing optional hooks, telemetry or labels
-are advisory. A present credential is unvalidated access until the intended source answers
+implementation/review useful but delivery pending; missing optional hooks are advisory. A present credential is unvalidated access until the intended source answers
 through its API; investigate wrong path/site/key and permission errors without exposing secrets.
 Substitute a requirement source only through the documented same-authority recovery route.
 
@@ -61,7 +55,7 @@ Substitute a requirement source only through the documented same-authority recov
 | # | Stage | Read at stage start | Key output |
 |---|---|---|---|
 | 0 | Resolve repository context | [`repo-context`](../../internal/repo-context/PROCEDURE.md) | writable target, canonical remote, default branch |
-| 1 | Intake and dependency discovery | [`requirements-source`](../../internal/requirements-source/PROCEDURE.md); [`jira`](../../internal/jira/PROCEDURE.md) in Jira mode | `work_item`, current requirement |
+| 1 | Intake and dependency discovery | [`requirements-source`](../../internal/requirements-source/PROCEDURE.md) | `work_item`, current requirement |
 | 2 | Fresh specification clarity review | [reviewer catalog](../../internal/reviewer/references/persona-catalog.md), [specification personas](../../internal/reviewer/references/specification-personas.md) | `clarity_status`, selected roster |
 | 3 | Ground context and scope | repository instructions, README, build/CI config | base + inspected dependency revisions |
 | 4 | Resolve material decisions only | [`grill-with-docs`](../../internal/grill-with-docs/PROCEDURE.md) | human-agreed material design |
@@ -70,8 +64,8 @@ Substitute a requirement source only through the documented same-authority recov
 | 7 | Implement and test | [`executing-plans`](../../internal/executing-plans/PROCEDURE.md), [`test-driven-development`](../../internal/test-driven-development/PROCEDURE.md) | failing-test-first change |
 | 8 | Verify and classify checks | [`verification-before-completion`](../../internal/verification-before-completion/PROCEDURE.md); [`systematic-debugging`](../../internal/systematic-debugging/PROCEDURE.md) on failure | classified check results |
 | 9 | Review the current candidate | [`code-review`](../../internal/code-review/PROCEDURE.md), [findings & adjudication](../../internal/reviewer/references/findings-and-adjudication.md) | bounded candidate verdict |
-| 10 | Deliver and verify CI | [`gitlab-mr`](../../internal/gitlab-mr/PROCEDURE.md); [`unslop`](../../internal/unslop/PROCEDURE.md) for prose | draft MR + required CI status |
-| 11 | Hand back | [`sns-l3-labelling`](../../internal/sns-l3-labelling/PROCEDURE.md) | labels, handback report |
+| 10 | Deliver and verify CI | [`pr-delivery`](../../internal/pr-delivery/PROCEDURE.md); [`unslop`](../../internal/unslop/PROCEDURE.md) for prose | draft PR + required CI status |
+| 11 | Hand back | — | handback report |
 
 ## Stage 0 — Resolve repository context
 
@@ -82,23 +76,23 @@ describing its branch/conflict state, and preserve dirty user work.
 
 ## Stage 1 — Intake and dependency discovery
 
-Persist `work_item` plus the current requirement machine-locally. A clear current requirement is
-sufficient admission: no previous approval, specification SHA, Jira revision lock, plan hash or
+Persist `work_item` plus the current requirement machine-locally. Keep the run state in
+machine-local `.shipmate/run.json` (gitignored) following the bundled schema, and validate it
+with `python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/run_state.py" --check .shipmate/run.json` after
+each stage transition; a `valid: false` result means fix the state before resuming. A clear
+current requirement is
+sufficient admission: no previous approval, specification SHA, plan hash or
 historic attestation is required.
-In Jira mode, read the full current description and complete comment inventory, then select
-accepted decisions. Jira comments are read-only requirement evidence; never create, edit, or
-delete a Jira comment. Apply/read back the `l3-workflow` tracking label when supported and
-authorized; unavailable labeling is advisory.
-In Local Markdown mode, read the supplied safe file, or materialize the stated request and
+Read the supplied safe Markdown file, or materialize the stated request and
 verified facts into machine-local `requirements.md` using the concise `specify` format with
 Given/When/Then acceptance criteria. Do not ask the user to restate a clear request or approve a
 mere transcription. A repository file under `docs/requirements/` stays optional unless requested
 or policy-required.
 Before declaring an absent parser, endpoint, schema or capability a scope gap, inspect the actual
-code and directly linked tickets/MRs; distinguish authorized new work from an unmerged dependency
+code and directly linked references; distinguish authorized new work from an unmerged dependency
 or missing decision, and invent no consumer/job/field. Offer the smallest useful slice, or an
-explicitly authorized pinned stack or split with merge order. Honor one-MR-at-a-time delivery
-when selected; scheduling never creates extra tickets or MRs.
+explicitly authorized pinned stack or split with merge order. Honor one-PR-at-a-time delivery
+when selected; scheduling never creates extra tickets or PRs.
 
 ## Stage 2 — Fresh specification clarity review
 
@@ -133,7 +127,7 @@ slice's authorized root; a needed second repository change requires a specific c
 decision, and independent work in the first continues. When a base/dependency advances, inspect
 its delta and revalidate affected assumptions and tests; never silently change a stacked base or
 import unreviewed dependency code. Local absolute paths stay in machine-local state, out of human
-requirements and MR prose.
+requirements and PR prose.
 
 ## Stage 4 — Resolve material decisions only
 
@@ -150,8 +144,9 @@ question, not the whole workflow.
 ## Stage 5 — Prepare the writable branch
 
 Use [`using-git-worktrees`](../../internal/using-git-worktrees/PROCEDURE.md), then
-`git-commit`. Jira mode always uses a dedicated Git worktree from the recorded base: one ticket
-cannot share writable branch state with another, and multiple Jira tickets may run concurrently.
+`git-commit`. Every run uses a dedicated Git worktree from the recorded base: one run never
+shares writable branch state with another, and multiple runs may proceed concurrently in their
+own worktrees.
 Repair unverified isolation or report `needs-input`; never fall back to a shared writable
 checkout. Record branch/worktree in machine-local state. Local Markdown work uses the same
 isolation when parallel, dirty or shared state requires it, otherwise the documented
@@ -162,7 +157,7 @@ files into the branch only when requested or required by repository policy.
 
 Persist a machine-local plan by default: a small fix needs one compact task with intended files,
 AC-to-test mapping and risk; add interface/dependency/rollback detail only where relevant.
-Committing a plan into the MR is not required unless repository policy or the user requests it,
+Committing a plan into the PR is not required unless repository policy or the user requests it,
 and a removed plan stays removed.
 Low-risk work dispatches an independent Architecture & Simplicity reviewer; higher-risk work adds
 Failure, Security & Rollback with focused evidence. Use explicit efficient models from the
@@ -198,7 +193,7 @@ coverage-producing job and threshold when configured, and bind results to candid
 Available dependency audits apply when manifests/lockfiles change.
 
 ```bash
-python3 "${PAYMENT_PLUGIN_ROOT}/scripts/scan_secrets.py" <changed paths>
+python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/scan_secrets.py" <changed paths>
 ```
 
 A secret hit or genuine required test/security failure blocks delivery until resolved; tests and
@@ -210,7 +205,7 @@ required child proves nothing. Deployment validation is outside L3.
 
 ## Stage 9 — Review the current candidate
 
-Re-read the requirement and classify semantic changes. Formatting-only Jira edits never block.
+Re-read the requirement and classify semantic changes.
 Create a local candidate commit with only intended project changes after available verification
 passes. Only the final candidate commit is identity-pinned: record candidate commit SHA, base,
 tree/full diff, changed files, AC evidence, selected roster, and exact review inputs/results —
@@ -230,44 +225,35 @@ secure.
 
 ## Stage 10 — Deliver and verify CI
 
-Push the reviewed feature candidate and create/update its draft MR through `gitlab-mr`. The only
-pending-check exception is the policy-permitted CI-equivalent path from Stage 8. Apply/read back
-the workflow label when available; labeling failure is advisory. After first-MR API readback,
-retain its URL, candidate SHA and actual workflow status in the conversation for resumption.
-Write a concise `Description of Change` with what changed and why, plus a Mermaid sequence
-diagram when the interaction can be shown meaningfully. Follow the bundled MR-description
-guidance even when a global GitLab skill or optional repository template offers a longer
+Push the reviewed feature candidate and create/update its draft pull request through
+[`pr-delivery`](../../internal/pr-delivery/PROCEDURE.md). The only
+pending-check exception is the policy-permitted CI-equivalent path from Stage 8. After the first
+PR readback, retain its URL, candidate SHA and actual workflow status in the conversation for
+resumption. Write a concise `Description of Change` with what changed and why, plus a Mermaid
+sequence diagram when the interaction can be shown meaningfully. Follow the bundled PR-description
+guidance even when a global forge skill or optional repository template offers a longer
 template: omit checklist, testing/validation, deploy-order and rollback boilerplate (workflow-policy
 lists the excluded sections), preserve unrelated human-authored content, and use `unslop`.
-Internal L3 hashes, snapshots, persona tables, candidate/cohort identities, finding counts and
+Internal hashes, snapshots, persona tables, candidate identities, finding counts and
 pipeline IDs stay machine-local; required verification evidence summarizes meaningfully in chat.
-Watch the actual required parent/child jobs for the candidate. A no-code retry keeps review;
+Watch the actual required jobs for the candidate. A no-code retry keeps review;
 code/evidence changes refresh affected verification and current-candidate review. Revise the plan
 only if the approach changed. Fix in-scope failures; propose unrelated prerequisite work
-separately. Read back MR content, remote candidate and required CI status before declaring
+separately. Read back PR content, remote candidate and required CI status before declaring
 completion. Unavailable required CI remains `verification-pending`; red checks stay failed, not
 green.
 
 ## Stage 11 — Hand back
 
-Read and use the bundled
-[`sns-l3-labelling`](../../internal/sns-l3-labelling/PROCEDURE.md) once for this run's eligible
-SNS Jira/MR targets: add/read back `sns-l3` and `l3-agent`, preserving existing labels, with the
-run context and verified ticket/MR association — eligibility comes from the target, not AI usage.
-Local Markdown, manual/L2, non-SNS and reference-only work is skipped; tagging failures are
-advisory, so report the per-target outcome and continue the handoff with the actual engineering
-status. If the session already opted into SNS usage publishing, follow
-[its handoff rules](../../internal/sns-langfuse/PROCEDURE.md): publication stays pending until
-CLI exit and is verified only by remote readback.
-Never comment on the Jira ticket. Report the MR link, what changed, meaningful verification and
-limitations, and the next human action; keep internal traceability machine-local. State
-incomplete outcomes honestly: `needs-input`, `review-pending`, `verification-pending`, or
-`stopped` with the concrete next action. Only verified requested delivery is `completed`; human
-review, merge and release remain separate, and MR creation is not workflow completion.
+Report the PR link, what changed, meaningful verification and limitations, and the next human
+action; keep internal traceability machine-local. State incomplete outcomes honestly:
+`needs-input`, `review-pending`, `verification-pending`, or `stopped` with the concrete next
+action. Only verified requested delivery is `completed`; human review, merge and release remain
+separate, and PR creation is not workflow completion.
 
 ## Resuming
 
-Read current source, worktree/status, saved decisions, plan, MR/CI and candidate/context state.
+Read current source, worktree/status, saved decisions, plan, PR/CI and candidate/context state.
 Resume the affected stage, not a new run; settled questions stay settled. Formatting-only source
 edits continue; material clear edits refresh affected review; unresolved contradictions need one
 clarification. Revalidate changed base/context assumptions, rebuild stale inputs, and issue

@@ -47,9 +47,9 @@ function doctor() {
   }
   console.log('\nPublic actions in this plugin:');
   console.log('  /specify     - Requirements and technical design interview -> reviewed specification');
-  console.log('  /run         - Deliver Jira or local requirements to a verified draft MR');
+  console.log('  /run         - Deliver local requirements to a verified draft pull request');
   console.log('  /review      - Multi-persona independent review challenging specifications, plans, diffs');
-  console.log('  /walkthrough - Progressive layered explanation of Jira ticket or merge request');
+  console.log('  /walkthrough - Progressive layered explanation of a merge request or local change');
   console.log('  /quiz        - Diagnostic comprehension quiz and understanding report');
 }
 

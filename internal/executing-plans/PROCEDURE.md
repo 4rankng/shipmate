@@ -25,7 +25,7 @@ Before edits:
 7. resolve any gap that changes scope, security, or architecture before proceeding. Outside L3,
    return it to the user; inside L3, clarify one material decision and preserve progress for resume.
 
-Never begin on a protected default branch unless the user explicitly authorizes that exact workflow and bank policy permits it.
+Never begin on a protected default branch unless the user explicitly authorizes that exact workflow and repository policy permits it.
 
 ## Task loop
 
@@ -41,9 +41,8 @@ Adapted from Matt Pocock's [implement-spec execution lessons](https://www.aihero
 the guidance below is self-contained, not an upstream skill invocation or runtime dependency.
 
 Execute small changes sequentially. For a multi-slice plan, start only work whose prerequisite
-code is tested and integrated into the run-owned feature branch. An open Jira ticket is not a
-blocker when its required code is already present; a closed ticket is not proof that it is present.
-Keep completion evidence and integrated commits in existing local run state, not Jira comments.
+code is tested and integrated into the run-owned feature branch. Keep completion evidence and
+integrated commits in existing local run state.
 
 Use parallel implementers only when explicitly authorized and the native harness supports separate
 writable worktrees. Otherwise continue sequentially. The controller owns integration on the
@@ -123,7 +122,7 @@ Ordinary reversible implementation details do not need another user approval.
 Outside `shipmate`, local implementation authorization does not imply authorization to:
 
 - push a branch;
-- create or update a GitLab merge request;
+- create or update a merge request;
 - post comments;
 - retry, cancel, or alter a pipeline;
 - create a tag or release;
@@ -157,10 +156,10 @@ Optional hook failures are advisory. Do not invent credentials, disable checks, 
 
 After all tasks, invoke the bundled
 [`verification-before-completion`](../verification-before-completion/PROCEDURE.md) procedure. Report only
-results supported by fresh output. Distinguish local verification from GitLab pipeline status,
+results supported by fresh output. Distinguish local verification from remote pipeline status,
 security approval, release readiness, and merge status.
 
-Verify the affected domain invariants and external-system boundaries. For money-handling changes,
+Verify the affected domain invariants and external-system boundaries. For value-handling changes,
 this conditionally includes provider, ledger, settlement, reversal, reconciliation, fee,
 receivable, idempotency, and audit invariants. Use synthetic data. If a required tool is absent, use a safe manual or sequential check when
 possible and report the gap; never invent execution evidence.

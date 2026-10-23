@@ -1,4 +1,4 @@
-"""Validate Specify drafts without changing files or publishing to Jira."""
+"""Validate Specify drafts without changing files or publishing anywhere."""
 import argparse
 import json
 import re

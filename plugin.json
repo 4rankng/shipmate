@@ -1,14 +1,13 @@
 {
   "name": "shipmate",
-  "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+  "description": "Delivers engineering work from local requirements, with reviews, walkthroughs and quizzes for local changes and pull requests.",
   "version": "4.5.0",
   "author": {
-    "name": "GXS Engineering",
-    "email": "frank.nguyen@gxs.com.sg"
+    "name": "Frank Nguyen"
   },
-  "repository": "https://gitlab.com/gx-regional/dakota/payment",
+  "repository": "https://github.com/4rankng/shipmate",
   "license": "MIT",
-  "keywords": ["engineering", "sdlc", "requirements", "tdd", "gitlab", "code-review"],
+  "keywords": ["engineering", "sdlc", "requirements", "tdd", "github", "code-review"],
   "category": "software-development",
   "skills": "./skills/"
 }

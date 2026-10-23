@@ -1,8 +1,8 @@
 {
   "name": "shipmate",
   "version": "4.5.0",
-  "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
-  "author": "GXS Engineering",
+  "description": "Delivers engineering work from local requirements, with reviews, walkthroughs and quizzes for local changes and pull requests.",
+  "author": "Frank Nguyen",
   "repository": "https://github.com/4rankng/shipmate",
   "license": "MIT",
   "rules": "./.cursor/rules/"

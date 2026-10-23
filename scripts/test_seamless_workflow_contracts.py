@@ -19,7 +19,6 @@ class SeamlessWorkflowContractTests(TestCase):
             "plans": "internal/writing-plans/PROCEDURE.md",
             "executing": "internal/executing-plans/PROCEDURE.md",
             "verification": "internal/verification-before-completion/PROCEDURE.md",
-            "gitlab": "internal/gitlab-mr/PROCEDURE.md",
             "reviewer": "internal/reviewer/PROCEDURE.md",
             "freshness": "internal/reviewer/references/review-freshness.md",
             "catalog": "internal/reviewer/references/persona-catalog.md",
@@ -61,7 +60,7 @@ class SeamlessWorkflowContractTests(TestCase):
 
     def test_plan_is_machine_local_unless_user_or_repository_requires_commit(self):
         self.assertContains("policy", "machine-local by default")
-        self.assertContains("run", "Committing a plan into the MR is not required")
+        self.assertContains("run", "Committing a plan into the PR is not required")
         self.assertContains("plans", "Persist the plan machine-locally by default")
         self.assertContains("plans", "Commit a design document only when repository policy\nor the user requires one")
         self.assertContains("candidate", "machine-local by default")
@@ -82,7 +81,6 @@ class SeamlessWorkflowContractTests(TestCase):
         self.assertContains("reviewer", "prior `PASS` is never reused for a new SHA")
         self.assertContains("freshness", "require an independent delta or full readback")
         self.assertContains("verification", "never carry an\nold PASS to a new SHA")
-        self.assertContains("gitlab", "A successful pipeline for an older SHA is stale evidence")
 
     def test_each_phase_is_independent_even_for_low_risk(self):
         self.assertNormalizedContains("policy", "one independent `requirements-testability` specification reviewer")
@@ -109,12 +107,11 @@ class SeamlessWorkflowContractTests(TestCase):
 
     def test_safe_fallback_preserves_authority_and_distinguishes_optional_from_required(self):
         self.assertContains("policy", "Never bypass a denied permission")
-        self.assertContains("requirements", "do not silently change source or bypass permissions")
         self.assertContains("executing", "Do not invent credentials, disable checks, or expand permissions")
-        self.assertContains("policy", "Optional hook/telemetry failures are advisory")
+        self.assertContains("policy", "Optional hook failures are advisory")
         self.assertContains("policy", "Required failed tests,\nsecurity findings, and secret hits prevent successful delivery")
         self.assertContains("verification", "Report required checks as passed, failed, unavailable or pending")
-        self.assertContains("verification", "Optional hook/telemetry failures are advisory")
+        self.assertContains("verification", "Optional hook failures are advisory")
         for status in ("`needs-input`", "`review-pending`", "`verification-pending`", "`stopped`"):
             self.assertIn(status, self.docs["policy"])
 

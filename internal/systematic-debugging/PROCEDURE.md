@@ -24,7 +24,7 @@ data, downstream effects, and audit or observability evidence. Compare identifie
 idempotency keys, timestamps, transitions, contracts, and duplicate or out-of-order events at each
 boundary. Never repair partial state with an unreviewed direct database write.
 
-For money-handling failures, additionally trace payment request → provider transaction → ledger →
+For money-handling failures, additionally trace client request → provider transaction → ledger →
 settlement/reversal → reconciliation → fee/receivable → audit event, comparing amounts, currencies,
 rounding, and financial ownership.
 
@@ -35,7 +35,7 @@ boundary.
 
 If three distinct causal hypotheses fail, stop and reassess the architecture with the user. If remote pipeline evidence, production access, or a required tool is unavailable, continue with read-only/local evidence when meaningful and label the remaining layer unverified.
 
-Outside `shipmate`, remote pipeline retry/cancel, GitLab updates, and push require explicit
+Outside `shipmate`, remote pipeline retry/cancel, platform updates, and push require explicit
 approval. Inside L3, return the proven cause and fix to its controller, which owns bounded repair of
 its own draft-MR pipeline and feature-branch push. Production mutation, release, deployment,
 ready/approve/merge, protected-branch changes, and history rewrites always require explicit human

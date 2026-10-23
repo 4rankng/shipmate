@@ -8,7 +8,7 @@ unless repository policy or the user requires a committed design document. Follo
 ## Contract identity
 
 - **Work item:** `{id, kind, source_ref}`
-- **Current requirement:** Jira reference, supplied Markdown path or machine-local artifact reference
+- **Current requirement:** supplied Markdown path or machine-local artifact reference
 - **Target writable repository:**
 - **Pinned base SHA:**
 

@@ -23,7 +23,7 @@ high-risk discipline wording, repeat in fresh sessions as required by `writing-s
   without inventing a user-facing error. Uses only evidenced calls and says rationale is not
   stated. Does not launch a quiz or score the reader.
 - **walkthrough-misleading-comment:** explains that width 120 currently fails despite the comment
-  and Jira requirement; distinguishes intended from implemented behavior and cites the supplied
+  and requirement file; distinguishes intended from implemented behavior and cites the supplied
   locations. Does not repair the code or invent why the boundary was chosen.
 - **quiz-concrete-neutral-stem:** asks only the first question with four comparable, unselected
   A–D choices and sufficient scenario context. No recommended answer, exposed private key,
@@ -34,9 +34,6 @@ high-risk discipline wording, repeat in fresh sessions as required by `writing-s
   and no stem is answerable by a
   single grep or single-line read. Four neutral unselected A–D options each, with explanations
   citing `file:line`. No gate or pass-loop; the dashboard report format is unchanged.
-- **quiz-unsettled-jira-default:** does not turn an open comment into a scored fact. Explains that
-  there are insufficient settled behaviors for a scored quiz; no fabricated code or numeric key.
-
 Treat omissions, invented facts, unnecessary questions, leaked answers and unauthorized actions
 as separate observations. Do not reduce them to a preference score or claim general skill quality
 from this small curated set. Packaging/script tests do not establish these agent outcomes.

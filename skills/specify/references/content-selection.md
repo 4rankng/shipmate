@@ -4,7 +4,7 @@ An overloaded requirement is not fixed by replacing adjectives or hiding a long 
 table. First identify the change this ticket owns, the rules it relies on, and the details that
 belong in the implementation plan. Then apply the bundled interview and unslop methods.
 
-For Jira rewrites, back up the complete original locally before replacement. Do not duplicate it
+Back up the complete original locally before replacement. Do not duplicate it
 in the new description. Aim for 1,200 characters and fewer than 150 words for the entire draft,
 including links and headings. Exceed that target only for a strong reason stated beside the draft.
 Retain essential outcomes, not historical narration.
@@ -80,7 +80,7 @@ Before presenting a rewrite, compare it with the source for changed obligations:
 always/only/never, deadlines, counts, identifiers, permitted actors and the order of side effects.
 A shorter sentence is wrong if it makes required recovery optional or drops a timing constraint.
 For a dense contract, keep a temporary coverage note mapping each material source rule to its
-retained statement or verified dependency. Do not publish that note as another Jira section.
+retained statement or verified dependency. Do not publish that note as another specification section.
 
 Do not move an essential rule into inaccessible machine-local notes just to shorten the ticket.
 Notes may hold implementation mechanics; the human requirement or a named, verified dependency

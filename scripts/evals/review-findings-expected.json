@@ -2,7 +2,7 @@
   "offbyone-ac-limit": {
     "verdict": "CHANGES_REQUIRED",
     "key_bug": {
-      "file": "payout/limit.go",
+      "file": "export/limit.go",
       "lines": [
         14,
         14

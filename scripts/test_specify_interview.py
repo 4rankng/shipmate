@@ -20,7 +20,6 @@ class SpecifyInterviewTests(TestCase):
             "strong\nreason",
             "never\ntruncate or remove material requirements",
             "technical business analyst",
-            "set-summary",
             "Technical Notes",
             "scripts/validate_spec.py",
         ):
@@ -53,14 +52,14 @@ class SpecifyInterviewTests(TestCase):
         for draft in drafts:
             self.assertTrue(validate(draft)["valid"], validate(draft))
         recovery = drafts[1]
-        for rule in ("## Definitions", "original result and event ID", "published to Kafka for Payment Core", "210 or 400",
-                     "Out of Scope\n- Duplicate-event handling in Payment Core (RGPAYM-3956)",
+        for rule in ("## Definitions", "original result and event ID", "published to Kafka for the report service", "210 or 400",
+                     "Out of Scope\n- Duplicate-event handling in the report service (ABC-3956)",
                      "Resending acknowledgments", "AC-06 (Buyer cancel)"):
             self.assertIn(rule, recovery)
         self.assertNotIn("exactly-once", recovery.lower())
         self.assertFalse(validate(recovery)["within_target"])
         self.assertIn("reason given in chat", text)
-        self.assertIn("Proposed Jira summary", text)
+        self.assertIn("Proposed summary", text)
 
     def test_translation_checks_evidence_not_just_word_count(self):
         selection = (ROOT / "skills/specify/references/content-selection.md").read_text()

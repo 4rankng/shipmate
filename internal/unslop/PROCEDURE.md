@@ -1,6 +1,6 @@
 ---
 name: unslop
-description: Use when drafting or revising human-facing implementation plans, technical documents, Jira or MR content, comments, and summaries so the writing is concise, concrete, and free of generic AI phrasing
+description: Use when drafting or revising human-facing implementation plans, technical documents, MR content, comments, and summaries so the writing is concise, concrete, and free of generic AI phrasing
 ---
 
 # Unslop technical writing
@@ -10,8 +10,8 @@ description: Use when drafting or revising human-facing implementation plans, te
 Edit human-facing prose without changing its technical meaning. Make the text sound like an
 engineer who understands this system: direct, specific, evidence-backed, and easy to review.
 
-Apply this as the final writing pass for implementation plans, technical designs, Jira
-descriptions and comments, Confluence pages, MR descriptions and comments, research findings, and
+Apply this as the final writing pass for implementation plans, technical designs,
+requirement documents, MR descriptions and comments, research findings, and
 handoff summaries.
 
 Do not apply it to source code, tests, commands, logs, SQL, JSON/YAML contracts, hashes, generated
@@ -43,7 +43,7 @@ source is local and pinned; do not install pstack or load an external skill.
 - Separate verified facts, inferences, decisions, and unverified items.
 - In verification artifacts and chat handoffs, give commands and results instead of saying
   "tested" or "validated." MR descriptions follow the bundled
-  [description guidance](../gitlab-mr/references/mr-description.md) and omit testing details.
+  the delivery procedure's description guidance and omit testing details.
 - Keep risks concrete: describe the failure and blast radius, not a generic risk label alone.
 - End handoffs with the next human action when one exists.
 - Prefer a short table or diagram only when it makes branching, ordering, state, or traceability

@@ -58,4 +58,4 @@ with the existing freshness rationale. Do not reopen resolved arguments without 
 new evidence or repeat earlier phases for unrelated formatting changes.
 
 Persist the responder response separately with its input identity and SHA-256. It is traceability
-for the controller, never MR/Jira prose and never a candidate-review verdict or cohort member.
+for the controller, never MR prose and never a candidate-review verdict or cohort member.

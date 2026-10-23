@@ -6,8 +6,8 @@ third_party/sphinx-ci/lib/claude.ts.txt. Shipmate defaults: baseline 5, 3-8 ques
 one band higher for money-moving or security-sensitive changes.
 
 Usage:
-    git diff "$BASE...HEAD" -- . ':!*.lock' | python3 "${PAYMENT_PLUGIN_ROOT}/scripts/quiz_size.py"
-    glab mr diff 1234 | python3 "${PAYMENT_PLUGIN_ROOT}/scripts/quiz_size.py" --sensitive
+    git diff "$BASE...HEAD" -- . ':!*.lock' | python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/quiz_size.py"
+    gh pr diff 1234 | python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/quiz_size.py" --sensitive
 
 Prints JSON: lines, files, weight, questions and skip (true when the diff is too small to quiz,
 the sphinx-ci "No quiz needed" rule).

@@ -1,5 +1,5 @@
 {
-  "instructions": "Development trials only. Load the selected Shipmate skill and its required references. Give the agent one brief plus its evidence, without the companion rubric. No live tracker, GitLab or repository writes are authorized. Observe the next response; these cases are not production accuracy estimates. For cases with next_user_message, observe the first response before supplying that message and then observe how the answer is applied; keep expected observations in the separate rubric.",
+  "instructions": "Development trials only. Load the selected Shipmate skill and its required references. Give the agent one brief plus its evidence, without the companion rubric. No live tracker or repository writes are authorized. Observe the next response; these cases are not production accuracy estimates. For cases with next_user_message, observe the first response before supplying that message and then observe how the answer is applied; keep expected observations in the separate rubric.",
   "cases": [
     {
       "id": "specify-settled-literal-status",
@@ -35,7 +35,7 @@
       "id": "walkthrough-misleading-comment",
       "skill": "walkthrough",
       "brief": "Explain this MR's current width validation with one boundary example. Summary only; no prediction question or edits.",
-      "evidence": "Synthetic inspected revision demo-2: report.go:20 comment says '64 through 120 inclusive'; report.go:21 rejects width < 64 or width >= 120; report.go:22 returns ErrWidth. Jira AC-01 requires 64 through 120 inclusive. The supplied source has not changed. No rationale for the incorrect boundary was recorded."
+      "evidence": "Synthetic inspected revision demo-2: report.go:20 comment says '64 through 120 inclusive'; report.go:21 rejects width < 64 or width >= 120; report.go:22 returns ErrWidth. Requirement AC-01 requires 64 through 120 inclusive. The supplied source has not changed. No rationale for the incorrect boundary was recorded."
     },
     {
       "id": "quiz-concrete-neutral-stem",
@@ -48,12 +48,6 @@
       "skill": "quiz",
       "brief": "Start a quiz on this MR; make it about understanding, not trivia.",
       "evidence": "Synthetic MR source demo-3 has three settled behaviors: report widths 64\u2013120 inclusive are accepted and width 63 is rejected; an incomplete quiz has a provisional score but no final level or pass; an unverified source warns that the result covers the earlier snapshot. Each behavior is directly supported by code and a regression test. A caller module renders terminal tables and passes its configured column count to the width API. There is enough context for five questions. No walkthrough has been given and no actual participant response has been submitted."
-    },
-    {
-      "id": "quiz-unsettled-jira-default",
-      "skill": "quiz",
-      "brief": "Quiz me on this Jira ticket's retry behavior. I want scored questions, not implementation guesses.",
-      "evidence": "The ticket requires retrying failed publication but has no settled attempt limit, delay or handling of unknown outcomes. One open comment proposes three attempts; another proposes five. No accepted decision resolves them. No linked implementation was selected as the quiz source."
     },
     {
       "id": "specify-contextual-design-choice",

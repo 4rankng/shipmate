@@ -1,10 +1,9 @@
 {
-  "name": "@gx-marketplace/shipmate",
+  "name": "@shipmate-marketplace/shipmate",
   "version": "4.5.0",
-  "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+  "description": "Delivers engineering work from local requirements, with reviews, walkthroughs and quizzes for local changes and pull requests.",
   "author": {
-    "name": "GXS Engineering",
-    "email": "frank.nguyen@gxs.com.sg"
+    "name": "Frank Nguyen"
   },
   "repository": {
     "type": "git",
@@ -22,7 +21,7 @@
     "sdlc",
     "requirements",
     "tdd",
-    "gitlab",
+    "github",
     "code-review",
     "pi-package",
     "pi-extension",
@@ -40,7 +39,7 @@
   },
   "omp": {
     "name": "shipmate",
-    "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+    "description": "Delivers engineering work from local requirements, with reviews, walkthroughs and quizzes for local changes and pull requests.",
     "skills": "./skills",
     "commands": "./commands"
   },

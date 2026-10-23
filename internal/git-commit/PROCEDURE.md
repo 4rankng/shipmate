@@ -1,11 +1,11 @@
 ---
 name: git-commit
-description: Use when committing work, staging changes, or creating a branch for a Jira or local work item
+description: Use when committing work, staging changes, or creating a branch for a local work item
 ---
 
 # Commits and Branches
 
-Derive `PAYMENT_PLUGIN_ROOT` from this procedure's installed path (the directory containing
+Derive `SHIPMATE_PLUGIN_ROOT` from this procedure's installed path (the directory containing
 `plugin.json`) before running bundled commands; do not assume a host-provided plugin-root variable.
 
 ## Authority
@@ -18,9 +18,8 @@ Never without a human: commit to the repository's default branch or any protecte
 ## Branch naming
 
 Use the selected `work_item.id` followed by a short kebab summary, separated by `-` or `/`. For
-example, `TEAM-3878-ai-marketplace` in Jira mode or `local-0123456789ab/fix-timeout` in Local
-Markdown mode. A bare Jira key is acceptable when the ticket is the whole story. Derive a Jira key
-only from a real issue; never invent one. Use the stable run-owned local ID recorded during intake.
+example, `local-0123456789ab/fix-timeout`. Derive the work-item ID only from the stable run-owned
+local ID recorded during intake; never invent one.
 Prefer the immutable full base SHA pinned by L3. Outside L3, resolve the declared default branch
 from validated repository metadata or `refs/remotes/origin/HEAD`, fetch that exact branch, and pin
 its full SHA before branching. Never guess `master` or `main`:
@@ -41,8 +40,7 @@ or repeating unrelated phases. Base identity establishes reviewed code, not a de
 
 ## Commit message
 
-Inspect the target repository's commit policy first. Use its required format exactly. The GXS
-Jira-key format below applies only when a real Jira work item exists:
+Inspect the target repository's commit/subject policy first. Use its required format exactly. A ticket-key subject format below applies only when that repository's policy requires one:
 
 ```
 <type>: [<TICKET-KEY>] <imperative summary under 72 chars>
@@ -50,11 +48,11 @@ Jira-key format below applies only when a real Jira work item exists:
 <optional body: why, not what — the diff already says what>
 ```
 
-Allowed company types are **`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, and
+Allowed types are **`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, and
 `chore`**. When the change is scoped to one service, name it after the ticket:
-`feat: [RGPAYM-3742] payment-experience: risk-treatment init`.
+`feat: [ABC-3742] exports: risk-treatment init`.
 
-Some GXS GitLab repositories enforce this subject prefix for ordinary and squash commits:
+Some repositories enforce this subject prefix for ordinary and squash commits:
 
 ```regex
 ^(feat|fix|docs|style|refactor|perf|test|chore): \[[A-Z]+-[0-9]+\] .+$
@@ -66,44 +64,44 @@ are separate company-policy exceptions. Do not use those prefixes to bypass the 
 These are invalid:
 
 ```text
-[feat]: [RGPAYM-3806] improve workflow
-feat(l3): [RGPAYM-3806] improve workflow
-[RGPAYM-3806] improve workflow
-feat: RGPAYM-3806 improve workflow
+[feat]: [ABC-1234] improve workflow
+feat(l3): [ABC-1234] improve workflow
+[ABC-1234] improve workflow
+feat: ABC-1234 improve workflow
 ```
 
-In Local Markdown mode, use the repository's ticketless/conventional format and include the local
-work-item ID where accepted, for example `fix: [local-0123456789ab] handle stale state`. If policy
-requires a Jira key and has no ticketless form, preserve the verified local branch and report that
-delivery constraint and ask for the approved project key or documented alternative; do not invent
-a Jira issue or restart otherwise valid requirements/implementation. **Never append a trailer.** No `Co-authored-by`, no
+Use the repository's conventional subject format and include the local
+work-item ID where accepted, for example `fix: [local-0123456789ab] handle stale state`. If the target repository's commit/subject policy
+requires a ticket key and has no ticketless form, preserve the verified local branch and report that
+delivery constraint and ask for the documented key convention or alternative; do not invent
+a ticket key or restart otherwise valid requirements/implementation. **Never append a trailer.** No `Co-authored-by`, no
 `Signed-off-by`, no tool attribution.
 
 Confirm against `git log --oneline -20` before the first commit on an unfamiliar repo.
 
 ## Squash commit message and MR title
 
-GitLab commonly seeds the squash commit subject from the MR title. Therefore the MR title must use
-the same target-repository format as a commit subject; do not rely on `glab mr create --fill` to
+The hosting platform commonly seeds the squash commit subject from the MR title. Therefore the MR title must use
+the same target-repository format as a commit subject; do not rely on a `--fill` option to
 choose a compliant title.
 
 Before creating or updating the MR:
 
 1. Choose the squash subject from the overall delivered change, not merely the last commit.
-2. Keep the same real Jira key or local work-item ID used by the branch and commits.
-3. Validate it locally against the target repository's policy. For the GXS Jira-key policy:
+2. Keep the same work-item ID used by the branch and commits.
+3. Validate it locally against the target repository's policy. For a ticket-key subject policy:
 
    ```bash
-   squash_subject="feat: [RGPAYM-3806] improve L3 workflow"
+   squash_subject="feat: [ABC-1234] improve L3 workflow"
    printf '%s\n' "$squash_subject" \
      | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|chore): \[[A-Z]+-[0-9]+\] .+$'
    ```
 
-4. Hand the validated subject to the bundled [`gitlab-mr`](../gitlab-mr/PROCEDURE.md) procedure as the
+4. Hand the validated subject to the bundled MR-delivery procedure as the
    explicit MR title. Never let `--fill` choose
    the title.
 
-5. Read the MR back and verify its title still matches. GitLab may display a draft as
+5. Read the MR back and verify its title still matches. The platform may display a draft as
    `Draft: <squash subject>`; strip only that UI prefix for validation and do not mark the MR ready.
    Before an authorized merge, the human or merge operator must verify the displayed squash commit
    message uses the same compliant subject.
@@ -119,7 +117,7 @@ the pushed commits independently.
 3. Scan the staged set. This is not optional:
 
    ```bash
-   python3 "${PAYMENT_PLUGIN_ROOT}/scripts/scan_secrets.py" --staged
+   python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/scan_secrets.py" --staged
    ```
 
    A non-zero exit blocks the commit. Fix it by replacing the value with a variable reference or

@@ -62,15 +62,15 @@ Do not look up personal identity or imply identity verification. Record walkthro
 Run `python3 <plugin-root>/scripts/quiz_report.py --format dashboard` with the same private
 scoring input on stdin. Add a `report` object for observed session context:
 
-- `target`: Jira key or project/MR IID and a short title.
-- `source`: full MR source SHA, or Jira updated time and decision-comment identities used.
+- `target`: branch, pull request IID or diff reference and a short title.
+- `source`: full PR source SHA and inspected revision.
 - `session`: actual date/time and timezone; `participant` defaults to `Chat participant`.
 - `attempt`: known integer 1–3, or `null` when unknown. Remaining attempts are derived, not guessed.
 - `walkthrough`: `Provided in this chat`, `None in this chat`, or `Not known`.
 - `coverage`: a short scope statement including important exclusions.
 - `replaced`: number of discarded/replaced questions, only when known.
 - `revisit`: up to eight objects with `detail` (one concise correction) and `source` (verified
-  code location or Jira decision reference). Group related misses where useful, preserving the
+  code location).. Group related misses where useful, preserving the
   frozen topic results. Do not invent code snippets or explanations to fill the panel.
 - `focus`: optional, one short pattern supported by the misses; omit when no pattern is evidenced.
 
