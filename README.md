@@ -156,6 +156,34 @@ cp /path/to/shipmate/.github/copilot-instructions.md .github/
 
 ---
 
+## Choosing an Action
+
+| You want to… | Use |
+|---|---|
+| Turn a Jira ticket, local file, or rough task into a reviewed requirement contract | `/specify` |
+| Take a settled requirement to a verified draft MR through TDD and review | `/run` |
+| Get independent, evidence-bound challenge of a spec, plan, or candidate | `/review` |
+| Understand a ticket or change in layers, with grounded diagrams | `/walkthrough` |
+| Check your own understanding of a change before it reaches production | `/quiz` |
+
+## Harness Support
+
+| Harness | Slash commands | Adapter source | Notes |
+|---|---|---|---|
+| Claude Code | ✅ `/specify` `/run` `/review` `/walkthrough` `/quiz` | marketplace or `--plugin-dir` | validate with `claude plugin validate` |
+| Oh-My-Pi / Pi | ✅ all five | plugin link / `pi install` | commands and skills auto-enabled |
+| OpenAI Codex CLI | `$shipmate:*` agent actions | `.codex-plugin/` | manifest-validated |
+| OpenCode | five skills auto-registered | `opencode.mjs` | add the path to `plugins` |
+| Antigravity / Gemini CLI | plugin / extension load | `configs/antigravity-cli/` | validate with `agy plugin validate` |
+| Cursor | rules (no slash commands) | `.cursor/rules/`, `.cursorrules` | trigger by intent in chat |
+| Windsurf | workflows | `.windsurf/workflows/` | trigger `/specify` etc. in Cascade |
+| Continue.dev | prompts | `~/.continue/prompts/` | copy from `.continue/prompts/` |
+| GitHub Copilot | instructions | `.github/copilot-instructions.md` | capability routing only |
+
+Every command, rule, workflow and prompt surface is **generated** from `skills/*/SKILL.md` by
+`scripts/gen_adapters.py` — edit the skill, then regenerate. `gen_adapters.py --check` and
+`stamp_version.py --check` run in CI, so hand-edited copies and version drift fail the build.
+
 ## Quick Setup Script
 
 Shipmate provides an automated installer that checks for installed harnesses and sets up all configurations:
