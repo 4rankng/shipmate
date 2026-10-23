@@ -143,11 +143,14 @@ upstream example omits this Shipmate-only field. Shipmate adds:
 - the reader may be the author or a reviewer, so phrase questions about "this change", not "your code";
 - add failure scenarios to the upstream types, for example "the downstream call times out after
   accepting the request and the caller retries — what prevents a duplicate?";
-- avoid trivia such as variable names, formatting or line counts;
+- avoid trivia such as variable names, formatting or line counts, and no question may be
+  answerable by a single grep or by reading one line;
 - for MR/local-branch questions, the quiz never asks about behaviour the code does not evidence.
   For Jira questions, require settled ticket evidence. When unsure, drop the question;
-- spread questions across the riskiest areas. Distribute the correct letter across A–D instead of
-  favouring one position.
+- cover intent (requirements/acceptance-criteria alignment), mechanism (how the change works),
+  blast radius (callers and downstream contracts), failure modes, and security/money paths; with 5
+  or more planned questions sample at least 3 distinct tiers, with 3–4 questions at least 2.
+  Distribute the correct letter across A–D instead of favouring one position.
 - write best-answer items: keep options parallel in length and grammar (the correct option must not be the noticeably longest or most detailed); no "all/none of the above"; no absolute words such as always, never or "all cases" unless the source says so; no stem word repeated only in the correct option; the stem sets up the scenario without stating the conclusion. Build each distractor from a real misconception: the pre-change behaviour, a sibling code path's behaviour, or a guard this change does not have.
 
 ## Make each question self-contained

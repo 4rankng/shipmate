@@ -44,6 +44,12 @@
       "evidence": "Synthetic MR source demo-3 has three settled behaviors: report widths 64\u2013120 inclusive are accepted and width 63 is rejected; an incomplete quiz has a provisional score but no final level or pass; an unverified source warns that the result covers the earlier snapshot. Each behavior is directly supported by code and a regression test. There is enough context for three questions. No actual participant response has been submitted."
     },
     {
+      "id": "quiz-tier-coverage",
+      "skill": "quiz",
+      "brief": "Start a quiz on this MR; make it about understanding, not trivia.",
+      "evidence": "Synthetic MR source demo-3 has three settled behaviors: report widths 64\u2013120 inclusive are accepted and width 63 is rejected; an incomplete quiz has a provisional score but no final level or pass; an unverified source warns that the result covers the earlier snapshot. Each behavior is directly supported by code and a regression test. A caller module renders terminal tables and passes its configured column count to the width API. There is enough context for five questions. No walkthrough has been given and no actual participant response has been submitted."
+    },
+    {
       "id": "quiz-unsettled-jira-default",
       "skill": "quiz",
       "brief": "Quiz me on this Jira ticket's retry behavior. I want scored questions, not implementation guesses.",

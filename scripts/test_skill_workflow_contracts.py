@@ -475,6 +475,12 @@ class QuizContractTests(TestCase):
         self.assertIn("would answer a question not yet asked", self.normalized)
         self.assertIn("':!go.sum'", self.quiz)
 
+    def test_quiz_questions_cover_named_tiers_and_resist_grep(self):
+        self.assertIn("intent (requirements/acceptance-criteria alignment)", self.normalized)
+        self.assertIn("blast radius", self.normalized)
+        self.assertIn("at least 3 distinct tiers", self.normalized)
+        self.assertIn("answerable by a single grep or by reading one line", self.normalized)
+
 
 class WalkthroughContractTests(TestCase):
     @classmethod
