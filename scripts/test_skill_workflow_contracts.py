@@ -502,6 +502,28 @@ class WalkthroughContractTests(TestCase):
     def test_walkthrough_cites_the_source_revision(self):
         self.assertIn("Never cite line numbers from a different revision", self.context)
 
+    def test_walkthrough_maps_boundaries_and_pauses_at_checkpoints(self):
+        self.assertIn("Close the orientation with a boundary map", self.skill)
+        self.assertIn("Never present two layers in one pass", self.skill)
+        self.assertIn("stop and offer the reader", self.skill)
+
+    def test_walkthrough_visuals_are_bounded_grounded_and_request_only(self):
+        self.assertIn("only when it already exists", self.skill)
+        self.assertIn("only when the reader explicitly asks for an artifact", self.skill)
+        self.assertIn("omit a visual rather than invent its participants", self.skill)
+        diagrams = " ".join(
+            (PLUGIN_ROOT / "skills/walkthrough/references/diagrams.md")
+            .read_text(encoding="utf-8")
+            .split()
+        )
+        self.assertIn("One diagram per layer, at most 12 nodes", diagrams)
+        self.assertIn("omitted, not invented", diagrams)
+        self.assertIn("flowchart TD", diagrams)
+        self.assertIn("80 columns", diagrams)
+        self.assertIn("Never install, download or build a renderer", diagrams)
+        self.assertIn("walkthrough-<topic>.html", diagrams)
+        self.assertIn("only when the reader explicitly asks", diagrams)
+
 
 class PluginVersionContractTests(TestCase):
     def test_local_plugin_manifests_are_aligned(self):

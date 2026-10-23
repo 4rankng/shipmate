@@ -1,5 +1,5 @@
 ---
-description: Shipmate walkthrough workflow for explaining tickets and MRs in layered detail
+description: Shipmate walkthrough workflow for explaining tickets and MRs in layered detail with boundary maps and diagrams
 globs: **/*
 alwaysApply: false
 ---
@@ -8,6 +8,6 @@ alwaysApply: false
 
 When explaining a Jira ticket, GitLab MR, or branch:
 1. Walkthrough is an educational aid, not a formal review or approval.
-2. Structure explanations in progressive layers: Intent -> Architecture -> Changes -> Verification.
+2. Structure explanations in progressive layers: orientation with a boundary map, then behavior, interactions, details — stopping at each layer's checkpoint.
 3. Read-only operation: do not change repository or ticket state.
 4. Follow the full procedure at `skills/walkthrough/SKILL.md`.

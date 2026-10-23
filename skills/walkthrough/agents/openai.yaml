@@ -1,4 +1,4 @@
 interface:
   display_name: "Walkthrough"
-  short_description: "Explore a Jira ticket or merge request in layers"
-  default_prompt: "Use $shipmate:walkthrough to explain this Jira ticket or merge request, with a sequence diagram when useful."
+  short_description: "Explore a Jira ticket or merge request in layered diagrams"
+  default_prompt: "Use $shipmate:walkthrough to explain this Jira ticket or merge request in layers, with a boundary map and sequence diagrams where useful."
