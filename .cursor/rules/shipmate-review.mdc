@@ -1,5 +1,5 @@
 ---
-description: Use when an L3 specification, implementation plan, or immutable code candidate must receive independent evidence-bound review before progressing
+description: Shipmate Review workflow
 globs: **/*
 alwaysApply: false
 ---
@@ -12,24 +12,20 @@ Apply [contextual questions](../../internal/user-questions.md)) when a finding n
 decision: show its triggering example, consequence and viable choices, not an unexplained verdict.
 
 This is one of the plugin's five public entrypoints. It challenges an artifact without changing
-the artifact, its repository, Jira, Confluence, GitLab, or pipeline state.
+the artifact, its repository, or pipeline state.
 
 Read the bundled [coding guideline](../../internal/coding-guideline.md)) and
 [secure engineering](../../internal/secure-engineering.md)). Check applicable rules against the
 selected artifact and affected code, not a generic checklist. Findings need concrete evidence and
 impact; these guides do not authorize fixes or demand irrelevant financial/service-creation work.
 
-Apply the shared
-[telemetry rules](../../internal/workflow-policy.md#langfuse-metrics-and-workflow-status)): local
-run records stay off, and an already opted-in SNS session follows its optional skill-session
-reporting step for this actual `review` entry.
 Standalone completion means the requested review was delivered, not that its artifact passed.
 
 ## Select one review phase
 
 Use the phase explicitly requested by the user. Otherwise infer it from the supplied artifact:
 
-- **Specification** — requirements, outcomes, constraints, acceptance criteria, or a Jira/local Markdown contract.
+- **Specification** — requirements, outcomes, constraints, acceptance criteria, or a local Markdown contract.
 - **Plan** — an implementation plan that maps settled requirements to concrete changes and checks.
 - **Candidate** — an immutable commit/MR candidate with its complete diff and verification evidence.
 

@@ -2,7 +2,7 @@
 """Validate the machine-local run state file that backs /run resume.
 
 Read JSON from a file path or stdin ("-" with --check): {"version": 1,
-"work_item": {"key": "...", "source": "jira|local"}, "stage": 0-11,
+"work_item": {"key": "...", "source": "file|local"}, "stage": 0-11,
 "updated_at": "...", "decisions": [{"text", "source"}], "candidate":
 {"branch", "sha", "base"}, "review": {"roster", "verdict"},
 "pending": {"question"}}. Prints a machine-readable verdict; exit 1 means
@@ -45,12 +45,12 @@ def validate(state) -> dict:
     work_item = state.get("work_item")
     if not isinstance(work_item, dict):
         errors.append("work_item.key must be a nonempty string")
-        errors.append("work_item.source must be jira or local")
+        errors.append("work_item.source must be file or local")
     else:
         if not _nonempty(work_item.get("key")):
             errors.append("work_item.key must be a nonempty string")
-        if work_item.get("source") not in ("jira", "local"):
-            errors.append("work_item.source must be jira or local")
+        if work_item.get("source") not in ("file", "local"):
+            errors.append("work_item.source must be file or local")
     if not _iso8601(state.get("updated_at")):
         errors.append("updated_at must be a nonempty ISO-8601 string")
     decisions = state.get("decisions")

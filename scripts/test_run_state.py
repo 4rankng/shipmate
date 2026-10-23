@@ -49,7 +49,7 @@ class ValidateRunStateTests(unittest.TestCase):
         result = validate({"version": 1, "stage": 3})
         self.assertFalse(result["valid"])
         self.assertIn("work_item.key must be a nonempty string", result["errors"])
-        self.assertIn("work_item.source must be jira or local", result["errors"])
+        self.assertIn("work_item.source must be file or local", result["errors"])
         self.assertIn("updated_at must be a nonempty ISO-8601 string", result["errors"])
 
     def test_rejects_malformed_decision_and_pending_entries(self):

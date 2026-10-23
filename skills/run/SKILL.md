@@ -36,8 +36,7 @@ successful completion.
 
 ## Preflight
 
-Derive `SHIPMATE_PLUGIN_ROOT` from this skill's ancestor containing `plugin.json` (a compatibility
-name, not a payment-repository requirement). Read each stage's bundled procedure when that stage
+Derive `SHIPMATE_PLUGIN_ROOT` from this skill's ancestor containing `plugin.json`. Read each stage's bundled procedure when that stage
 starts — the index below is the router, not a pre-read list. Prefer bundled procedures over
 similarly named personal/global skills; same-authority tool recovery follows workflow-policy.
 

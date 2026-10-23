@@ -1,5 +1,11 @@
 {
-  "skills": ["specify", "run", "review", "walkthrough", "quiz"],
+  "skills": [
+    "specify",
+    "run",
+    "review",
+    "walkthrough",
+    "quiz"
+  ],
   "titles": {
     "specify": "Specify",
     "run": "Run",
@@ -22,7 +28,7 @@
     },
     ".cursor/rules": {
       "file": "shipmate-{skill}.mdc",
-      "header": "---\ndescription: {description}\nglobs: **/*\nalwaysApply: false\n---\n\n# Shipmate: {title}\n\n",
+      "header": "---\ndescription: Shipmate {title} workflow\nglobs: **/*\nalwaysApply: false\n---\n\n# Shipmate: {title}\n\n",
       "footer": "\n---\n\nFollow the complete procedure at `skills/{skill}/SKILL.md`.\n"
     },
     ".windsurf/workflows": {

@@ -1,5 +1,5 @@
 ---
-description: Use when someone wants a guided explanation of a Jira ticket, GitLab merge request or local branch, from behavior and interactions down to the important details, with layered visuals such as a boundary map, sequence diagrams and terminal diagrams
+description: Use when someone wants a guided explanation of a pull request or local branch, from behavior and interactions down to the important details, with layered visuals such as a boundary map, sequence diagrams and terminal diagrams
 argument-hint: "[jira-key-or-mr-url]"
 ---
 
@@ -22,14 +22,12 @@ prediction questions in a concrete situation; do not reveal a prediction's answe
 
 Explain the selected ticket or change so the reader can reason about it. This is a learning aid,
 not an independent review, correctness verdict or approval. Walkthrough is read-only: never edit
-code, Jira or Confluence, comment, label, approve, push, merge, deploy or change pipeline state.
+code, comment, approve, push, merge, deploy or change pipeline state.
 Keep the explanation in chat; do not create reports, run records or metrics files automatically.
 A walkthrough artifact the reader explicitly requested (see [diagrams](../skills/walkthrough/references/diagrams.md)))
 is the only exception and never replaces the chat explanation.
 
 Read [target context](../skills/walkthrough/references/target-context.md)) and load only the relevant source mode.
-If the user supplies Jira and an MR, use the ticket for intent and the MR for implementation;
-show mismatches without deciding which should change. A Jira-only session needs no code checkout.
 
 ## Explain in layers
 
@@ -41,14 +39,14 @@ reader sees the territory before any detail. Then walk through one coherent beha
 letting the reader choose where to drill deeper:
 
 1. **Behavior:** what changes or what the ticket requires, with a concrete before/after example
-   when supported. For Jira, explain acceptance criteria and exclusions in plain language.
+   when supported.
 2. **Interactions:** ideally a Mermaid `sequenceDiagram` — or its terminal rendering — with real
-   participants, important calls, responses and ordering. Mark Jira flows as required/proposed.
+   participants, important calls, responses and ordering.
    If no meaningful interaction is evidenced, omit the diagram rather than inventing participants
    or a runtime flow.
 3. **Details:** interfaces, fields/units, state transitions, ownership and the relevant failure or
-   retry paths. In MR mode, link exact changed code and affected callers. In Jira mode, cite ACs
-   and decision comments; do not invent code, endpoints or defaults to complete the narrative.
+   retry paths. Link exact changed code and affected callers; do not invent code, endpoints or defaults to
+   complete the narrative.
 
 Keep the initial pass short. Explain implementation details or pseudocode only when they help
 the reader understand this behavior; do not dump every file or test. Split a large MR into
