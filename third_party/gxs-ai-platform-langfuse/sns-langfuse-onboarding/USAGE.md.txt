@@ -1,0 +1,56 @@
+# SNS skill and plugin session usage
+
+[Open the live dashboard](https://langfuse.stg.dakota.com.sg/project/cmuwb2zds08uksx07mxkho9ov/dashboards/cmuwdk52x08vqsx07xgg39zfh).
+
+The four widgets show top skills, top plugins, and their usage over time. Each measures **sessions with recorded usage evidence**, grouped by item name. They do not measure invocation counts, installed inventory, successful delivery, or L3 adoption. Superset's Jira/GitLab pipeline is separate.
+
+All widgets use `uniqueSessionIds` with `uniq`. Langfuse can retain physical replay rows even when OTLP trace/span IDs are identical, so raw observation counts would overcount retries. Trends use automatic time buckets and the first locally recorded evidence timestamp.
+
+## Collection
+
+- **Copilot CLI:** an authenticated loopback proxy forwards current-session OTLP to the fixed SNS Langfuse endpoint. It extracts explicit skill-invocation events and plugin ownership when supplied. Content capture can remain off. A fresh Copilot 1.0.92 session was verified end to end with one skill session; the parser supports both current `gen_ai.skill.name` and legacy `github.copilot.skill.name` attributes.
+- **Codex with `--full-content`:** after the process exits, the helper queries Langfuse observations filtered by this run ID and launch time. Root-turn skill/plugin tags provide evidence; recorded skill-access tools can identify a plugin from its cache path. A real Codex session has been verified with one skill session and one cache-derived plugin session.
+- **Default native Codex, desktop/GUI sessions, and other clients:** no skill/plugin usage coverage is established by this adapter.
+
+Extraction omits unknown plugin owners. An absent record is not proof of non-use. Only metadata records are added: item name, agent, session and source IDs, timestamp, and evidence type. Prompt text, tool bodies, credentials, and paths are excluded from these normalized records. Full-content Codex tracing itself still uploads raw session content through the separately trusted tracing plugin.
+
+`usage_sink.py` keeps only hashed record IDs, first timestamps, and acknowledgement flags in private local SQLite receipts. Identity includes agent, session, kind, and name. Retries reuse that identity and timestamp. The wrapper publishes on normal process exit and preserves the child exit status; a forced kill can leave usage uncollected. It never scans historical session archives.
+
+## Run an opted-in session
+
+Prerequisites: Python 3.9+, the selected CLI, the existing SNS onboarding helper, network access to staging, and an already configured private project key file. Codex content mode also requires the official tracing plugin and a trusted Stop hook. Use a brand-new, non-forked Codex session containing only content intended for that project.
+
+```sh
+python3 "$HOME/.agents/skills/sns-langfuse-onboarding/scripts/sns_langfuse.py" doctor
+python3 "$HOME/.agents/skills/sns-langfuse-onboarding/scripts/sns_langfuse.py" check
+python3 "$HOME/.agents/skills/sns-langfuse-onboarding/scripts/sns_langfuse.py" run copilot
+python3 "$HOME/.agents/skills/sns-langfuse-onboarding/scripts/sns_langfuse.py" run codex --full-content
+```
+
+Add `--jira` with the actual SNS ticket and optionally `--run-id` for a bounded attempt. Put agent arguments after `--agent-args`. Use the helper's global `--env-file` option for an explicitly selected private key file; never put keys in command arguments or this directory.
+
+## Dashboard deployment and validation
+
+The dashboard is deployed in the SNS staging project. `dashboard.json` records its IDs and last verified definitions. This directory is a local pilot; no shared team distribution repository exists yet. The tested runtime modules and updated helper are installed on Peter's workstation. All runtime modules must accompany the helper when distributing it to another workstation.
+
+From this directory:
+
+```sh
+# Offline fixtures; proxy tests bind loopback and mock the upstream server.
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts -p 'test_*.py'
+
+# Read-only live query validation and normalized-record readback.
+python3 scripts/create_dashboard.py --validate-only
+python3 scripts/verify_usage.py
+
+# Provision missing dashboard objects and verify exact-name existing objects.
+python3 scripts/create_dashboard.py
+```
+
+The provisioning command writes remote dashboard objects and the local manifest. It refuses differing existing definitions rather than overwriting them. `--upgrade-session-measure` is a narrow migration for the four manifest widgets formerly using row counts; it is not routine validation. `verify_usage.py --replay-codex` is a write-producing replay of the explicitly scoped pilot test and is not part of normal onboarding.
+
+Tests cover evidence extraction, deduplication, retry timestamps, current-run API filtering/pagination, content exclusion, loopback authentication, coverage failures, and exit-status preservation. They do not prove every client/version emits the expected live fields. Live readback is required after client or adapter changes; warnings mean coverage remains incomplete or unknown.
+
+On 6 October 2026, all 45 usage-adapter tests and 35 existing onboarding tests passed. Stored normalized records and the metrics API confirmed one session each for `sns-langfuse-onboarding` (Copilot), `self-reflect-and-score` (Codex), and `justinian@gx-copilot-plugin` (Codex plugin owner). Replaying Codex events did not inflate distinct-session metrics. Initial data represents these verification runs, not team-wide adoption.
+
+To stop collection, close the opted-in process and relaunch the CLI normally without the helper. This does not remove previously stored Langfuse observations or dashboard objects.

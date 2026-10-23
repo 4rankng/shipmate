@@ -1,0 +1,77 @@
+{
+  "name": "@gx-marketplace/shipmate",
+  "version": "4.4.1",
+  "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+  "author": {
+    "name": "GXS Engineering",
+    "email": "frank.nguyen@gxs.com.sg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/4rankng/shipmate.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./opencode.mjs",
+  "exports": "./opencode.mjs",
+  "bin": {
+    "shipmate": "./bin/shipmate.mjs"
+  },
+  "keywords": [
+    "engineering",
+    "sdlc",
+    "requirements",
+    "tdd",
+    "gitlab",
+    "code-review",
+    "pi-package",
+    "pi-extension",
+    "claude-plugin",
+    "codex-plugin",
+    "opencode-plugin"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "omp": {
+    "name": "shipmate",
+    "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+    "skills": "./skills",
+    "commands": "./commands"
+  },
+  "files": [
+    "bin",
+    "commands",
+    "configs",
+    "index.ts",
+    "internal",
+    "opencode.mjs",
+    "plugin.json",
+    ".claude-plugin",
+    ".codex-plugin",
+    ".cursor-plugin",
+    ".cursorrules",
+    ".cursor",
+    ".omp-plugin",
+    ".openclaw-plugin",
+    "openclaw.plugin.json",
+    ".windsurfrules",
+    ".windsurf",
+    ".continue",
+    ".github",
+    "scripts",
+    "skills",
+    "third_party",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  }
+}

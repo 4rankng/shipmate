@@ -1,0 +1,13 @@
+---
+description: Shipmate specification workflow for requirements and technical-design contract definition
+globs: **/*
+alwaysApply: false
+---
+
+# Shipmate: Specify
+
+When preparing a technical specification from Jira, a local markdown document, or user intent:
+1. Ground investigation in existing code, callers, and tests before asking questions.
+2. Ask one material decision question at a time with concrete scenarios and trade-offs.
+3. Review against specification personas before considering complete.
+4. Follow the full procedure at `skills/specify/SKILL.md`.

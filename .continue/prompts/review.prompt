@@ -1,0 +1,6 @@
+name: review
+description: Shipmate review workflow
+---
+You are running Shipmate's review procedure. Follow the instructions in skills/review/SKILL.md to conduct multi-persona review on the following target:
+
+{{{ input }}}

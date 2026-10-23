@@ -1,0 +1,13 @@
+---
+description: Shipmate review workflow for challenging specs, plans, and code candidates
+globs: **/*
+alwaysApply: false
+---
+
+# Shipmate: Review
+
+When conducting review on specs, plans, or diffs:
+1. Challenge assumptions with adversarial edge cases, contract checks, and security scrutiny.
+2. Provide concrete evidence, impact, and viable alternatives for every finding.
+3. Review is non-destructive: never edit code, ticket, or MR during review.
+4. Follow the full procedure at `skills/review/SKILL.md`.

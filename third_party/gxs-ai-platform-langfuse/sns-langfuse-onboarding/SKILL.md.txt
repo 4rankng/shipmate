@@ -1,0 +1,38 @@
+---
+name: sns-langfuse-onboarding
+description: "Set up or troubleshoot SNS coding-agent telemetry in Langfuse for Codex and GitHub Copilot. Use for local onboarding, project-key configuration, capture-level choices and trace verification. Superset Jira/GitLab ingestion is a separate workflow."
+---
+
+# SNS Langfuse onboarding
+
+SNS Langfuse receives AI-session evidence. Superset receives GitLab/Jira delivery data. A trace does not itself establish L3 execution or delivery success.
+
+Team guide: [SNS Langfuse onboarding](https://gxsbank.atlassian.net/wiki/spaces/RGDEP/pages/2258862265/SNS+Langfuse+onboarding+Codex+and+GitHub+Copilot). It records verified CLI capture modes and the remaining desktop checks.
+
+Use the bundled `scripts/sns_langfuse.py` for repeatable local setup. It requires Python 3.9+, Node.js/npm for authenticated CLI checks, and the selected coding-agent CLI. The helper uses only the approved destination `https://langfuse.stg.dakota.com.sg`. Do not substitute the organization URL for the API base.
+
+## Onboard
+
+1. Run `python3 scripts/sns_langfuse.py init`. It preserves an existing `~/.config/langfuse/sns.env` and creates opt-in Codex profiles without changing the normal Codex configuration.
+2. Have the user fill the **project** public/secret key pair in that private mode-600 file, or use an explicitly supplied local env-file path. Never ask for keys in chat or print keys/headers. An organization-management key is not a tracing project key.
+3. Run `doctor`, then `check`. The authenticated check uses pinned `langfuse-cli@1.2.4` and displays only project ID/name. Network access may need the bank VPN.
+4. Launch an opted-in work session with `run codex --jira RGWEALTH-634` or `run copilot --jira RGWEALTH-634`. Use the actual work ticket or omit it; never label unrelated work with the example ticket. `--run-id` can correlate multiple sessions belonging to one bounded attempt.
+5. Inspect a new trace in the intended project using the official Langfuse skill/CLI. Verify name/type/hierarchy, session/run identifiers, environment, actual model/token coverage, and chosen content level. Save the trace link. Configuration or a health check is not proof of ingestion.
+
+## Capture boundaries
+
+- Default Codex mode exports **native trace spans**, with user-prompt logging off. Rich prompt/token/tool events may be in Codex's separate log signal. Do not promise native spans are complete AI-session transcripts or all token/cost metrics.
+- In the verified Codex 0.153 pilot, turn token counters appeared in raw metadata but normalized Langfuse usage/cost fields were empty. Model-tagged internal operations can be classified as GENERATION; do not count native GENERATION records as model calls without a semantic mapping.
+- Default Copilot mode uses native OTLP/HTTP with content capture off. Prompt/response/tool content requires `--full-content`. The launcher supports the CLI; VS Code requires a fully stopped/restarted process and `code` on PATH. JetBrains/Xcode are unverified.
+- Codex `--full-content` requires the official `tracing@codex-observability-plugin` installed and its Stop hook trusted by the user. Install through the supported Codex plugin commands; do not forge hook trust or edit approval hashes. Use the `sns-langfuse-content` profile.
+- The evaluated Codex plugin v0.4.0 has **no automatic masking**. Enabling it on resumed/forked sessions can export previous turns, system messages and tool bodies. Use a brand-new non-forked session containing only content intended for this project. The helper rejects common resume/fork arguments, but cannot police commands entered inside the agent. Never export existing session archives as part of onboarding.
+- Langfuse accepts traces at `/api/public/otel/v1/traces`, not Codex logs/metrics. Direct exporters include `x-langfuse-ingestion-version: 4` for this v4 server. Do not replace an existing telemetry destination silently.
+- The helper keeps keys in the launched process environment, never its command arguments. Avoid commands that print the environment from traced sessions.
+
+## Scope and evidence
+
+Use stable professional developer IDs, SNS team tags, actual Jira/MR links and a run ID. Missing model usage, pauses, failures or delivery links remain unknown; never infer zero cost, successful delivery or L3 adoption. Copilot custom resource attributes may require mapping before they become Langfuse session/metadata fields; verify readback.
+
+Installing this skill does not automatically trace all tasks. Closing the launched process stops that opt-in session. Normal Codex/Copilot launches retain their prior configuration. User-wide/desktop rollout requires separate process-environment and restart verification; do not claim the currently open desktop app is connected by a CLI profile.
+
+The local helper is a pilot. Publish a versioned copy in the shared SNS skills collection before prescribing it as a team-wide install. Keep the Confluence adoption page as the human-readable reference; use current Langfuse docs for SDK/API behavior.

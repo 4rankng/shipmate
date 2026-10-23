@@ -1,0 +1,9 @@
+{
+  "name": "shipmate",
+  "version": "4.4.1",
+  "description": "Delivers engineering work from Jira or local requirements, with reviews, walkthroughs and quizzes for Jira tickets and merge requests.",
+  "author": "GXS Engineering",
+  "repository": "https://github.com/4rankng/shipmate",
+  "license": "MIT",
+  "rules": "./.cursor/rules/"
+}

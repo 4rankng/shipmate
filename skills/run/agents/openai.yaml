@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run"
+  short_description: "Execute requirements through a draft MR"
+  default_prompt: "Use $shipmate:run to take these Jira or local requirements through a verified draft merge request."

@@ -1,0 +1,111 @@
+{
+  "cases": [
+    {
+      "id": "offbyone-ac-limit",
+      "requirement": "Make the transfer limit configurable per merchant. AC-01: Given a payout amount equal to the merchant's limit, When the payout is submitted, Then it is accepted. AC-02: Given a payout amount above the merchant's limit, When the payout is submitted, Then CheckLimit returns ErrLimitExceeded.",
+      "diff": "--- a/payout/limit.go\n+++ b/payout/limit.go\n@@ -12,7 +12,7 @@ var ErrLimitExceeded = errors.New(\"payout limit exceeded\")\n // CheckLimit enforces AC-01 and AC-02 for a single payout.\n-func CheckLimit(amountCents int64) error {\n-\tif amountCents <= DailyLimitCents {\n+func CheckLimit(amountCents, limitCents int64) error {\n+\tif amountCents < limitCents {\n \t\treturn nil\n \t}\n \treturn ErrLimitExceeded\n }\n",
+      "context_slices": [
+        {
+          "file": "payout/submit.go",
+          "start_line": 31,
+          "code": "\tif err := CheckLimit(req.AmountCents, merchant.LimitCents); err != nil {\n\t\treturn nil, err\n\t}\n"
+        }
+      ]
+    },
+    {
+      "id": "missing-ownership-check",
+      "requirement": "AC-01: Given an authenticated customer who owns account X, When they request X's statement for a month, Then the statement is returned. Customers may read only their own accounts, as on every other account endpoint.",
+      "diff": "--- a/api/account_handlers.go\n+++ b/api/account_handlers.go\n@@ -40,3 +40,12 @@ func (h *Handler) GetBalance(ctx context.Context, req BalanceRequest) (*Balance, error) {\n \t}\n \treturn h.store.Balance(ctx, acct.ID)\n }\n+\n+// GetStatement implements AC-01.\n+func (h *Handler) GetStatement(ctx context.Context, req StatementRequest) (*Statement, error) {\n+\tacct, err := h.store.Account(ctx, req.AccountID)\n+\tif err != nil {\n+\t\treturn nil, err\n+\t}\n+\treturn h.store.Statement(ctx, acct.ID, req.Month)\n+}\n",
+      "context_slices": [
+        {
+          "file": "api/account_handlers.go",
+          "start_line": 29,
+          "code": "func (h *Handler) GetBalance(ctx context.Context, req BalanceRequest) (*Balance, error) {\n\tcaller, err := auth.CallerFrom(ctx)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tacct, err := h.store.Account(ctx, req.AccountID)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif acct.OwnerID != caller.UserID {\n\t\treturn nil, ErrForbidden\n\t}\n\treturn h.store.Balance(ctx, acct.ID)\n}\n",
+          "note": "GetTransactions and CloseAccount in the same file use the same caller/OwnerID check."
+        },
+        {
+          "file": "api/router.go",
+          "start_line": 18,
+          "code": "\tr.Get(\"/accounts/{id}/statement\", h.GetStatement) // authenticated customer route, no per-account middleware\n"
+        }
+      ]
+    },
+    {
+      "id": "retry-non-idempotent",
+      "requirement": "AC-01: Given a transient bank error (timeout or 503), When a transfer is submitted, Then the submission is retried up to 3 attempts in total. AC-02: One Transfer.ID never creates more than one bank transfer.",
+      "diff": "--- a/transfer/submit.go\n+++ b/transfer/submit.go\n@@ -18,9 +18,16 @@ func NewSubmitter(bank BankClient) *Submitter {\n \n // Submit sends the transfer to the bank.\n func (s *Submitter) Submit(ctx context.Context, t Transfer) (string, error) {\n-\tref, err := s.bank.CreateTransfer(ctx, t.FromAccount, t.ToAccount, t.AmountCents)\n-\tif err != nil {\n-\t\treturn \"\", fmt.Errorf(\"create transfer: %w\", err)\n-\t}\n-\treturn ref, nil\n+\tvar lastErr error\n+\tfor attempt := 0; attempt < 3; attempt++ {\n+\t\tref, err := s.bank.CreateTransfer(ctx, t.FromAccount, t.ToAccount, t.AmountCents)\n+\t\tif err == nil {\n+\t\t\treturn ref, nil\n+\t\t}\n+\t\tif !isTransient(err) {\n+\t\t\treturn \"\", fmt.Errorf(\"create transfer: %w\", err)\n+\t\t}\n+\t\tlastErr = err\n+\t}\n+\treturn \"\", fmt.Errorf(\"create transfer after retries: %w\", lastErr)\n }\n",
+      "context_slices": [
+        {
+          "file": "bank/client.go",
+          "start_line": 40,
+          "code": "// CreateTransfer creates a new bank transfer on every call. A timeout can be\n// returned after the bank has already created the transfer.\nfunc (c *Client) CreateTransfer(ctx context.Context, from, to string, amountCents int64) (string, error)\n\n// CreateTransferWithKey deduplicates calls that share key for 24 hours.\nfunc (c *Client) CreateTransferWithKey(ctx context.Context, key, from, to string, amountCents int64) (string, error)\n"
+        },
+        {
+          "file": "transfer/retry.go",
+          "start_line": 9,
+          "code": "func isTransient(err error) bool {\n\treturn errors.Is(err, context.DeadlineExceeded) || errors.Is(err, bank.ErrUnavailable)\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "swallowed-error-success",
+      "requirement": "AC-01: Given a refund whose ledger credit succeeds, When it completes, Then the refund_completed metric is incremented. Existing behaviour stays: a ledger credit failure returns an error and the refund is not COMPLETED.",
+      "diff": "--- a/refund/service.go\n+++ b/refund/service.go\n@@ -30,8 +30,9 @@ func (s *Service) Refund(ctx context.Context, req RefundRequest) (*RefundResult, error) {\n \tif err := s.validate(req); err != nil {\n \t\treturn nil, err\n \t}\n \tif err := s.ledger.Credit(ctx, req.AccountID, req.AmountCents); err != nil {\n-\t\treturn nil, fmt.Errorf(\"credit ledger: %w\", err)\n+\t\ts.log.Warn(ctx, \"ledger credit failed\", \"refund_id\", req.RefundID, \"err\", err)\n \t}\n+\ts.metrics.Inc(\"refund_completed\")\n \treturn &RefundResult{Status: StatusCompleted}, nil\n }\n",
+      "context_slices": [
+        {
+          "file": "refund/handler.go",
+          "start_line": 22,
+          "code": "\tres, err := h.svc.Refund(ctx, req)\n\tif err != nil {\n\t\treturn h.fail(w, err)\n\t}\n\th.repo.MarkStatus(ctx, req.RefundID, res.Status)\n"
+        }
+      ]
+    },
+    {
+      "id": "clean-change",
+      "requirement": "AC-01: Given a completed payout with a bank reference, When GET /payouts/{id} is called, Then the response includes bank_reference. Payouts without a reference omit the field.",
+      "diff": "--- a/payout/dto.go\n+++ b/payout/dto.go\n@@ -8,12 +8,14 @@ type PayoutResponse struct {\n \tID          string `json:\"id\"`\n \tStatus      string `json:\"status\"`\n \tAmountCents int64  `json:\"amount_cents\"`\n+\tBankReference string `json:\"bank_reference,omitempty\"`\n }\n \n func toResponse(p Payout) PayoutResponse {\n \treturn PayoutResponse{\n \t\tID:          p.ID,\n \t\tStatus:      string(p.Status),\n \t\tAmountCents: p.AmountCents,\n+\t\tBankReference: p.BankReference,\n \t}\n }\n--- a/payout/dto_test.go\n+++ b/payout/dto_test.go\n@@ -20,3 +20,17 @@ func TestToResponseMapsStatus(t *testing.T) {\n \t\tt.Fatalf(\"status = %q\", got.Status)\n \t}\n }\n+\n+func TestToResponseIncludesBankReference(t *testing.T) {\n+\tgot := toResponse(Payout{ID: \"p1\", Status: StatusCompleted, BankReference: \"BR-77\"})\n+\tif got.BankReference != \"BR-77\" {\n+\t\tt.Fatalf(\"bank_reference = %q\", got.BankReference)\n+\t}\n+}\n+\n+func TestToResponseOmitsMissingBankReference(t *testing.T) {\n+\tbody, _ := json.Marshal(toResponse(Payout{ID: \"p2\", Status: StatusPending}))\n+\tif strings.Contains(string(body), \"bank_reference\") {\n+\t\tt.Fatalf(\"unexpected bank_reference in %s\", body)\n+\t}\n+}\n",
+      "context_slices": [
+        {
+          "file": "payout/model.go",
+          "start_line": 10,
+          "code": "type Payout struct {\n\tID            string\n\tStatus        Status\n\tAmountCents   int64\n\tBankReference string // set when the bank confirms the payout; empty otherwise\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "preexisting-bug-unchanged-line",
+      "requirement": "Rename the metric fx_quote_requests to fx_quote_requests_total. No behaviour change. The dashboard and alert already query the new name.",
+      "diff": "--- a/fx/quote.go\n+++ b/fx/quote.go\n@@ -22,7 +22,7 @@ func (s *QuoteService) Quote(ctx context.Context, pair string) (Rate, error) {\n \trates, err := s.provider.Rates(ctx)\n \tif err != nil {\n \t\treturn Rate{}, err\n \t}\n-\ts.metrics.Inc(\"fx_quote_requests\")\n+\ts.metrics.Inc(\"fx_quote_requests_total\")\n \treturn rates[pair], nil\n }\n",
+      "context_slices": [
+        {
+          "file": "dashboards/fx.json",
+          "start_line": 12,
+          "code": "      \"expr\": \"sum(rate(fx_quote_requests_total[5m]))\"\n"
+        }
+      ]
+    },
+    {
+      "id": "style-only",
+      "requirement": "Readability cleanup: rename the local accumulator in SumEntries. No behaviour change.",
+      "diff": "--- a/ledger/balance.go\n+++ b/ledger/balance.go\n@@ -14,8 +14,8 @@ import \"context\"\n // SumEntries returns the signed total of entries in cents.\n func SumEntries(ctx context.Context, entries []Entry) int64 {\n-\tvar t int64\n+\tvar total int64\n \tfor _, e := range entries {\n-\t\tt += e.SignedCents()\n+\t\ttotal += e.SignedCents()\n \t}\n-\treturn t\n+\treturn total\n }\n",
+      "context_slices": []
+    },
+    {
+      "id": "division-guarded-by-callers",
+      "requirement": "AC-01: Given a daily or monthly report with at least one payout, When the summary is built, Then AverageCents equals TotalCents / Count, truncated to whole cents. Periods with zero payouts keep returning ErrNoPayouts (unchanged).",
+      "diff": "--- a/report/stats.go\n+++ b/report/stats.go\n@@ -20,6 +20,11 @@ type Summary struct {\n \tAverageCents int64\n }\n \n+// averageCents implements AC-01. Callers must pass count > 0.\n+func averageCents(total, count int64) int64 {\n+\treturn total / count\n+}\n+\n func newSummary(total, count int64) Summary {\n-\treturn Summary{TotalCents: total, Count: count}\n+\treturn Summary{TotalCents: total, Count: count, AverageCents: averageCents(total, count)}\n }\n",
+      "context_slices": [
+        {
+          "file": "report/daily.go",
+          "start_line": 40,
+          "code": "func (b *Builder) Daily(ctx context.Context, day time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, day, day)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count == 0 {\n\t\treturn nil, ErrNoPayouts\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n"
+        },
+        {
+          "file": "report/monthly.go",
+          "start_line": 33,
+          "code": "func (b *Builder) Monthly(ctx context.Context, month time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, monthStart(month), monthEnd(month))\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count <= 0 {\n\t\treturn nil, ErrNoPayouts\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n",
+          "note": "Repository search: newSummary is called only from Daily and Monthly; averageCents only from newSummary."
+        }
+      ]
+    }
+  ]
+}

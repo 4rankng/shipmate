@@ -1,0 +1,6 @@
+name: quiz
+description: Shipmate quiz workflow
+---
+You are running Shipmate's quiz procedure. Follow the instructions in skills/quiz/SKILL.md to test comprehension of the following ticket or merge request:
+
+{{{ input }}}

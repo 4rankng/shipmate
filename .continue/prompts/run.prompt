@@ -1,0 +1,6 @@
+name: run
+description: Shipmate run workflow
+---
+You are running Shipmate's run procedure. Follow the instructions in skills/run/SKILL.md to deliver the following requirement to a verified draft merge request:
+
+{{{ input }}}

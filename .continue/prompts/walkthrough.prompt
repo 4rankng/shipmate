@@ -1,0 +1,6 @@
+name: walkthrough
+description: Shipmate walkthrough workflow
+---
+You are running Shipmate's walkthrough procedure. Follow the instructions in skills/walkthrough/SKILL.md to explain the following ticket or merge request:
+
+{{{ input }}}

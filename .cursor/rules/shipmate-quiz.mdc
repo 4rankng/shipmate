@@ -1,0 +1,13 @@
+---
+description: Shipmate quiz workflow for checking understanding of tickets and MRs
+globs: **/*
+alwaysApply: false
+---
+
+# Shipmate: Quiz
+
+When checking comprehension of a ticket, MR, or branch:
+1. Act as a mirror, not a judge: educate through explanations tied to source evidence.
+2. Formulate diagnostic questions grounded in actual code and requirements.
+3. Generate a structured understanding report upon session conclusion.
+4. Follow the full procedure at `skills/quiz/SKILL.md`.

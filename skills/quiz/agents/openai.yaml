@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quiz"
+  short_description: "Quiz Jira or MR understanding and show a report"
+  default_prompt: "Use $shipmate:quiz on this Jira ticket or merge request and give me a screenshot-ready understanding report."

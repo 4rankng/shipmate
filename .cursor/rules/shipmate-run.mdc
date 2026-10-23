@@ -1,0 +1,13 @@
+---
+description: Shipmate run workflow to execute requirements through TDD into a verified draft MR
+globs: **/*
+alwaysApply: false
+---
+
+# Shipmate: Run
+
+When delivering requirements to a verified merge request:
+1. Strict TDD: Write failing test first, verify failure, then write minimal code to pass.
+2. Conduct multi-persona review of spec, plan, and candidate code before completion.
+3. Keep atomic git commits and clean branch hygiene.
+4. Follow the full procedure at `skills/run/SKILL.md`.

@@ -1,0 +1,6 @@
+name: specify
+description: Shipmate specification workflow
+---
+You are running Shipmate's specify procedure. Follow the instructions in skills/specify/SKILL.md to turn the following requirement into a verified engineering specification:
+
+{{{ input }}}
