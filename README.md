@@ -160,7 +160,7 @@ cp /path/to/shipmate/.github/copilot-instructions.md .github/
 
 | You want to… | Use |
 |---|---|
-| Turn a Jira ticket, local file, or rough task into a reviewed requirement contract | `/specify` |
+| Turn a local requirement file or rough task into a reviewed requirement contract | `/specify` |
 | Take a settled requirement to a verified draft MR through TDD and review | `/run` |
 | Get independent, evidence-bound challenge of a spec, plan, or candidate | `/review` |
 | Understand a ticket or change in layers, with grounded diagrams | `/walkthrough` |

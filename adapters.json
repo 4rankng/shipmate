@@ -14,7 +14,7 @@
     "quiz": "Quiz"
   },
   "argument_hints": {
-    "specify": "[jira-key-or-requirement-file]",
+    "specify": "[requirement-file]",
     "run": "[jira-key-or-requirement-file]",
     "review": "[spec-plan-or-diff]",
     "walkthrough": "[jira-key-or-mr-url]",
