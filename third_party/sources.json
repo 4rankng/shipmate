@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "normalization": "UTF-8 source text unchanged except whitespace-only blank lines are emptied and a final newline is added when absent. .txt suffix prevents skill discovery.",
+  "sources": [
+    {
+      "name": "mattpocock-skills",
+      "repository": "https://github.com/mattpocock/skills",
+      "revision": "c55ee46073ed923f86ce59a5eb3b6d895095d1b7",
+      "license": "third_party/mattpocock-skills/LICENSE",
+      "adapters": [
+        "internal/grill-with-docs/PROCEDURE.md"
+      ],
+      "archived_dependency_mappings": [
+        {
+          "archived_source": "third_party/mattpocock-skills/skills/engineering/domain-modeling/SKILL.md.txt",
+          "archived_reference": "./ADR-FORMAT.md",
+          "packaged_path": "third_party/mattpocock-skills/skills/engineering/domain-modeling/ADR-FORMAT.md.txt"
+        },
+        {
+          "archived_source": "third_party/mattpocock-skills/skills/engineering/domain-modeling/SKILL.md.txt",
+          "archived_reference": "./CONTEXT-FORMAT.md",
+          "packaged_path": "third_party/mattpocock-skills/skills/engineering/domain-modeling/CONTEXT-FORMAT.md.txt"
+        }
+      ],
+      "files": [
+        {
+          "upstream_path": "skills/productivity/grilling/SKILL.md",
+          "local_path": "third_party/mattpocock-skills/skills/productivity/grilling/SKILL.md.txt",
+          "sha256": "10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2"
+        },
+        {
+          "upstream_path": "skills/engineering/grill-with-docs/SKILL.md",
+          "local_path": "third_party/mattpocock-skills/skills/engineering/grill-with-docs/SKILL.md.txt",
+          "sha256": "7de372c13488f1ee96cc11cd8907b56b6809cc93eef776eeddd37de6b6cbe3fe"
+        },
+        {
+          "upstream_path": "skills/engineering/domain-modeling/SKILL.md",
+          "local_path": "third_party/mattpocock-skills/skills/engineering/domain-modeling/SKILL.md.txt",
+          "sha256": "327a2b50620e2fd70abc6893cd6965e76b20f8d0adb0dc2c8d5eb3845efb643e"
+        },
+        {
+          "upstream_path": "skills/engineering/domain-modeling/ADR-FORMAT.md",
+          "local_path": "third_party/mattpocock-skills/skills/engineering/domain-modeling/ADR-FORMAT.md.txt",
+          "sha256": "944c92aa790e8fbdc9199640b170979abb8a34ba8d0fe18c2a01a63bce140ca0"
+        },
+        {
+          "upstream_path": "skills/engineering/domain-modeling/CONTEXT-FORMAT.md",
+          "local_path": "third_party/mattpocock-skills/skills/engineering/domain-modeling/CONTEXT-FORMAT.md.txt",
+          "sha256": "17ab16ce783e4d2801ee52fd9acdf550cbf44de65ae76797a93943bbedf22a13"
+        },
+        {
+          "upstream_path": "LICENSE",
+          "local_path": "third_party/mattpocock-skills/LICENSE",
+          "sha256": "0e7ac423bf2c6e223b7c5b156f8cf72da49d748e56a1641402c31f22ad07dbb5"
+        }
+      ]
+    },
+    {
+      "name": "cursor-pstack",
+      "repository": "https://github.com/cursor/plugins",
+      "revision": "6ed0f7a9504f577d7529064103cecce9be7dfc5e",
+      "license": "third_party/cursor-pstack/LICENSE",
+      "adapters": [
+        "internal/unslop/PROCEDURE.md"
+      ],
+      "files": [
+        {
+          "upstream_path": "pstack/skills/unslop/SKILL.md",
+          "local_path": "third_party/cursor-pstack/pstack/skills/unslop/SKILL.md.txt",
+          "sha256": "c6d2572294d933a428211921069e9a248490e9b466ca59437cb4d9de248600ca"
+        },
+        {
+          "upstream_path": "pstack/LICENSE",
+          "local_path": "third_party/cursor-pstack/LICENSE",
+          "sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e"
+        }
+      ]
+    },
+    {
+      "name": "obra-superpowers",
+      "repository": "https://github.com/obra/superpowers",
+      "revision": "5bf4e78011075bcfc0dc295f0724994cd123ee71",
+      "license": "third_party/obra-superpowers/LICENSE",
+      "adapters": [
+        "internal/brainstorming/PROCEDURE.md",
+        "internal/grill-with-docs/PROCEDURE.md",
+        "internal/executing-plans/PROCEDURE.md",
+        "internal/code-review/PROCEDURE.md",
+        "internal/reviewer/references/findings-and-adjudication.md"
+      ],
+      "files": [
+        {
+          "upstream_path": "skills/brainstorming/SKILL.md",
+          "local_path": "third_party/obra-superpowers/skills/brainstorming/SKILL.md.txt",
+          "sha256": "a32d2255354775aa124855aa7100cf276bea096fff4ebb3a0edf57be216e6c72"
+        },
+        {
+          "upstream_path": "LICENSE",
+          "local_path": "third_party/obra-superpowers/LICENSE",
+          "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400"
+        },
+        {
+          "upstream_path": "skills/requesting-code-review/SKILL.md",
+          "local_path": "third_party/obra-superpowers/skills/requesting-code-review/SKILL.md.txt",
+          "sha256": "cfcee1b06774e7c0517f1e09be1a11f2d5680257072723e709ddbcf7e08b795a"
+        },
+        {
+          "upstream_path": "skills/requesting-code-review/code-reviewer.md",
+          "local_path": "third_party/obra-superpowers/skills/requesting-code-review/code-reviewer.md.txt",
+          "sha256": "82e370be6b3447523816286195571e4216ba56ba1ad6ad0e87862294c4c78dcb"
+        },
+        {
+          "upstream_path": "skills/receiving-code-review/SKILL.md",
+          "local_path": "third_party/obra-superpowers/skills/receiving-code-review/SKILL.md.txt",
+          "sha256": "091df1629510af1b92fc4abd6f96732ebedb4cb2c0f3457e8f2740b0504a2438"
+        },
+        {
+          "upstream_path": "skills/dispatching-parallel-agents/SKILL.md",
+          "local_path": "third_party/obra-superpowers/skills/dispatching-parallel-agents/SKILL.md.txt",
+          "sha256": "1968923066f3b707eb01d1992cdf4c42284c3855f70253b9cd5000ff45fca13c"
+        }
+      ]
+    },
+    {
+      "name": "claudekit",
+      "repository": "https://github.com/carlrannaberg/claudekit",
+      "revision": "f22a4f9030520394bf1a517b46ad7585badf5130",
+      "license": "third_party/claudekit/LICENSE",
+      "adapters": [
+        "internal/research/PROCEDURE.md"
+      ],
+      "files": [
+        {
+          "upstream_path": "src/commands/research.md",
+          "local_path": "third_party/claudekit/src/commands/research.md.txt",
+          "sha256": "05b98c6edaafaae61e8e1040de4840f1a8c4adb21f55c97335bb478fbf90302a"
+        },
+        {
+          "upstream_path": "src/agents/research-expert.md",
+          "local_path": "third_party/claudekit/src/agents/research-expert.md.txt",
+          "sha256": "248c5241eec2a2d3f37c5d5c0c01b7e5d4fe5fdc2d21c0dca65d1800c50e1d51"
+        },
+        {
+          "upstream_path": "LICENSE",
+          "local_path": "third_party/claudekit/LICENSE",
+          "sha256": "ad877e194d5f86a095f08f641bf8fd614af314e404b0c20684dd4003d764d481"
+        }
+      ]
+    },
+    {
+      "name": "sphinx-ci",
+      "repository": "https://github.com/AGuyNextDoor/sphinx-ci",
+      "revision": "aa03c02827e962d15f5cfea17815f0f7d9172b6a",
+      "license": "third_party/sphinx-ci/LICENSE",
+      "license_note": "Upstream README declares the MIT License (badge linking LICENSE) and its terms page calls sphinx-ci free and open source; the pinned revision ships no LICENSE file, so the standard MIT text is reproduced here with the upstream author attribution.",
+      "local_modifications": "Quiz adapter uses the English question-generation prompt, JSON schema, validation rules, demo questions linked as a shape reference, English quiz/result strings, the <50-character skip rule, 70% passing score and 3 attempts with fresh questions as a non-blocking self-check, and fail-open behaviour. quiz_size.py ports scaleQuestionCount (JS rounding preserved) with Shipmate baseline 5, 3-8 clamp and a one-band sensitivity bump; test_quiz_size.py ports the upstream scale-question-count cases. Hosted app, GitHub status/comments, keyword trigger, code-only diff filter, 12k truncation and expiry are not used.",
+      "adapters": [
+        "skills/quiz/SKILL.md",
+        "scripts/quiz_size.py",
+        "scripts/test_quiz_size.py"
+      ],
+      "files": [
+        {
+          "upstream_path": "lib/claude.ts",
+          "local_path": "third_party/sphinx-ci/lib/claude.ts.txt",
+          "sha256": "f66095cf7d3142314c1f8d3ee58e8d54fde7e86056889993f4dca83edd22a9dc"
+        },
+        {
+          "upstream_path": "__tests__/scale-question-count.test.ts",
+          "local_path": "third_party/sphinx-ci/__tests__/scale-question-count.test.ts.txt",
+          "sha256": "3b2c331739966411a6c04cc1609b8ce5cfa66f6f767d2d4e56635db9b5ddedf6"
+        },
+        {
+          "upstream_path": "components/DemoQuiz.tsx",
+          "local_path": "third_party/sphinx-ci/components/DemoQuiz.tsx.txt",
+          "sha256": "87b911757e91e1bcbd752b97b49e304eb7927f819120e31115ae66750609cfab"
+        },
+        {
+          "upstream_path": "lib/i18n.ts",
+          "local_path": "third_party/sphinx-ci/lib/i18n.ts.txt",
+          "sha256": "53648733150c2ad3b61a639903c5d086441c071745d729e099c5d16d399efd27"
+        },
+        {
+          "upstream_path": "app/api/quiz/route.ts",
+          "local_path": "third_party/sphinx-ci/app/api/quiz/route.ts.txt",
+          "sha256": "729626dab63a0d9ae8a4f21cf90d6ae4ae64888cfeece936933154ddf37c277f"
+        },
+        {
+          "upstream_path": "app/api/quiz/[id]/regenerate/route.ts",
+          "local_path": "third_party/sphinx-ci/app/api/quiz/[id]/regenerate/route.ts.txt",
+          "sha256": "bfddd2f429b448da49fa35e7f9aaf9e65c2068a0706e207ce139ece88b4ee331"
+        },
+        {
+          "upstream_path": "app/api/quiz/[id]/submit/route.ts",
+          "local_path": "third_party/sphinx-ci/app/api/quiz/[id]/submit/route.ts.txt",
+          "sha256": "1bd4527b1db696ff1fe61df1f5b13556256c3bc186ad70a59ac0632da4529c16"
+        }
+      ]
+    }
+  ]
+}

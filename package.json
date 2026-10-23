@@ -1,0 +1,76 @@
+{
+  "name": "@shipmate-marketplace/shipmate",
+  "version": "4.6.0",
+  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs and quizzes.",
+  "author": {
+    "name": "Frank Nguyen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/4rankng/shipmate.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./opencode.mjs",
+  "exports": "./opencode.mjs",
+  "bin": {
+    "shipmate": "./bin/shipmate.mjs"
+  },
+  "keywords": [
+    "engineering",
+    "sdlc",
+    "requirements",
+    "tdd",
+    "github",
+    "code-review",
+    "pi-package",
+    "pi-extension",
+    "claude-plugin",
+    "codex-plugin",
+    "opencode-plugin"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  },
+  "omp": {
+    "name": "shipmate",
+    "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs and quizzes.",
+    "skills": "./skills",
+    "commands": "./commands"
+  },
+  "files": [
+    "bin",
+    "commands",
+    "configs",
+    "index.ts",
+    "internal",
+    "opencode.mjs",
+    "plugin.json",
+    ".claude-plugin",
+    ".codex-plugin",
+    ".cursor-plugin",
+    ".cursorrules",
+    ".cursor",
+    ".omp-plugin",
+    ".openclaw-plugin",
+    "openclaw.plugin.json",
+    ".windsurfrules",
+    ".windsurf",
+    ".continue",
+    ".github",
+    "scripts",
+    "skills",
+    "third_party",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  }
+}

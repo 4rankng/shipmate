@@ -1,0 +1,111 @@
+{
+  "cases": [
+    {
+      "id": "offbyone-ac-limit",
+      "requirement": "Make the batch limit configurable per client. AC-01: Given a batch size equal to the client's limit, When the batch is submitted, Then it is accepted. AC-02: Given a batch size above the client's limit, When the batch is submitted, Then CheckLimit returns ErrLimitExceeded.",
+      "diff": "--- a/export/limit.go\n+++ b/export/limit.go\n@@ -12,7 +12,7 @@ var ErrLimitExceeded = errors.New(\"batch limit exceeded\")\n // CheckLimit enforces AC-01 and AC-02 for a single batch.\n-func CheckLimit(batchSize int64) error {\n-\tif batchSize <= DefaultBatchLimit {\n+func CheckLimit(batchSize, maxBatch int64) error {\n+\tif batchSize < maxBatch {\n \t\treturn nil\n \t}\n \treturn ErrLimitExceeded\n }\n",
+      "context_slices": [
+        {
+          "file": "export/submit.go",
+          "start_line": 31,
+          "code": "\tif err := CheckLimit(req.BatchSize, client.MaxBatch); err != nil {\n\t\treturn nil, err\n\t}\n"
+        }
+      ]
+    },
+    {
+      "id": "missing-ownership-check",
+      "requirement": "AC-01: Given an authenticated customer who owns project X, When they request X's report for a month, Then the report is returned. Customers may read only their own projects, as on every other project endpoint.",
+      "diff": "--- a/api/project_handlers.go\n+++ b/api/project_handlers.go\n@@ -40,3 +40,12 @@ func (h *Handler) GetUsage(ctx context.Context, req UsageRequest) (*Usage, error) {\n \t}\n \treturn h.store.Usage(ctx, proj.ID)\n }\n+\n+// GetReport implements AC-01.\n+func (h *Handler) GetReport(ctx context.Context, req ReportRequest) (*Report, error) {\n+\tproj, err := h.store.Project(ctx, req.ProjectID)\n+\tif err != nil {\n+\t\treturn nil, err\n+\t}\n+\treturn h.store.Report(ctx, proj.ID, req.Month)\n+}\n",
+      "context_slices": [
+        {
+          "file": "api/project_handlers.go",
+          "start_line": 29,
+          "code": "func (h *Handler) GetUsage(ctx context.Context, req UsageRequest) (*Usage, error) {\n\tcaller, err := auth.CallerFrom(ctx)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tproj, err := h.store.Project(ctx, req.ProjectID)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif proj.OwnerID != caller.UserID {\n\t\treturn nil, ErrForbidden\n\t}\n\treturn h.store.Usage(ctx, proj.ID)\n}\n",
+          "note": "GetExports and DeleteProject in the same file use the same caller/OwnerID check."
+        },
+        {
+          "file": "api/router.go",
+          "start_line": 18,
+          "code": "\tr.Get(\"/projects/{id}/report\", h.GetReport) // authenticated customer route, no per-project middleware\n"
+        }
+      ]
+    },
+    {
+      "id": "retry-non-idempotent",
+      "requirement": "AC-01: Given a transient upstream error (timeout or 503), When an upload is submitted, Then the submission is retried up to 3 attempts in total. AC-02: One Upload.ID never creates more than one upstream upload.",
+      "diff": "--- a/upload/submit.go\n+++ b/upload/submit.go\n@@ -18,9 +18,16 @@ func NewSubmitter(upstream UpstreamClient) *Submitter {\n \n // Submit sends the upload to the upstream.\n func (s *Submitter) Submit(ctx context.Context, t Upload) (string, error) {\n-\tref, err := s.upstream.CreateUpload(ctx, t.Bucket, t.Object, t.SizeBytes)\n-\tif err != nil {\n-\t\treturn \"\", fmt.Errorf(\"create upload: %w\", err)\n-\t}\n-\treturn ref, nil\n+\tvar lastErr error\n+\tfor attempt := 0; attempt < 3; attempt++ {\n+\t\tref, err := s.upstream.CreateUpload(ctx, t.Bucket, t.Object, t.SizeBytes)\n+\t\tif err == nil {\n+\t\t\treturn ref, nil\n+\t\t}\n+\t\tif !isTransient(err) {\n+\t\t\treturn \"\", fmt.Errorf(\"create upload: %w\", err)\n+\t\t}\n+\t\tlastErr = err\n+\t}\n+\treturn \"\", fmt.Errorf(\"create upload after retries: %w\", lastErr)\n }\n",
+      "context_slices": [
+        {
+          "file": "upstream/client.go",
+          "start_line": 40,
+          "code": "// CreateUpload creates a new upstream upload on every call. A timeout can be\n// returned after the upstream has already created the upload.\nfunc (c *Client) CreateUpload(ctx context.Context, bucket, object string, sizeBytes int64) (string, error)\n\n// CreateUploadWithKey deduplicates calls that share key for 24 hours.\nfunc (c *Client) CreateUploadWithKey(ctx context.Context, key, bucket, object string, sizeBytes int64) (string, error)\n"
+        },
+        {
+          "file": "upload/retry.go",
+          "start_line": 9,
+          "code": "func isTransient(err error) bool {\n\treturn errors.Is(err, context.DeadlineExceeded) || errors.Is(err, upstream.ErrUnavailable)\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "swallowed-error-success",
+      "requirement": "AC-01: Given an import whose store write succeeds, When it completes, Then the import_completed metric is incremented. Existing behaviour stays: a store write failure returns an error and the import is not COMPLETED.",
+      "diff": "--- a/import/service.go\n+++ b/import/service.go\n@@ -30,8 +30,9 @@ func (s *Service) Import(ctx context.Context, req ImportRequest) (*ImportResult, error) {\n \tif err := s.validate(req); err != nil {\n \t\treturn nil, err\n \t}\n \tif err := s.store.Write(ctx, req.BatchID, req.Rows); err != nil {\n-\t\treturn nil, fmt.Errorf(\"write rows: %w\", err)\n+\t\ts.log.Warn(ctx, \"store write failed\", \"import_id\", req.ImportID, \"err\", err)\n \t}\n+\ts.metrics.Inc(\"import_completed\")\n \treturn &ImportResult{Status: StatusCompleted}, nil\n }\n",
+      "context_slices": [
+        {
+          "file": "import/handler.go",
+          "start_line": 22,
+          "code": "\tres, err := h.svc.Import(ctx, req)\n\tif err != nil {\n\t\treturn h.fail(w, err)\n\t}\n\th.repo.MarkStatus(ctx, req.ImportID, res.Status)\n"
+        }
+      ]
+    },
+    {
+      "id": "clean-change",
+      "requirement": "AC-01: Given a completed export with an upstream reference, When GET /exports/{id} is called, Then the response includes upstream_reference. Exports without a reference omit the field.",
+      "diff": "--- a/export/dto.go\n+++ b/export/dto.go\n@@ -8,12 +8,14 @@ type ExportResponse struct {\n \tID          string `json:\"id\"`\n \tStatus      string `json:\"status\"`\n \tRowCount   int64  `json:\"row_count\"`\n+\tUpstreamReference string `json:\"upstream_reference,omitempty\"`\n }\n \n func toResponse(p Export) ExportResponse {\n \treturn ExportResponse{\n \t\tID:          p.ID,\n \t\tStatus:      string(p.Status),\n \t\tRowCount:    p.RowCount,\n+\t\tUpstreamReference: p.UpstreamReference,\n \t}\n }\n--- a/export/dto_test.go\n+++ b/export/dto_test.go\n@@ -20,3 +20,17 @@ func TestToResponseMapsStatus(t *testing.T) {\n \t\tt.Fatalf(\"status = %q\", got.Status)\n \t}\n }\n+\n+func TestToResponseIncludesUpstreamReference(t *testing.T) {\n+\tgot := toResponse(Export{ID: \"p1\", Status: StatusCompleted, UpstreamReference: \"UR-77\"})\n+\tif got.UpstreamReference != \"UR-77\" {\n+\t\tt.Fatalf(\"upstream_reference = %q\", got.UpstreamReference)\n+\t}\n+}\n+\n+func TestToResponseOmitsMissingUpstreamReference(t *testing.T) {\n+\tbody, _ := json.Marshal(toResponse(Export{ID: \"p2\", Status: StatusPending}))\n+\tif strings.Contains(string(body), \"upstream_reference\") {\n+\t\tt.Fatalf(\"unexpected upstream_reference in %s\", body)\n+\t}\n+}\n",
+      "context_slices": [
+        {
+          "file": "export/model.go",
+          "start_line": 10,
+          "code": "type Export struct {\n\tID            string\n\tStatus        Status\n\tRowCount     int64\n\tUpstreamReference string // set when the upstream confirms the export; empty otherwise\n}\n"
+        }
+      ]
+    },
+    {
+      "id": "preexisting-bug-unchanged-line",
+      "requirement": "Rename the metric search_suggestions to search_suggestions_total. No behaviour change. The dashboard and alert already query the new name.",
+      "diff": "--- a/search/suggest.go\n+++ b/search/suggest.go\n@@ -22,7 +22,7 @@ func (s *SuggestService) Suggest(ctx context.Context, prefix string) (Terms, error) {\n \tterms, err := s.provider.Terms(ctx)\n \tif err != nil {\n \t\treturn Terms{}, err\n \t}\n-\ts.metrics.Inc(\"search_suggestions\")\n+\ts.metrics.Inc(\"search_suggestions_total\")\n \treturn terms[prefix], nil\n }\n",
+      "context_slices": [
+        {
+          "file": "dashboards/search.json",
+          "start_line": 12,
+          "code": "      \"expr\": \"sum(rate(search_suggestions_total[5m]))\"\n"
+        }
+      ]
+    },
+    {
+      "id": "style-only",
+      "requirement": "Readability cleanup: rename the local accumulator in SumEntries. No behaviour change.",
+      "diff": "--- a/totals/sum.go\n+++ b/totals/sum.go\n@@ -14,8 +14,8 @@ import \"context\"\n // SumEntries returns the signed total of entries.\n func SumEntries(ctx context.Context, entries []Entry) int64 {\n-\tvar t int64\n+\tvar total int64\n \tfor _, e := range entries {\n-\t\tt += e.SignedTotal()\n+\t\ttotal += e.SignedTotal()\n \t}\n-\treturn t\n+\treturn total\n }\n",
+      "context_slices": []
+    },
+    {
+      "id": "division-guarded-by-callers",
+      "requirement": "AC-01: Given a daily or monthly report with at least one export, When the summary is built, Then AverageMs equals TotalMs / Count, truncated to whole milliseconds. Periods with zero exports keep returning ErrNoExports (unchanged).",
+      "diff": "--- a/report/stats.go\n+++ b/report/stats.go\n@@ -20,6 +20,11 @@ type Summary struct {\n \tAverageMs int64\n }\n \n+// averageMs implements AC-01. Callers must pass count > 0.\n+func averageMs(total, count int64) int64 {\n+\treturn total / count\n+}\n+\n func newSummary(total, count int64) Summary {\n-\treturn Summary{TotalMs: total, Count: count}\n+\treturn Summary{TotalMs: total, Count: count, AverageMs: averageMs(total, count)}\n }\n",
+      "context_slices": [
+        {
+          "file": "report/daily.go",
+          "start_line": 40,
+          "code": "func (b *Builder) Daily(ctx context.Context, day time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, day, day)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count == 0 {\n\t\treturn nil, ErrNoExports\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n"
+        },
+        {
+          "file": "report/monthly.go",
+          "start_line": 33,
+          "code": "func (b *Builder) Monthly(ctx context.Context, month time.Time) (*Summary, error) {\n\ttotal, count, err := b.store.Totals(ctx, monthStart(month), monthEnd(month))\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tif count <= 0 {\n\t\treturn nil, ErrNoExports\n\t}\n\ts := newSummary(total, count)\n\treturn &s, nil\n}\n",
+          "note": "Repository search: newSummary is called only from Daily and Monthly; averageMs only from newSummary."
+        }
+      ]
+    }
+  ]
+}

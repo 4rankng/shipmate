@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Byte-compile all scripts
+        run: python3 -m compileall scripts
+      - name: Unit and workflow-contract tests
+        run: python3 -m unittest discover -s scripts -p "test_*.py"
+      - name: Verify adapter surfaces are byte-clean
+        run: python3 scripts/gen_adapters.py --check
+      - name: Verify manifests match root VERSION
+        run: python3 scripts/stamp_version.py --check
+      - name: Validate markdown reference links
+        run: python3 scripts/check_links.py
+      - name: Validate eval datasets
+        run: python3 scripts/validate_evals.py

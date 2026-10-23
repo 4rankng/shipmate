@@ -1,0 +1,10 @@
+# Shipmate Rules for Windsurf / Cascade
+
+Shipmate provides structured engineering workflows from requirements to merge request:
+1. **Specify**: Formulate precise contracts from local requirements (`skills/specify/SKILL.md`).
+2. **Run**: Deliver verified code through TDD and persona reviews into a draft MR (`skills/run/SKILL.md`).
+3. **Review**: Challenge specs, plans, and diffs with independent persona reviews (`skills/review/SKILL.md`).
+4. **Walkthrough**: Explain tickets and MRs in layered detail (`skills/walkthrough/SKILL.md`).
+5. **Quiz**: Interactive comprehension assessment with report generation (`skills/quiz/SKILL.md`).
+
+Workflows are available in `.windsurf/workflows/`.

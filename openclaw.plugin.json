@@ -1,0 +1,12 @@
+{
+  "id": "shipmate",
+  "name": "Shipmate",
+  "kind": "tool",
+  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs and quizzes.",
+  "version": "4.6.0",
+  "author": "Frank Nguyen",
+  "repository": "https://github.com/4rankng/shipmate",
+  "license": "MIT",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

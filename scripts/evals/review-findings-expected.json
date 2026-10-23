@@ -1,0 +1,62 @@
+{
+  "offbyone-ac-limit": {
+    "verdict": "CHANGES_REQUIRED",
+    "key_bug": {
+      "file": "export/limit.go",
+      "lines": [
+        14,
+        14
+      ],
+      "category": "requirement-boundary"
+    }
+  },
+  "missing-ownership-check": {
+    "verdict": "CHANGES_REQUIRED",
+    "key_bug": {
+      "file": "api/project_handlers.go",
+      "lines": [
+        45,
+        51
+      ],
+      "category": "authorization"
+    }
+  },
+  "retry-non-idempotent": {
+    "verdict": "CHANGES_REQUIRED",
+    "key_bug": {
+      "file": "upload/submit.go",
+      "lines": [
+        22,
+        23
+      ],
+      "category": "idempotency"
+    }
+  },
+  "swallowed-error-success": {
+    "verdict": "CHANGES_REQUIRED",
+    "key_bug": {
+      "file": "import/service.go",
+      "lines": [
+        33,
+        37
+      ],
+      "category": "error-handling"
+    }
+  },
+  "clean-change": {
+    "verdict": "PASS",
+    "key_bug": null
+  },
+  "preexisting-bug-unchanged-line": {
+    "verdict": "PASS",
+    "key_bug": null
+  },
+  "style-only": {
+    "verdict": "PASS",
+    "key_bug": null
+  },
+  "division-guarded-by-callers": {
+    "verdict": "PASS",
+    "key_bug": null
+  }
+}
