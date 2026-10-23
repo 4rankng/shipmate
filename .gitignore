@@ -37,3 +37,6 @@ tmp/
 # Tests
 .coverage
 htmlcov/
+
+# Machine-local run state (never committed; see skills/run/SKILL.md)
+.shipmate/

@@ -1,22 +1,91 @@
 ---
-description: Explain a Jira ticket, merge request, or local branch in progressive layers with boundary maps, sequence and terminal diagrams
-argument-hint: "[jira-key-or-mr-url]"
+description: Use when someone wants a guided explanation of a Jira ticket, GitLab merge request or local branch, from behavior and interactions down to the important details, with layered visuals such as a boundary map, sequence diagrams and terminal diagrams
+argument-hint: "[jira-key-or-requirement-file]"
 ---
 
 # Shipmate: Walkthrough
 
-Use this command to guide the reader through a Jira ticket, GitLab merge request, or local branch in clear conceptual layers (orientation with a boundary map, behavior, interactions, details), pausing at each layer's checkpoint, with diagrams chosen to fit the medium.
+Use this command to invoke Shipmate's Walkthrough capability.
 
-Follow the complete procedure defined in [skills/walkthrough/SKILL.md](../skills/walkthrough/SKILL.md).
+Follow the complete procedure in [skills/walkthrough/SKILL.md](../skills/walkthrough/SKILL.md), reproduced below.
 
 ## Usage
-Provide the Jira ticket key or GitLab MR URL/identifier:
-```
-/walkthrough $ARGUMENTS
-```
 
-## Key Invariants
-- Walkthrough is a learning aid, not an approval or correctness verdict.
-- Purely read-only: never edits code, comments, approves, or pushes.
-- Explain in layers, citing verified source revisions.
-- Diagrams are evidence: omit a visual rather than invent participants.
+`/walkthrough $ARGUMENTS`
+
+---
+
+# Walkthrough with Shipmate
+
+Apply [contextual questions](../internal/user-questions.md). Ground drill-down choices and
+prediction questions in a concrete situation; do not reveal a prediction's answer before the reader responds or asks to see it.
+
+Explain the selected ticket or change so the reader can reason about it. This is a learning aid,
+not an independent review, correctness verdict or approval. Walkthrough is read-only: never edit
+code, Jira or Confluence, comment, label, approve, push, merge, deploy or change pipeline state.
+Keep the explanation in chat; do not create reports, run records or metrics files automatically.
+A walkthrough artifact the reader explicitly requested (see [diagrams](../skills/walkthrough/references/diagrams.md))
+is the only exception and never replaces the chat explanation.
+
+Read [target context](../skills/walkthrough/references/target-context.md) and load only the relevant source mode.
+If the user supplies Jira and an MR, use the ticket for intent and the MR for implementation;
+show mismatches without deciding which should change. A Jira-only session needs no code checkout.
+
+## Explain in layers
+
+Start with a short orientation: the problem, intended outcome, why this approach (from the ticket,
+MR description or commit messages; say "Rationale not stated" rather than inferring it), source and
+evidence limits. Close the orientation with a boundary map: one small diagram of the components,
+services and contracts this change touches, grounded in inspected files or the ticket, so the
+reader sees the territory before any detail. Then walk through one coherent behavior at a time,
+letting the reader choose where to drill deeper:
+
+1. **Behavior:** what changes or what the ticket requires, with a concrete before/after example
+   when supported. For Jira, explain acceptance criteria and exclusions in plain language.
+2. **Interactions:** ideally a Mermaid `sequenceDiagram` — or its terminal rendering — with real
+   participants, important calls, responses and ordering. Mark Jira flows as required/proposed.
+   If no meaningful interaction is evidenced, omit the diagram rather than inventing participants
+   or a runtime flow.
+3. **Details:** interfaces, fields/units, state transitions, ownership and the relevant failure or
+   retry paths. In MR mode, link exact changed code and affected callers. In Jira mode, cite ACs
+   and decision comments; do not invent code, endpoints or defaults to complete the narrative.
+
+Keep the initial pass short. Explain implementation details or pseudocode only when they help
+the reader understand this behavior; do not dump every file or test. Split a large MR into
+behavioral slices before explaining layers inside each slice: group changed regions that define and
+use the same function, type, field or contract, and list mechanical edits (renames, formatting,
+generated code) in one line. Start with the slice holding the main logical change; a test that pins
+the behaviour can supply its before/after example. Do not create stacked MRs or
+rewrite commits. Name unresolved decisions and unread areas clearly.
+Check comments, docstrings and example inputs against the inspected code before using them as
+explanations. If they disagree, show the actual behavior and the mismatch; do not silently teach
+the comment as truth. Use a concrete boundary input when it makes the difference clear.
+End each slice with one optional, unscored prediction question grounded in that slice (for example, "what happens if the downstream call times out here?"), unless the reader asked for a summary only. Wait for an attempt or "show", then answer with citations. Never score or record these or turn them into a quiz.
+
+End with the main points and any open questions. Offer `shipmate:quiz` on the same target when
+useful; do not start it without the reader asking. Refresh context when the source changes.
+A walkthrough may teach answers, so a later quiz report records whether this session included one.
+
+## Checkpoint after every layer
+
+Never present two layers in one pass. After the boundary map and after each layer of a behavior,
+stop and offer the reader: drill deeper into this layer, move to the next layer, re-visualize this
+layer a different way, or stop. Wait for an explicit choice; a summary-only request goes straight
+to the closing summary. Apply the same checkpoint between behavioral slices.
+
+## Choose the rendering that fits the situation
+
+Let the medium follow the reader's environment. Use a fenced `mermaid` block when the host renders
+Markdown diagrams; use fenced `text` block art for plain terminals and quick overviews. Use an
+installed renderer such as `termaid`, `mmaid-go` or PlantUML `-tutxt` only when it already exists
+on the machine and the diagram is too tangled to draw by hand. Produce the standalone HTML
+walkthrough only when the reader explicitly asks for an artifact; that file is the session's only
+disk write and must not touch tracked code. Keep every visual bounded and grounded per
+[diagrams](../skills/walkthrough/references/diagrams.md); omit a visual rather than invent its participants.
+
+## Source references
+
+Cite the ticket URL plus AC heading/text or a specific decision comment for requirements.
+For code, cite verified `file:line` locations and the inspected MR/local revision. Follow the host's
+link format. Keep this explanation out of MR descriptions and external comments unless explicitly
+asked to publish it; publication is a separate action.

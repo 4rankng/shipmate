@@ -82,7 +82,11 @@ describing its branch/conflict state, and preserve dirty user work.
 
 ## Stage 1 — Intake and dependency discovery
 
-Persist `work_item` plus the current requirement machine-locally. A clear current requirement is
+Persist `work_item` plus the current requirement machine-locally. Keep the run state in
+machine-local `.shipmate/run.json` (gitignored) following the bundled schema, and validate it
+with `python3 "${PAYMENT_PLUGIN_ROOT}/scripts/run_state.py" --check .shipmate/run.json` after
+each stage transition; a `valid: false` result means fix the state before resuming. A clear
+current requirement is
 sufficient admission: no previous approval, specification SHA, Jira revision lock, plan hash or
 historic attestation is required.
 In Jira mode, read the full current description and complete comment inventory, then select
@@ -268,7 +272,9 @@ review, merge and release remain separate, and MR creation is not workflow compl
 ## Resuming
 
 Read current source, worktree/status, saved decisions, plan, MR/CI and candidate/context state.
-Resume the affected stage, not a new run; settled questions stay settled. Formatting-only source
-edits continue; material clear edits refresh affected review; unresolved contradictions need one
-clarification. Revalidate changed base/context assumptions, rebuild stale inputs, and issue
+Start from `.shipmate/run.json` when it exists: validate it with `run_state.py`, resume the
+recorded stage, and update the file at every transition. Resume the affected stage, not a new
+run; settled questions stay settled. Formatting-only source edits continue; material clear edits
+refresh affected review; unresolved contradictions need one clarification. Revalidate changed
+base/context assumptions, rebuild stale inputs, and issue
 current-candidate review after code/evidence changes. Keep unaffected completed work.

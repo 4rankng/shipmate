@@ -1,0 +1,32 @@
+{
+  "skills": ["specify", "run", "review", "walkthrough", "quiz"],
+  "titles": {
+    "specify": "Specify",
+    "run": "Run",
+    "review": "Review",
+    "walkthrough": "Walkthrough",
+    "quiz": "Quiz"
+  },
+  "trees": {
+    "commands": {
+      "file": "{skill}.md",
+      "header": "---\ndescription: {description}\nargument-hint: \"[jira-key-or-requirement-file]\"\n---\n\n# Shipmate: {title}\n\nUse this command to invoke Shipmate's {title} capability.\n\nFollow the complete procedure in [skills/{skill}/SKILL.md](../skills/{skill}/SKILL.md), reproduced below.\n\n## Usage\n\n`/{skill} $ARGUMENTS`\n\n---\n\n",
+      "footer": "\n"
+    },
+    ".cursor/rules": {
+      "file": "shipmate-{skill}.mdc",
+      "header": "---\ndescription: {description}\nglobs: **/*\nalwaysApply: false\n---\n\n# Shipmate: {title}\n\n",
+      "footer": "\n---\n\nFollow the complete procedure at `skills/{skill}/SKILL.md`.\n"
+    },
+    ".windsurf/workflows": {
+      "file": "{skill}.md",
+      "header": "# Shipmate {title} Workflow\n\nExecute Shipmate's {skill} procedure using the complete contract below.\n\n",
+      "footer": "\n---\n\nReference: `skills/{skill}/SKILL.md`\n"
+    },
+    ".continue/prompts": {
+      "file": "{skill}.prompt",
+      "header": "name: {skill}\ndescription: {description}\n---\n\nYou are running Shipmate's {skill} procedure. Follow the complete contract below.\n\n",
+      "footer": "\n\nApply it to this request:\n\n{{{ input }}}\n"
+    }
+  }
+}
