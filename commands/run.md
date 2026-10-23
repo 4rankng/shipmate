@@ -1,6 +1,6 @@
 ---
 description: Use when a local requirement or a clear task should become a verified draft pull request with risk-proportional review and resumable clarification
-argument-hint: "[jira-key-or-requirement-file]"
+argument-hint: "[requirement-file]"
 ---
 
 # Shipmate: Run

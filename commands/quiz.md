@@ -1,6 +1,6 @@
 ---
 description: Use when someone wants to check their understanding of a local change or pull request through an interactive quiz and a screenshot-ready report
-argument-hint: "[jira-key-or-mr-url]"
+argument-hint: "[pull-request-or-branch]"
 ---
 
 # Shipmate: Quiz

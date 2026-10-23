@@ -15,10 +15,10 @@
   },
   "argument_hints": {
     "specify": "[requirement-file]",
-    "run": "[jira-key-or-requirement-file]",
+    "run": "[requirement-file]",
     "review": "[spec-plan-or-diff]",
-    "walkthrough": "[jira-key-or-mr-url]",
-    "quiz": "[jira-key-or-mr-url]"
+    "walkthrough": "[pull-request-or-branch]",
+    "quiz": "[pull-request-or-branch]"
   },
   "trees": {
     "commands": {

@@ -1,6 +1,6 @@
 ---
 description: Use when someone wants a guided explanation of a pull request or local branch, from behavior and interactions down to the important details, with layered visuals such as a boundary map, sequence diagrams and terminal diagrams
-argument-hint: "[jira-key-or-mr-url]"
+argument-hint: "[pull-request-or-branch]"
 ---
 
 # Shipmate: Walkthrough
