@@ -264,7 +264,8 @@ green.
 
 ## Stage 11 — Hand back
 
-Report the PR link or the delivered branch and commit, what changed, meaningful verification and
+Lead with the delivery reference — the PR link, or the delivered branch and commit — then report
+what changed, meaningful verification and
 limitations, and the next human
 action; keep internal traceability machine-local. State incomplete outcomes honestly:
 `needs-input`, `review-pending`, `verification-pending`, or `stopped` with the concrete next

@@ -69,9 +69,10 @@ substitute similarly named global, personal, or other-plugin skills.
    Separate defects, unnecessary code, requirement changes and pre-existing issues. Resolve
    disputed material findings through evidence, not agreement; propose unavailable verification
    without executing reviewed code or expanding the task.
-5. Return the phase, reviewed artifact reference, selected controller assessments or persona
+5. Lead with the bounded combined result, then return the phase, reviewed artifact reference,
+   selected controller assessments or persona
    verdicts, accepted/rejected findings with
-   rationale, unreviewed areas, and the bounded combined result.
+   rationale, and unreviewed areas.
 
 The public `review` action reports what must change. Use `run` for an authorized implementation and
 fresh candidate cycle; review never fixes, commits, comments, approves, pushes, deploys, or merges.
