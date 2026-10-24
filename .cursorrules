@@ -1,6 +1,6 @@
 # Shipmate Cursor Rules
 
-Shipmate delivers engineering work from local requirements to verified draft merge requests, with multi-persona reviews, layered walkthroughs, and diagnostic quizzes.
+Shipmate delivers engineering work from local requirements to verified draft merge requests, with multi-persona reviews, layered walkthroughs, diagnostic quizzes, and Socratic interrogation.
 
 ## Core Capabilities
 - **Specify**: Turn local requirements into an implementation-ready specification (`skills/specify/SKILL.md`).
@@ -8,6 +8,7 @@ Shipmate delivers engineering work from local requirements to verified draft mer
 - **Review**: Multi-persona independent review challenging specifications, plans, and diffs (`skills/review/SKILL.md`).
 - **Walkthrough**: Layered explanation of intent, architecture, changes, and verification (`skills/walkthrough/SKILL.md`).
 - **Quiz**: Diagnostic understanding quiz and report for tickets and merge requests (`skills/quiz/SKILL.md`).
+- **Ask**: Socratic root-cause and critical-thinking interrogation of a target, read-only (`skills/ask/SKILL.md`).
 
 ## Development Principles
 - Strict Test-Driven Development (TDD): Red -> Green -> Refactor.

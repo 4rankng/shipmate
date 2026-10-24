@@ -28,8 +28,9 @@ Use the phase explicitly requested by the user. Otherwise infer it from the supp
 - **Candidate** — an immutable commit/MR candidate with its complete diff and verification evidence.
 
 Do not collapse phases into one review or treat a review of one phase as evidence for another. If
-the artifact is still moving, capture its current content for review. If the phase or current
-artifact cannot be established from available evidence, return `UNABLE_TO_REVIEW` with the missing
+the artifact is still moving, capture its current content for review. If no artifact was supplied,
+ask for it as one contextual question before doing anything else. If the phase or current
+artifact still cannot be established after asking, return `UNABLE_TO_REVIEW` with the missing
 input instead of reviewing an assumption.
 
 ## Internal contracts

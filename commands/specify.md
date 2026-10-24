@@ -23,7 +23,8 @@ Turn intent into a short contract a human can review and an agent can implement.
 
 ## 1. Understand the problem
 
-Read the supplied brief/file completely. Inspect owning code, a real caller, shared utilities,
+Read the supplied brief/file completely. If no file and no clear task was supplied, ask one
+contextual question for the requirement source before investigating. Inspect owning code, a real caller, shared utilities,
 APIs and tests through [repo-context](../internal/repo-context/PROCEDURE.md). Separate observed
 behaviour, intended outcomes, settled decisions and unknowns. Diagnose the likely cause before
 accepting a proposed solution. Require a concrete capability gap before duplicating native code.

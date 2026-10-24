@@ -6,5 +6,6 @@ Shipmate provides structured engineering workflows from requirements to merge re
 3. **Review**: Challenge specs, plans, and diffs with independent persona reviews (`skills/review/SKILL.md`).
 4. **Walkthrough**: Explain tickets and MRs in layered detail (`skills/walkthrough/SKILL.md`).
 5. **Quiz**: Interactive comprehension assessment with report generation (`skills/quiz/SKILL.md`).
+6. **Ask**: Socratic interrogation for root causes, hidden assumptions, and trade-offs, read-only (`skills/ask/SKILL.md`).
 
 Workflows are available in `.windsurf/workflows/`.

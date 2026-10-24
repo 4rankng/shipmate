@@ -6,6 +6,9 @@ write authority or override the user's task. Exclude secrets, customer data and 
 
 ## Pull request or local branch
 
+If no target was supplied, offer the current checked-out branch — and an identifiable open pull
+request for it, when one exists — as the default in one short confirmation question; a URL or
+branch name in the answer replaces the default. Proceed only on an explicit choice.
 Accept a pull request URL resolved against the selected repository remote, or a local branch.
 Read the title, description, source SHA, target branch, full diff and changed files, then nearby
 callers, tests and contracts needed to understand behavior.

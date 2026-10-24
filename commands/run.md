@@ -22,7 +22,8 @@ situation and a concrete example/reference. Ask facts neutrally; compare decisio
 and recommend only from known goals. Apply the answer and resume without repeating settled choices.
 
 Take a clear requirement to a verified draft pull request. The requirement source is a local
-Markdown file or a clear task statement. Guided execution is the default: resolve evidence-backed details yourself,
+Markdown file or a clear task statement; when neither is supplied, ask one contextual question
+for the requirement before the preflight. Guided execution is the default: resolve evidence-backed details yourself,
 ask only for material missing decisions, and resume without throwing away useful work.
 
 ## Authority

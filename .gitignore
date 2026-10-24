@@ -40,3 +40,6 @@ htmlcov/
 
 # Machine-local run state (never committed; see skills/run/SKILL.md)
 .shipmate/
+
+# Machine-local session reports (not part of the plugin; check_links skips them)
+plans/
