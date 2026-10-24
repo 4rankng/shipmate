@@ -1,6 +1,6 @@
 ---
 description: Use when someone wants to check their understanding of a local change or pull request through an interactive quiz and a screenshot-ready report
-argument-hint: "[pull-request-or-branch]"
+argument-hint: "[pull-request-branch-or-diff]"
 ---
 
 # Shipmate: Quiz

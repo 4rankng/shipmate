@@ -2,7 +2,7 @@
 
 Execute Shipmate's run procedure using the complete contract below.
 
-# Run Shipmate
+# Run with Shipmate
 
 Apply [contextual questions](../../internal/user-questions.md) when asking the user: include the
 situation and a concrete example/reference. Ask facts neutrally; compare decision options fairly

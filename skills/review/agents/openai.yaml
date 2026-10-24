@@ -1,4 +1,4 @@
 interface:
   display_name: "Review"
-  short_description: "Independently review an L3 artifact"
+  short_description: "Independently review a spec, plan, or code candidate"
   default_prompt: "Use $shipmate:review to independently review this specification, plan, or candidate."

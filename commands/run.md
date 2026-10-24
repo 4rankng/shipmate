@@ -1,6 +1,6 @@
 ---
-description: Use when a local requirement or a clear task should become a verified draft pull request or reviewed local commit, with risk-proportional review and resumable clarification
-argument-hint: "[requirement-file]"
+description: Use when a local requirement or a clear task should become a verified draft pull request or reviewed local commit
+argument-hint: "[requirement-or-task]"
 ---
 
 # Shipmate: Run
@@ -15,7 +15,7 @@ Follow the complete procedure in [skills/run/SKILL.md](../skills/run/SKILL.md), 
 
 ---
 
-# Run Shipmate
+# Run with Shipmate
 
 Apply [contextual questions](../internal/user-questions.md) when asking the user: include the
 situation and a concrete example/reference. Ask facts neutrally; compare decision options fairly

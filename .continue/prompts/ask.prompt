@@ -1,3 +1,4 @@
+---
 name: ask
 description: Use when investigating root causes, exploring architectural trade-offs, stress-testing design decisions, or uncovering hidden system assumptions across code, incidents, or specifications without modifying files. Not for reviewing git diffs or auditing pull requests.
 ---

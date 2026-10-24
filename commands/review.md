@@ -1,5 +1,5 @@
 ---
-description: Use when an L3 specification, implementation plan, or immutable code candidate must receive independent evidence-bound review before progressing
+description: Use when a specification, implementation plan, or code candidate needs independent evidence-bound review before progressing
 argument-hint: "[spec-plan-or-diff]"
 ---
 

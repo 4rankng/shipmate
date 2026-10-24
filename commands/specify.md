@@ -1,6 +1,6 @@
 ---
 description: Use when a local Markdown file or a rough task needs a requirements and technical-design interview before an implementation-ready specification
-argument-hint: "[requirement-file]"
+argument-hint: "[requirement-or-task]"
 ---
 
 # Shipmate: Specify

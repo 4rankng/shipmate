@@ -16,11 +16,11 @@
     "ask": "Ask"
   },
   "argument_hints": {
-    "specify": "[requirement-file]",
-    "run": "[requirement-file]",
+    "specify": "[requirement-or-task]",
+    "run": "[requirement-or-task]",
     "review": "[spec-plan-or-diff]",
     "walkthrough": "[pull-request-or-branch]",
-    "quiz": "[pull-request-or-branch]",
+    "quiz": "[pull-request-branch-or-diff]",
     "ask": "[mode-or-target]"
   },
   "trees": {
@@ -41,7 +41,7 @@
     },
     ".continue/prompts": {
       "file": "{skill}.prompt",
-      "header": "name: {skill}\ndescription: {description}\n---\n\nYou are running Shipmate's {skill} procedure. Follow the complete contract below.\n\n",
+      "header": "---\nname: {skill}\ndescription: {description}\n---\n\nYou are running Shipmate's {skill} procedure. Follow the complete contract below.\n\n",
       "footer": "\n\nApply it to this request:\n\n{{{ input }}}\n"
     }
   }

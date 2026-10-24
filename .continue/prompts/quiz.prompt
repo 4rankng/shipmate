@@ -1,3 +1,4 @@
+---
 name: quiz
 description: Use when someone wants to check their understanding of a local change or pull request through an interactive quiz and a screenshot-ready report
 ---

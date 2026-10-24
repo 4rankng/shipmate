@@ -1,9 +1,9 @@
 ---
 name: run
-description: Use when a local requirement or a clear task should become a verified draft pull request or reviewed local commit, with risk-proportional review and resumable clarification
+description: Use when a local requirement or a clear task should become a verified draft pull request or reviewed local commit
 ---
 
-# Run Shipmate
+# Run with Shipmate
 
 Apply [contextual questions](../../internal/user-questions.md) when asking the user: include the
 situation and a concrete example/reference. Ask facts neutrally; compare decision options fairly
