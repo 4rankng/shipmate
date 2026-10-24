@@ -79,8 +79,7 @@ promise an end-to-end guarantee that depends on them. Out of Scope and Technical
 most three short bullets. Omit empty sections. Avoid tables, preambles, summaries and filler.
 
 Aim for at most **1,200 characters** and **fewer than 150 words**. This is a target, not a hard cap
-and not a quota. Count exact UTF-8 Markdown using Unicode code points and whitespace-separated
-words, including headings, punctuation, whitespace, markup and URLs. Exceed it only for a strong
+and not a quota; `validate_spec.py` measures both, so trust its counts. Exceed it only for a strong
 reason: more than three ticket-owned outcomes with distinct test oracles, Definitions the ACs need,
 or essential dependency, compatibility or ownership constraints. Background history, implementation
 mechanics and restated rules never justify extra length. When over target, state the reason in chat
@@ -90,7 +89,16 @@ human approval covers it.
 Use stable AC IDs and proper Given/When/Then bullets: one event and observable test oracle per
 criterion. Preserve distinct failure outcomes and essential authorization/compatibility constraints.
 Do not invent metrics, retries, deadlines, services or exclusions to fill the template.
-Before review, check the criteria as a set: each trigger's rejection or failure path is covered by an AC, Out of Scope or a named unchanged behaviour; no two ACs can share a starting state and event yet demand different results; each Then is an observable result one test can assert, not a mechanism unless agreed in Technical Notes. Settle a gap or conflict from evidence, otherwise ask it as one interview question; never invent an AC to close it.
+Before review, check the criteria as a set:
+
+- each trigger's rejection or failure path is covered by an AC, Out of Scope or a named unchanged
+  behaviour;
+- no two ACs can share a starting state and event yet demand different results;
+- each Then is an observable result one test can assert, not a mechanism unless agreed in
+  Technical Notes.
+
+Settle a gap or conflict from evidence, otherwise ask it as one interview question; never invent
+an AC to close it.
 
 Propose a plain-language summary when the current one is shorthand, for example
 `[report-export] Recover unpublished export results for the report service`. Keep the component prefix
