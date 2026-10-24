@@ -19,7 +19,7 @@ On-call engineers keep inspecting the environment they selected after a refresh.
 - Persist only for this tab session; do not change permissions.
 ```
 
-Validate the extracted draft with `scripts/validate_spec.py`. Do not append this explanation to
+Validate the extracted draft with `python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/validate_spec.py"`. Do not append this explanation to
 the ticket. Preserve the original description in a complete local backup and share its location,
 not a duplicate inside the replacement or a massive chat echo. Ask about persistence lifetime only
 when unsettled; do not ask about storage API mechanics or invent analytics/latency targets.

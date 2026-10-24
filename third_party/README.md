@@ -55,5 +55,5 @@ scope, evidence, freshness and authority rules. No mandatory two-agent review pe
 task or new public command is introduced. Existing planning, worktree, test and finish procedures
 already implement the equivalent responsibilities; their full upstream frameworks are not bundled.
 
-The packaging tests verify pinned local hashes, declared licenses/provenance, no symlinks, exactly five public skills
+The packaging tests verify pinned local hashes, declared licenses/provenance, no symlinks, the registered public skills
 and local-reference resolution after copying the plugin away from the marketplace checkout.

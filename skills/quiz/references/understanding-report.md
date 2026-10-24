@@ -15,8 +15,9 @@ Unanswered questions after `stop` remain unanswered. Score = correct / total pla
 rounded with `Math.round(correct / total * 100)`. Skips earn no credit and stay in the denominator.
 Never average attempt scores or present a partial quiz as completed.
 
-Use the bundled `scripts/quiz_report.py` with private JSON on stdin to calculate counts, topic
-results and levels. Derive its path from this plugin's root. Each question has `id`, `topic`,
+Use the bundled `python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/quiz_report.py"` with private JSON on
+stdin to calculate counts, topic
+results and levels. Each question has `id`, `topic`,
 `correct` (A–D index 0–3) and `answer` (first submitted index, `"skip"`, or `null` if unanswered).
 Project only those four fields from each frozen question record; do not pass the full record
 with question text, options and explanation, because the helper rejects extra fields. Pass
@@ -59,7 +60,7 @@ Do not look up personal identity or imply identity verification. Record walkthro
 
 ## Render the dashboard
 
-Run `python3 <plugin-root>/scripts/quiz_report.py --format dashboard` with the same private
+Run `python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/quiz_report.py" --format dashboard` with the same private
 scoring input on stdin. Add a `report` object for observed session context:
 
 - `target`: branch, pull request IID or diff reference and a short title.
