@@ -51,12 +51,13 @@ function doctor() {
   console.log('  /review      - Multi-persona independent review challenging specifications, plans, diffs');
   console.log('  /walkthrough - Progressive layered explanation of a merge request or local change');
   console.log('  /quiz        - Diagnostic comprehension quiz and understanding report');
+  console.log('  /ask         - Socratic root-cause and critical-thinking interrogation');
 }
 
 function listSkills() {
   printBanner();
   console.log('Available Shipmate Skills:');
-  const skills = ['specify', 'run', 'review', 'walkthrough', 'quiz'];
+  const skills = ['specify', 'run', 'review', 'walkthrough', 'quiz', 'ask'];
   for (const s of skills) {
     const skillPath = join(ROOT, 'skills', s, 'SKILL.md');
     if (existsSync(skillPath)) {

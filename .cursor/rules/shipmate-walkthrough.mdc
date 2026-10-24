@@ -8,17 +8,17 @@ alwaysApply: false
 
 # Walkthrough with Shipmate
 
-Apply [contextual questions](../../internal/user-questions.md)). Ground drill-down choices and
+Apply [contextual questions](../../internal/user-questions.md). Ground drill-down choices and
 prediction questions in a concrete situation; do not reveal a prediction's answer before the reader responds or asks to see it.
 
 Explain the selected ticket or change so the reader can reason about it. This is a learning aid,
 not an independent review, correctness verdict or approval. Walkthrough is read-only: never edit
 code, comment, approve, push, merge, deploy or change pipeline state.
 Keep the explanation in chat; do not create reports, run records or metrics files automatically.
-A walkthrough artifact the reader explicitly requested (see [diagrams](../../skills/walkthrough/references/diagrams.md)))
+A walkthrough artifact the reader explicitly requested (see [diagrams](../../skills/walkthrough/references/diagrams.md))
 is the only exception and never replaces the chat explanation.
 
-Read [target context](../../skills/walkthrough/references/target-context.md)) and load only the relevant source mode.
+Read [target context](../../skills/walkthrough/references/target-context.md) and load only the relevant source mode.
 
 ## Explain in layers
 
@@ -70,7 +70,7 @@ installed renderer such as `termaid`, `mmaid-go` or PlantUML `-tutxt` only when 
 on the machine and the diagram is too tangled to draw by hand. Produce the standalone HTML
 walkthrough only when the reader explicitly asks for an artifact; that file is the session's only
 disk write and must not touch tracked code. Keep every visual bounded and grounded per
-[diagrams](../../skills/walkthrough/references/diagrams.md)); omit a visual rather than invent its participants.
+[diagrams](../../skills/walkthrough/references/diagrams.md); omit a visual rather than invent its participants.
 
 ## Source references
 

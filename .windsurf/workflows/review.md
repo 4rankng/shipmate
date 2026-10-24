@@ -4,14 +4,14 @@ Execute Shipmate's review procedure using the complete contract below.
 
 # Review with Shipmate
 
-Apply [contextual questions](../../internal/user-questions.md)) when a finding needs a human
+Apply [contextual questions](../../internal/user-questions.md) when a finding needs a human
 decision: show its triggering example, consequence and viable choices, not an unexplained verdict.
 
-This is one of the plugin's five public entrypoints. It challenges an artifact without changing
+This is one of the plugin's six public entrypoints. It challenges an artifact without changing
 the artifact, its repository, or pipeline state.
 
-Read the bundled [coding guideline](../../internal/coding-guideline.md)) and
-[secure engineering](../../internal/secure-engineering.md)). Check applicable rules against the
+Read the bundled [coding guideline](../../internal/coding-guideline.md) and
+[secure engineering](../../internal/secure-engineering.md). Check applicable rules against the
 selected artifact and affected code, not a generic checklist. Findings need concrete evidence and
 impact; these guides do not authorize fixes or demand irrelevant service-creation work.
 
@@ -32,16 +32,16 @@ input instead of reviewing an assumption.
 
 ## Internal contracts
 
-Read the bundled [`reviewer` procedure](../../internal/reviewer/PROCEDURE.md)) and
-[`workflow policy`](../../internal/workflow-policy.md)) and
-[`persona catalog`](../../internal/reviewer/references/persona-catalog.md)), then load only the
+Read the bundled [`reviewer` procedure](../../internal/reviewer/PROCEDURE.md) and
+[`workflow policy`](../../internal/workflow-policy.md) and
+[`persona catalog`](../../internal/reviewer/references/persona-catalog.md), then load only the
 phase-specific contracts below:
 
 | Phase | Additional contracts |
 |---|---|
-| Specification | [`specification-personas.md`](../../internal/reviewer/references/specification-personas.md)) |
-| Plan | [`plan-personas.md`](../../internal/reviewer/references/plan-personas.md)) and [`plan-verification-methods.md`](../../internal/reviewer/references/plan-verification-methods.md)) |
-| Candidate | [`code-review`](../../internal/code-review/PROCEDURE.md)), [`candidate-review-envelope.md`](../../internal/reviewer/references/candidate-review-envelope.md)), policy-selected candidate persona files, and [`findings-and-adjudication.md`](../../internal/reviewer/references/findings-and-adjudication.md)) |
+| Specification | [`specification-personas.md`](../../internal/reviewer/references/specification-personas.md) |
+| Plan | [`plan-personas.md`](../../internal/reviewer/references/plan-personas.md) and [`plan-verification-methods.md`](../../internal/reviewer/references/plan-verification-methods.md) |
+| Candidate | [`code-review`](../../internal/code-review/PROCEDURE.md), [`candidate-review-envelope.md`](../../internal/reviewer/references/candidate-review-envelope.md), policy-selected candidate persona files, and [`findings-and-adjudication.md`](../../internal/reviewer/references/findings-and-adjudication.md) |
 
 Internal procedures are implementation resources, not separately invocable chat actions. Do not
 substitute similarly named global, personal, or other-plugin skills.
@@ -49,7 +49,7 @@ substitute similarly named global, personal, or other-plugin skills.
 ## Review gate
 
 1. Read the complete current input and required contracts. Apply the shared
-   [freshness rules](../../internal/reviewer/references/review-freshness.md)): specification and plan
+   [freshness rules](../../internal/reviewer/references/review-freshness.md): specification and plan
    reviews track meaning, not content hashes; only candidate evidence requires exact identities.
 2. Classify risk using the shared workflow policy and select only the applicable existing personas.
    Dispatch each in a distinct review-only context using current host metadata and an explicit

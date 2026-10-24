@@ -8,7 +8,7 @@ description: Use when an L3 specification, implementation plan, or immutable cod
 Apply [contextual questions](../../internal/user-questions.md) when a finding needs a human
 decision: show its triggering example, consequence and viable choices, not an unexplained verdict.
 
-This is one of the plugin's five public entrypoints. It challenges an artifact without changing
+This is one of the plugin's six public entrypoints. It challenges an artifact without changing
 the artifact, its repository, or pipeline state.
 
 Read the bundled [coding guideline](../../internal/coding-guideline.md) and

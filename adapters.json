@@ -4,21 +4,24 @@
     "run",
     "review",
     "walkthrough",
-    "quiz"
+    "quiz",
+    "ask"
   ],
   "titles": {
     "specify": "Specify",
     "run": "Run",
     "review": "Review",
     "walkthrough": "Walkthrough",
-    "quiz": "Quiz"
+    "quiz": "Quiz",
+    "ask": "Ask"
   },
   "argument_hints": {
     "specify": "[requirement-file]",
     "run": "[requirement-file]",
     "review": "[spec-plan-or-diff]",
     "walkthrough": "[pull-request-or-branch]",
-    "quiz": "[pull-request-or-branch]"
+    "quiz": "[pull-request-or-branch]",
+    "ask": "[mode-or-target]"
   },
   "trees": {
     "commands": {

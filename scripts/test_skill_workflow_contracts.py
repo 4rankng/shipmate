@@ -72,7 +72,7 @@ class SpecificationAdmissionContractTests(TestCase):
     def test_public_review_routes_all_phases_without_mutation(self):
         for phase in ("Specification", "Plan", "Candidate"):
             self.assertIn(phase, self.review)
-        self.assertIn("five public entrypoints", self.review)
+        self.assertIn("six public entrypoints", self.review)
         self.assertIn("Internal procedures are implementation resources", self.review)
         self.assertIn("review never fixes, commits, comments, approves, pushes, deploys, or merges", self.review)
 
@@ -367,7 +367,7 @@ class QuizContractTests(TestCase):
         cls.normalized = " ".join((cls.quiz + "\n" + report + "\n" + generation).split())
 
     def test_quiz_is_read_only_and_stays_in_chat(self):
-        self.assertIn("five public entrypoints", self.quiz)
+        self.assertIn("six public entrypoints", self.quiz)
         self.assertIn(
             "Quiz never comments, labels, approves, pushes, edits code, changes pipeline state",
             self.normalized,

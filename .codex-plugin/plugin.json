@@ -1,7 +1,7 @@
 {
   "name": "shipmate",
-  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs and quizzes.",
-  "version": "4.6.0",
+  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes and diagnostic interrogation.",
+  "version": "4.7.0",
   "author": {
     "name": "Frank Nguyen"
   },
@@ -12,7 +12,7 @@
   "interface": {
     "displayName": "Shipmate",
     "shortDescription": "Solo-developer spec-to-ship workflow",
-    "longDescription": "Five public actions—Specify, Run, Review, Walkthrough and Quiz—giving a solo developer independent review depth without a team.",
+    "longDescription": "Six public actions—Specify, Run, Review, Walkthrough, Quiz and Ask—giving a solo developer independent review depth without a team.",
     "developerName": "Frank Nguyen",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
@@ -21,7 +21,8 @@
       "Use shipmate:run to deliver local requirements to a verified draft pull request or reviewed local commit.",
       "Use shipmate:review to challenge a specification, plan or candidate.",
       "Use shipmate:walkthrough to explain this merge request or local change in layers.",
-      "Use shipmate:quiz to check my understanding of this merge request or local change and show a report."
+      "Use shipmate:quiz to check my understanding of this merge request or local change and show a report.",
+      "Use shipmate:ask to interrogate this target and give me the findings register with causal tree."
     ]
   }
 }
