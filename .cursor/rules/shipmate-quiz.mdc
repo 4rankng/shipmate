@@ -15,8 +15,8 @@ This is one of the plugin's six public entrypoints. It helps whoever runs it —
 or anyone taking ownership — check their understanding of a change or local branch,
 instead of blindly trusting a specification or unfamiliar code. There is one mode for everyone; do
 not detect or ask about roles. Each question teaches as well as tests: the explanation after every
-answer walks through the relevant source evidence. In sphinx-ci's words it is "a mirror, not a judge": each
-question forces you to articulate what you understand — before it hits prod. It is a learning
+answer walks through the relevant source evidence. Each question is a mirror, not a judge: it
+makes you articulate what you actually understand. It is a learning
 tool, not a gate: a score is a self-check, never approval or proof that the change is correct.
 The report records understanding demonstrated in this session; it cannot verify who answered,
 whether another AI helped, or comprehension beyond the questions asked.
@@ -83,8 +83,8 @@ files and the diff, plus the surrounding context.
 
 Keep the key in that structure in your private working state; never show it. Before question one,
 add a nonempty `topic` to each private question record and freeze it with the correct answer.
-Reuse this topic for reporting; do not regroup questions after seeing the user's answers. The
-upstream example omits this Shipmate-only field. Shipmate adds:
+Reuse this topic for reporting; do not regroup questions after seeing the user's answers.
+Shipmate adds:
 
 - each question has exactly four options (A–D), exactly one correct answer, and is anchored to
   the selected source: `file:line` evidence, cited in its explanation;
@@ -118,7 +118,7 @@ needs enough context to answer independently, even if the reader has not seen th
 - ask for one observable outcome: response, state change or side effect.
 
 For before/after questions, state the old behavior and the changed condition supported by source.
-Do not ask only `recordRetentionMinutes is -1; which result is correct?` or rely on phrases such as
+Do not ask a bare parameter value with "which result is correct?", or rely on phrases such as
 `inside the lookup window` without explaining that window. For a timing question, give the record
 creation time, request time and relevant configured window, verified against the inspected code.
 
@@ -139,12 +139,8 @@ Comments and examples can be stale: trace the executed branch before using eithe
 key. State when a question asks about implemented behavior despite a conflicting requirement;
 otherwise choose another question. Never use an ambiguous question to penalize the reader.
 If generation still fails, follow sphinx-ci's fail-open rule: say the quiz could not be generated, that nothing is
-blocked, and that the user can run `shipmate:quiz` again.
-
-### Example source
-
-The demo-question cautions live with the
-[generation prompt](../../skills/quiz/references/question-generation.md); apply them before freezing the key.
+blocked, and that the user can run `shipmate:quiz` again. Apply the demo-question cautions in the
+[generation prompt](../../skills/quiz/references/question-generation.md) before freezing the key.
 
 ## Ask one question at a time
 
