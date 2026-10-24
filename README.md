@@ -2,7 +2,7 @@
 
 Shipmate is an engineering workflow harness built for solo developers and indie developers who
 create software applications alone. It delivers work from local requirements with independent
-multi-persona AI reviews, layered walkthroughs, and diagnostic quizzes — the engineering team you
+multi-persona AI reviews, layered walkthroughs, diagnostic quizzes, and Socratic interrogation — the engineering team you
 don't have, on demand.
 
 This guide explains how to install and activate Shipmate in each supported AI coding harness.
@@ -34,7 +34,7 @@ claude --plugin-dir /path/to/shipmate
 claude plugin validate /path/to/shipmate
 ```
 
-Once loaded, public slash commands `/specify`, `/run`, `/review`, `/walkthrough`, and `/quiz` are available immediately.
+Once loaded, public slash commands `/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, and `/ask` are available immediately.
 
 ---
 
@@ -61,7 +61,7 @@ pi install /path/to/shipmate -l
 pi install /path/to/shipmate
 ```
 
-Commands (`/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`) and skills are enabled automatically.
+Commands (`/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, `/ask`) and skills are enabled automatically.
 
 ---
 
@@ -72,7 +72,7 @@ Install the plugin through the Codex plugin manager:
 codex plugin add /path/to/shipmate
 ```
 
-Codex reads the manifest from `.codex-plugin/plugin.json` and configures the default agent actions (`$shipmate:specify`, `$shipmate:run`, `$shipmate:review`, `$shipmate:walkthrough`, `$shipmate:quiz`).
+Codex reads the manifest from `.codex-plugin/plugin.json` and configures the default agent actions (`$shipmate:specify`, `$shipmate:run`, `$shipmate:review`, `$shipmate:walkthrough`, `$shipmate:quiz`, `$shipmate:ask`).
 
 ---
 
@@ -88,12 +88,13 @@ Add the plugin path to your `~/.config/opencode/opencode.json` (or project-level
 }
 ```
 
-OpenCode automatically loads `opencode.mjs` and registers the five skills:
+OpenCode automatically loads `opencode.mjs` and registers the six skills:
 * `shipmate:specify`
 * `shipmate:run`
 * `shipmate:review`
 * `shipmate:walkthrough`
 * `shipmate:quiz`
+* `shipmate:ask`
 
 ---
 
@@ -122,7 +123,7 @@ cp -r /path/to/shipmate/.cursor .
 cp /path/to/shipmate/.cursorrules .
 ```
 
-Cursor will automatically load the rules for specification, TDD execution, review, walkthroughs, and quizzes.
+Cursor will automatically load the rules for specification, TDD execution, review, walkthroughs, quizzes, and diagnostic interrogation.
 
 ---
 
@@ -135,7 +136,7 @@ cp -r /path/to/shipmate/.windsurf .
 cp /path/to/shipmate/.windsurfrules .
 ```
 
-Trigger `/specify`, `/run`, `/review`, `/walkthrough`, or `/quiz` directly in Cascade chat.
+Trigger `/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, or `/ask` directly in Cascade chat.
 
 ---
 
@@ -168,15 +169,16 @@ cp /path/to/shipmate/.github/copilot-instructions.md .github/
 | Get independent, evidence-bound challenge of a spec, plan, or candidate | `/review` |
 | Understand a ticket or change in layers, with grounded diagrams | `/walkthrough` |
 | Check your own understanding of a change before it reaches production | `/quiz` |
+| Stress-test the framing of a problem — root causes, hidden assumptions, trade-offs | `/ask` |
 
 ## Harness Support
 
 | Harness | Slash commands | Adapter source | Notes |
 |---|---|---|---|
-| Claude Code | ✅ `/specify` `/run` `/review` `/walkthrough` `/quiz` | marketplace or `--plugin-dir` | validate with `claude plugin validate` |
-| Oh-My-Pi / Pi | ✅ all five | plugin link / `pi install` | commands and skills auto-enabled |
+| Claude Code | ✅ `/specify` `/run` `/review` `/walkthrough` `/quiz` `/ask` | marketplace or `--plugin-dir` | validate with `claude plugin validate` |
+| Oh-My-Pi / Pi | ✅ all six | plugin link / `pi install` | commands and skills auto-enabled |
 | OpenAI Codex CLI | `$shipmate:*` agent actions | `.codex-plugin/` | manifest-validated |
-| OpenCode | five skills auto-registered | `opencode.mjs` | add the path to `plugins` |
+| OpenCode | six skills auto-registered | `opencode.mjs` | add the path to `plugins` |
 | Antigravity / Gemini CLI | plugin / extension load | `configs/antigravity-cli/` | validate with `agy plugin validate` |
 | Cursor | rules (no slash commands) | `.cursor/rules/`, `.cursorrules` | trigger by intent in chat |
 | Windsurf | workflows | `.windsurf/workflows/` | trigger `/specify` etc. in Cascade |

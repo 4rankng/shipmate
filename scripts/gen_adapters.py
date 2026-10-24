@@ -48,6 +48,8 @@ def rewrite_links(body: str, source_dir: str, output_dir: str) -> str:
             return match.group(0)
         resolved = posixpath.normpath(posixpath.join(source_dir, target))
         relative = posixpath.relpath(resolved, output_dir)
+        # group(3) already carries the closing paren; appending another emitted
+        # "](path))" and broke every rewritten link before the fix.
         return f"]({relative}{anchor}{match.group(3)}"
 
     return LINK.sub(replace, body)

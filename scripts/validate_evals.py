@@ -89,7 +89,7 @@ def check_review_findings() -> None:
 def check_skill_quality() -> None:
     data = load("skill-quality-cases.json")
     ids = case_ids(data, "skill-quality-cases.json")
-    skills = {"specify", "run", "review", "walkthrough", "quiz"}
+    skills = {"specify", "run", "review", "walkthrough", "quiz", "ask"}
     for case in data["cases"]:
         if case["skill"] not in skills:
             raise ValueError(f"skill-quality-cases.json: unknown skill {case['skill']!r}")
