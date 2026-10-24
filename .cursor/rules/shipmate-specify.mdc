@@ -111,7 +111,9 @@ Before showing the draft and again before publication, run:
 python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/validate_spec.py" <draft.md>
 ```
 
-Derive `SHIPMATE_PLUGIN_ROOT` from this installed skill's plugin directory. A structure error means
+Derive `SHIPMATE_PLUGIN_ROOT` from this skill's installed path (the directory containing
+`plugin.json`) before running bundled commands; do not assume a host-provided plugin-root
+variable. A structure error means
 rewrite. A length warning (`within_target: false`) means cut what lacks a strong reason, never
 truncate or remove material requirements; otherwise state the reason. When detail is long but not
 needed by the ACs, propose a named accessible supporting reference and verify it covers the exact

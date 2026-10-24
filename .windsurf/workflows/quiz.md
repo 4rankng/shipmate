@@ -57,7 +57,8 @@ then pipe `git diff "$TARGET_SHA...$SOURCE_SHA"` with the same pathspecs instead
 are the MR's target-branch and source heads.
 
 Derive `SHIPMATE_PLUGIN_ROOT` from this skill's installed path (the directory containing
-`plugin.json`). The script is the only sizing implementation; it prints `lines`, `files`,
+`plugin.json`) before running bundled commands; do not assume a host-provided plugin-root
+variable. The script is the only sizing implementation; it prints `lines`, `files`,
 `weight`, `questions` and `skip`. Move up one band when the change is security-sensitive or
 state-changing: authorization, idempotency, retries, state transitions, data integrity,
 concurrency, or cross-service contracts. Never go
@@ -186,7 +187,7 @@ Keep each explanation and follow-up to the current topic. If it would answer a q
 ## Report understanding in chat
 
 After completion, `stop`, or when the user asks for results, render the bundled dashboard verbatim in a single fenced `text` block
-that fits a screenshot. Use `scripts/quiz_report.py --format dashboard`; put clickable source links
+that fits a screenshot. Use `python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/quiz_report.py" --format dashboard`; put clickable source links
 immediately below the panel. Do not save, upload or post it automatically. Read
 [report rules](../../skills/quiz/references/understanding-report.md) for scoring, completeness and source freshness.
 
