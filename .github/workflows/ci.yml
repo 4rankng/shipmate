@@ -23,5 +23,7 @@ jobs:
         run: python3 scripts/stamp_version.py --check
       - name: Validate markdown reference links
         run: python3 scripts/check_links.py
+      - name: Scan shipped instructions for dangerous patterns
+        run: python3 scripts/scan_unsafe_instructions.py
       - name: Validate eval datasets
         run: python3 scripts/validate_evals.py

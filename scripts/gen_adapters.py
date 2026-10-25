@@ -89,6 +89,34 @@ def generate(root: Path) -> dict[str, str]:
     return outputs
 
 
+def expected_surface_files(root: Path, spec: dict) -> set[str]:
+    expected = set()
+    for skill in spec["skills"]:
+        for tree, surface in spec["trees"].items():
+            expected.add(str(root / tree / surface["file"].replace("{skill}", skill)))
+    return expected
+
+
+def surface_set_mismatches(root: Path, spec: dict) -> list[str]:
+    """Report adapter files that are missing from or orphaned within the trees.
+
+    Byte-clean regeneration proves the existing surfaces are reproducible, not
+    that the set matches the current skill list: a renamed or deleted skill can
+    leave stale copies behind that still pass --check.
+    """
+    expected = expected_surface_files(root, spec)
+    suffixes = {Path(surface["file"]).suffix for surface in spec["trees"].values()}
+    actual = {
+        str(path)
+        for tree in spec["trees"]
+        for path in (root / tree).rglob("*")
+        if path.is_file() and path.suffix in suffixes
+    }
+    return sorted(
+        f"missing: {path}" for path in expected - actual
+    ) + sorted(f"orphan: {path}" for path in actual - expected)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", default=".", help="plugin root (default: current directory)")
@@ -105,10 +133,12 @@ def main(argv=None) -> int:
         print(f"generated {len(outputs)} adapter surfaces")
         return 0
     stale = []
+    spec = json.loads((root / "adapters.json").read_text(encoding="utf-8"))
     for relative, content in sorted(outputs.items()):
         path = root / relative
         if not path.exists() or path.read_text(encoding="utf-8") != content:
             stale.append(relative)
+    stale.extend(surface_set_mismatches(root, spec))
     if stale:
         print("stale adapter surfaces: " + ", ".join(stale))
         return 1

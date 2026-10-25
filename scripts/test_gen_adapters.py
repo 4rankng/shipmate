@@ -76,6 +76,27 @@ class RegenerationCleanTests(unittest.TestCase):
             self.assertEqual(check.returncode, 1)
             self.assertIn("commands/quiz.md", check.stdout)
 
+    def test_check_detects_orphaned_adapter_surfaces(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for skill in SKILLS:
+                skill_dir = root / "skills" / skill
+                skill_dir.mkdir(parents=True)
+                (skill_dir / "SKILL.md").write_text(
+                    f"---\nname: {skill}\ndescription: {skill} contract\n---\n\n# {skill}\n",
+                    encoding="utf-8",
+                )
+            (root / "adapters.json").write_text(
+                (PLUGIN_ROOT / "adapters.json").read_text(encoding="utf-8"), encoding="utf-8")
+            orphan = root / "commands" / "renamed-skill.md"
+            orphan.parent.mkdir(parents=True, exist_ok=True)
+            orphan.write_text("stale copy of a removed skill", encoding="utf-8")
+            check = subprocess.run(
+                [sys.executable, str(SCRIPT), "--check", "--root", str(root)],
+                capture_output=True, text=True)
+            self.assertEqual(check.returncode, 1)
+            self.assertIn(f"orphan: {orphan}", check.stdout)
+
 
 class DerivedPinCoverageTests(unittest.TestCase):
     def test_every_generated_surface_carries_its_skill_sentinel(self):

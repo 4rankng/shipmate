@@ -28,7 +28,7 @@ def markdown_files(root: Path) -> list[Path]:
 
     return [
         path
-        for path in sorted(root.rglob("*.md"))
+        for path in sorted(root.rglob("*")) if path.suffix in (".md", ".prompt", ".mdc")
         if not (set(path.parts) & skip_dirs) and not is_generated_mirror(path)
     ]
 
