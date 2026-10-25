@@ -18,10 +18,18 @@ SKIP_PREFIXES = ("http://", "https://", "mailto:")
 def markdown_files(root: Path) -> list[Path]:
     # plans/ holds machine-local session reports, not part of the plugin graph.
     skip_dirs = {".git", "node_modules", "__pycache__", "plans"}
+
+    def is_generated_mirror(path: Path) -> bool:
+        # skills/<skill>/internal/ are byte-verified mirrors of internal/ generated
+        # by gen_adapters.py for omp's skill:// sandbox; their "../"-escaping links
+        # only resolve from the real internal/ root.
+        parts = path.relative_to(root).parts
+        return len(parts) >= 4 and parts[0] == "skills" and parts[2] == "internal"
+
     return [
         path
         for path in sorted(root.rglob("*.md"))
-        if not (set(path.parts) & skip_dirs)
+        if not (set(path.parts) & skip_dirs) and not is_generated_mirror(path)
     ]
 
 

@@ -69,12 +69,23 @@ def generate(root: Path) -> dict[str, str]:
     spec = json.loads((root / "adapters.json").read_text(encoding="utf-8"))
     titles = spec["titles"]
     outputs: dict[str, str] = {}
+    # omp resolves skill:// paths inside the skill's own directory and clamps
+    # "../"-escaping links to it, so each skill needs its own copy of internal/
+    # for the installed plugin's ../../internal/... links to resolve.
+    internal_dir = root / "internal"
+    internal_files = {
+        str(path.relative_to(root)): path.read_text(encoding="utf-8")
+        for path in sorted(internal_dir.rglob("*"))
+        if path.is_file()
+    } if internal_dir.is_dir() else {}
     for skill in spec["skills"]:
         doc = load_skill(root, skill)
         for tree, surface in spec["trees"].items():
             output_dir = root / tree
             body = render(surface, doc, titles[skill], tree, spec["argument_hints"][skill])
             outputs[str(output_dir / surface["file"].replace("{skill}", skill))] = body
+        for relative, content in internal_files.items():
+            outputs[f"skills/{skill}/{relative}"] = content
     return outputs
 
 
