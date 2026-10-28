@@ -2,7 +2,8 @@
 
 Shipmate is an engineering workflow harness built for solo developers and indie developers who
 create software applications alone. It delivers work from local requirements with independent
-multi-persona AI reviews, layered walkthroughs, diagnostic quizzes, and Socratic interrogation — the engineering team you
+multi-persona AI reviews, layered walkthroughs, diagnostic quizzes, Socratic interrogation, and end-to-end
+UI/UX design review — the engineering team you
 don't have, on demand.
 
 This guide explains how to install and activate Shipmate in each supported AI coding harness.
