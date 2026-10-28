@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "shipmate",
-      "version": "4.7.1",
+      "version": "4.8.0",
       "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes and diagnostic interrogation.",
       "author": {
         "name": "Frank Nguyen"

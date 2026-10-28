@@ -524,6 +524,65 @@ class PluginVersionContractTests(TestCase):
                 self.assertEqual(found, version, relative)
 
 
+class RunLanesAndZeroCostStackContractTests(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.l3 = (PLUGIN_ROOT / "skills/run/SKILL.md").read_text(encoding="utf-8")
+        cls.policy = (PLUGIN_ROOT / "internal/workflow-policy.md").read_text(encoding="utf-8")
+        cls.stack = (
+            PLUGIN_ROOT / "skills/run/references/zero-cost-stack.md"
+        ).read_text(encoding="utf-8")
+        cls.readme = (PLUGIN_ROOT / "README.md").read_text(encoding="utf-8")
+
+    def test_fast_lane_preserves_required_evidence(self):
+        normalized = " ".join(self.l3.split())
+        self.assertIn("## Select the lane before Stage 0", self.l3)
+        self.assertIn("**Fast lane**", self.l3)
+        self.assertIn(
+            "A fast-lane run never skips test-driven development, the secret scan, "
+            "the required computational checks, or independent review.",
+            normalized,
+        )
+        self.assertIn(
+            "one independent requirements/code-quality reviewer reviews the full "
+            "candidate diff",
+            normalized,
+        )
+        self.assertIn(
+            "switch to the standard route at that stage and keep verified work",
+            normalized,
+        )
+        self.assertIn("Never shrink scope to stay in the fast lane", normalized)
+
+    def test_sensor_cadence_varies_but_gate_set_does_not(self):
+        normalized = " ".join(self.l3.split())
+        self.assertIn("## Match sensor cadence to the model class", self.l3)
+        self.assertIn(
+            "The gate set never changes with the model class", normalized
+        )
+        self.assertIn(
+            "review independence is never waived for any class", normalized
+        )
+        self.assertIn("executable attention", normalized)
+
+    def test_policy_scopes_lane_to_low_risk_route(self):
+        normalized = " ".join(self.policy.split())
+        self.assertIn("fast lane may merge the three low-risk review phases", normalized)
+        self.assertIn(
+            "never removes a required check, the secret scan, or review independence",
+            normalized,
+        )
+
+    def test_zero_cost_stack_is_referenced_and_bounded(self):
+        normalized_stack = " ".join(self.stack.split())
+        self.assertIn("verify the current free tier", normalized_stack)
+        self.assertIn(
+            "Nothing here is installed or configured automatically", normalized_stack
+        )
+        self.assertIn("zero-cost-stack", self.l3)
+        self.assertIn("skills/run/references/zero-cost-stack.md", self.readme)
+
+
 class UntrustedSourceContractTests(TestCase):
     def test_agent_directed_instructions_route_to_findings(self):
         workflow = " ".join(

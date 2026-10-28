@@ -72,6 +72,37 @@ Substitute a requirement source only through the documented same-authority recov
 | 10 | Deliver and verify CI | [`pr-delivery`](../../internal/pr-delivery/PROCEDURE.md); [`unslop`](../../internal/unslop/PROCEDURE.md) for prose | draft PR + required CI status |
 | 11 | Hand back | — | handback report |
 
+## Select the lane before Stage 0
+
+Size the work into a lane from the user's stated scope and a quick look at the touched
+surfaces; the user can override the lane in either direction.
+
+- **Fast lane** — the request is a bounded fix or micro-change: about two files and fifty
+  changed lines or fewer, no authorization, security-control, data-ownership/migration,
+  public-contract, state-transition or recovery surface, and no open material decision.
+  Run stages 0, 1, 3, 5, 7, 8, 9, 10 and 11 and fold the others into them: state the
+  requirement and its acceptance criteria in chat instead of a separate clarity-review
+  phase, and record the plan as the AC-to-test mapping beside the change instead of a
+  written plan. Stage 9 stays: one independent requirements/code-quality reviewer reviews
+  the full candidate diff — requirements, simplicity, tests and baseline security in one
+  response. A fast-lane run never skips test-driven development, the secret scan, the
+  required computational checks, or independent review.
+- **Standard route** — everything else: all eleven stages as written.
+
+If any stage shows the change exceeds the lane — a third file, a protected surface, a new
+material decision — switch to the standard route at that stage and keep verified work.
+Never shrink scope to stay in the fast lane.
+
+## Match sensor cadence to the model class
+
+Computational sensors — tests, type checks, linters, the secret scan — and independent
+review are required on every run; what varies with the acting model class is cadence.
+Cost-optimized or free-tier models run the available computational sensors after each
+meaningful edit, as executable attention that catches a dropped requirement while the
+change is still small. Frontier-class models completing a bounded change in one pass may
+batch them at stage 8's verification. The gate set never changes with the model class,
+and review independence is never waived for any class.
+
 ## Stage 0 — Resolve repository context
 
 Identify the user-selected checkout, canonical remote, owning modules and default branch;
@@ -254,6 +285,10 @@ resumption.
   commit on its feature branch, read the commit back, and report branch, SHA, verification and
   limitations. The run is then completed at the reviewed commit; pushing or opening a PR later
   with code changes needs a fresh current-candidate review.
+
+When the user asks how to deliver, release, deploy or monitor on no budget, offer
+[zero-cost stack](../../skills/run/references/zero-cost-stack.md); adopting any item is separately
+authorized work.
 
 Watch the actual required jobs for the candidate. A no-code retry keeps review;
 code/evidence changes refresh affected verification and current-candidate review. Revise the plan

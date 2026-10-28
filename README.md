@@ -171,6 +171,12 @@ cp /path/to/shipmate/.github/copilot-instructions.md .github/
 | Check your own understanding of a change before it reaches production | `/quiz` |
 | Stress-test the framing of a problem — root causes, hidden assumptions, trade-offs | `/ask` |
 
+## Operating at $0
+
+Solo and indie developers shipping on no budget: [`skills/run/references/zero-cost-stack.md`](skills/run/references/zero-cost-stack.md)
+collects the free-tier CI, release, hosting and monitoring options `run` can propose
+when you ask how to deliver or operate without paid tools.
+
 ## Harness Support
 
 | Harness | Slash commands | Adapter source | Notes |

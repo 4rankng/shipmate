@@ -120,6 +120,13 @@ uses the higher-risk route until resolved.
 - Required independence is never waived because a model/tool is unavailable. Continue useful
   safe preparation, report review-pending, and do not call the candidate reviewed or complete.
 
+Size lanes express this route per run: a fast lane may merge the three low-risk review
+phases into the single requirements/code-quality candidate review, and keep a written
+plan out of the run, when the change is bounded, touches no protected surface, and has
+no open material decision. It never removes a required check, the secret scan, or review
+independence; a run that exceeds the lane returns to the full route with verified work
+preserved.
+
 Formatting-only requirements/plans do not invalidate review. A material clear change refreshes
 affected requirement/plan/code checks; a missing decision pauses affected work. Candidate code,
 base, or evidence changes require current-candidate review coverage, not replay of all earlier
