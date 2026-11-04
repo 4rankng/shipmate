@@ -89,7 +89,7 @@ def check_review_findings() -> None:
 def check_skill_quality() -> None:
     data = load("skill-quality-cases.json")
     ids = case_ids(data, "skill-quality-cases.json")
-    skills = {"specify", "run", "review", "walkthrough", "quiz", "ask", "uiux"}
+    skills = {"specify", "plan", "run", "review", "walkthrough", "quiz", "ask", "uiux"}
     for case in data["cases"]:
         if case["skill"] not in skills:
             raise ValueError(f"skill-quality-cases.json: unknown skill {case['skill']!r}")
@@ -106,7 +106,7 @@ def check_skill_quality() -> None:
 def check_trigger() -> None:
     data = load("trigger-cases.json")
     skills = set(data.get("skills") or ())
-    shipped = {"specify", "run", "review", "walkthrough", "quiz", "ask", "uiux"}
+    shipped = {"specify", "plan", "run", "review", "walkthrough", "quiz", "ask", "uiux"}
     if skills != shipped:
         raise ValueError(
             f"trigger-cases.json: skills list must match the shipped skills, got {sorted(skills)}"

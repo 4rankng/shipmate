@@ -11,11 +11,12 @@ from gen_adapters import rewrite_links
 SCRIPT = Path(__file__).parent / "gen_adapters.py"
 PLUGIN_ROOT = SCRIPT.parent.parent
 
-SKILLS = ("specify", "run", "review", "walkthrough", "quiz", "ask", "uiux")
+SKILLS = ("specify", "plan", "run", "review", "walkthrough", "quiz", "ask", "uiux")
 TREES = ("commands", ".cursor/rules", ".windsurf/workflows", ".continue/prompts")
 
 SENTINELS = {
     "specify": "no minimum interview length or question quota",
+    "plan": "markers never authorize parallel execution by",
     "run": "Never merge, approve or deploy",
     "review": "never fixes, commits, comments, approves, pushes, deploys, or merges",
     "walkthrough": "Never present two layers in one pass",

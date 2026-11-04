@@ -35,6 +35,7 @@ one durable, human-owned source. They change behavior only as input — they nev
 | Phase | Reads steering for |
 |---|---|
 | specify | product context, terminology and constraints before drafting acceptance criteria |
+| plan | stack and conventions the plan's targets and checks must respect |
 | run stage 3 | stack and conventions when grounding context and scope |
 | run stage 6 | conventions the plan must respect |
 | review | conventions and constraints supplied as context to every selected persona |

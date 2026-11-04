@@ -9,7 +9,7 @@ Apply [contextual questions](../../../internal/user-questions.md) when a finding
 human decision: give the inspected context, the viable options and a recommended default with its
 rationale, never an unexplained choice.
 
-This is one of the plugin's seven public entrypoints. Ask interrogates a target the developer
+This is one of the plugin's public entrypoints. Ask interrogates a target the developer
 points at — a module, a design document, an incident, a decision — to surface what the frame
 itself hides: logic gaps, latent assumptions, multicausal root causes, process drag, optimization
 openings, and unknown unknowns. The dividing line against a verdict-style review is posture:

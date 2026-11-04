@@ -1,6 +1,7 @@
 {
   "skills": [
     "specify",
+    "plan",
     "run",
     "review",
     "walkthrough",
@@ -10,6 +11,7 @@
   ],
   "titles": {
     "specify": "Specify",
+    "plan": "Plan",
     "run": "Run",
     "review": "Review",
     "walkthrough": "Walkthrough",
@@ -19,6 +21,7 @@
   },
   "argument_hints": {
     "specify": "[requirement-or-task]",
+    "plan": "[settled-requirement-or-spec]",
     "run": "[requirement-or-task]",
     "review": "[spec-plan-or-diff]",
     "walkthrough": "[pull-request-or-branch]",

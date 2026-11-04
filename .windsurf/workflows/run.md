@@ -204,7 +204,9 @@ files into the branch only when requested or required by repository policy.
 Persist a machine-local plan by default: a small fix needs one compact task with intended files,
 AC-to-test mapping and risk; add interface/dependency/rollback detail only where relevant.
 Mark parallel-safe tasks `[P]` per the plan template so authorized wave execution can schedule
-them; markers never authorize parallelism by themselves.
+them; markers never authorize parallelism by themselves. A reviewed plan produced by
+`shipmate:plan` on the same requirement is valid input here: adopt it, re-review only what
+materially changed, and never discard verified planning work.
 Committing a plan into the PR is not required unless repository policy or the user requests it,
 and a removed plan stays removed.
 Low-risk work dispatches an independent Architecture & Simplicity reviewer; higher-risk work adds

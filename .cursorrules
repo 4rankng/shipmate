@@ -4,6 +4,7 @@ Shipmate delivers engineering work from local requirements to verified draft mer
 
 ## Core Capabilities
 - **Specify**: Turn local requirements into an implementation-ready specification (`skills/specify/SKILL.md`).
+- **Plan**: Turn a settled requirement into a reviewed, proportionate implementation plan (`skills/plan/SKILL.md`).
 - **Run**: Deliver verified code through strict TDD, plan review, and candidate review into a draft MR (`skills/run/SKILL.md`).
 - **Review**: Multi-persona independent review challenging specifications, plans, and diffs (`skills/review/SKILL.md`).
 - **Walkthrough**: Layered explanation of intent, architecture, changes, and verification (`skills/walkthrough/SKILL.md`).

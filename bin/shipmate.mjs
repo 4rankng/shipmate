@@ -47,6 +47,7 @@ function doctor() {
   }
   console.log('\nPublic actions in this plugin:');
   console.log('  /specify     - Requirements and technical design interview -> reviewed specification');
+  console.log('  /plan        - Settled requirement -> reviewed, proportionate implementation plan');
   console.log('  /run         - Deliver local requirements to a verified draft pull request');
   console.log('  /review      - Multi-persona independent review challenging specifications, plans, diffs');
   console.log('  /walkthrough - Progressive layered explanation of a merge request or local change');

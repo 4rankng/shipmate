@@ -12,7 +12,7 @@ class AskContractTests(unittest.TestCase):
         cls.normalized = " ".join(cls.ask.split())
 
     def test_ask_is_a_self_contained_public_entrypoint(self):
-        self.assertIn("seven public entrypoints", self.ask)
+        self.assertIn("one of the plugin's public entrypoints", self.ask)
         self.assertEqual(self.frontmatter_name(), "ask")
         self.assertIn("Use when", self.description())
         self.assertIn("Not for reviewing git diffs or auditing pull requests", self.description())

@@ -20,7 +20,7 @@ Follow the complete procedure in [skills/review/SKILL.md](../skills/review/SKILL
 Apply [contextual questions](../internal/user-questions.md) when a finding needs a human
 decision: show its triggering example, consequence and viable choices, not an unexplained verdict.
 
-This is one of the plugin's seven public entrypoints. It challenges an artifact without changing
+This is one of the plugin's public entrypoints. It challenges an artifact without changing
 the artifact, its repository, or pipeline state.
 
 Read the bundled [coding guideline](../internal/coding-guideline.md) and

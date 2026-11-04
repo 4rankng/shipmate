@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan"
+  short_description: "Turn a settled requirement into a reviewed implementation plan"
+  default_prompt: "Use $shipmate:plan to turn this settled requirement into a reviewed implementation plan."
