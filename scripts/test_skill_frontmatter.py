@@ -31,7 +31,7 @@ class SkillFrontmatterTests(unittest.TestCase):
                 self.assertIsNotNone(name, "missing name key")
                 self.assertEqual(name.group(1), skill_dir.name,
                                  "name diverges from directory")
-                self.assertRegex(name.group(1), r"^[a-z0-9][a-z0-9-]{0,63}$")
+                self.assertRegex(name.group(1), r"^[a-z0-9]+(-[a-z0-9]+)*$")
                 description = DESCRIPTION.search(front)
                 self.assertIsNotNone(description, "missing description key")
                 self.assertGreater(len(description.group(1).strip()), 0,

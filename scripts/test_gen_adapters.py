@@ -11,7 +11,7 @@ from gen_adapters import rewrite_links
 SCRIPT = Path(__file__).parent / "gen_adapters.py"
 PLUGIN_ROOT = SCRIPT.parent.parent
 
-SKILLS = ("specify", "run", "review", "walkthrough", "quiz", "ask")
+SKILLS = ("specify", "run", "review", "walkthrough", "quiz", "ask", "uiux")
 TREES = ("commands", ".cursor/rules", ".windsurf/workflows", ".continue/prompts")
 
 SENTINELS = {
@@ -21,6 +21,7 @@ SENTINELS = {
     "walkthrough": "Never present two layers in one pass",
     "quiz": "Nothing leaves the chat",
     "ask": "Findings propose; the developer decides",
+    "uiux": "A cap shortens a report; it never hides a blocker",
 }
 
 

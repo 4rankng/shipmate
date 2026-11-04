@@ -1,5 +1,5 @@
 ---
-description: Use when a local requirement or a clear task should become a verified draft pull request or reviewed local commit
+description: Use when a local requirement or a clear task should become a verified draft pull request or reviewed local commit. Not for quick unreviewed edits, open-ended exploration, or work with no acceptance criteria.
 argument-hint: "[requirement-or-task]"
 ---
 
@@ -170,8 +170,10 @@ roster and why. Review hashes may identify local evidence but are not admission 
 
 ## Stage 3 — Ground context and scope
 
-Read relevant repository instructions, README, build/CI configuration, APIs and dependency code.
-Record the target/default-branch base and inspected dependency revisions for reproducibility.
+Read relevant repository instructions, README, build/CI configuration, APIs and dependency code,
+plus the repository's [steering](../internal/steering.md) documents when present; stage 6
+plans must respect the conventions they settle. Record the target/default-branch base and
+inspected dependency revisions for reproducibility.
 Prefer clean detached snapshots for independent repository context. Keep every write inside this
 slice's authorized root; a needed second repository change requires a specific coordination
 decision, and independent work in the first continues. When a base/dependency advances, inspect
@@ -207,6 +209,8 @@ files into the branch only when requested or required by repository policy.
 
 Persist a machine-local plan by default: a small fix needs one compact task with intended files,
 AC-to-test mapping and risk; add interface/dependency/rollback detail only where relevant.
+Mark parallel-safe tasks `[P]` per the plan template so authorized wave execution can schedule
+them; markers never authorize parallelism by themselves.
 Committing a plan into the PR is not required unless repository policy or the user requests it,
 and a removed plan stays removed.
 Low-risk work dispatches an independent Architecture & Simplicity reviewer; higher-risk work adds
@@ -238,7 +242,9 @@ preserves work and clarifies affected behaviour before proceeding.
 ## Stage 8 — Verify and classify checks
 
 Use repository build, test, lint, coverage and security commands for the changed scope, recording
-required/optional and passed/failed/unavailable/pending separately. Run the repository's real
+required/optional and passed/failed/unavailable/pending separately. For each required check,
+record the command, its exit status and a one-line result beside the candidate; a bare "tests
+pass" claim is not verification evidence. Run the repository's real
 coverage-producing job and threshold when configured, and bind results to candidate content.
 Available dependency audits apply when manifests/lockfiles change.
 
@@ -253,6 +259,12 @@ independent review must pass before a draft push obtains that CI evidence; statu
 `verification-pending` until the actual required job passes. A green parent pipeline or skipped
 required child proves nothing. Deployment validation is outside L3.
 
+Standard-route executable changes add a holdout pass before stage 9: a fresh context that has
+not seen the diff derives one new test per critical acceptance criterion from the requirement
+alone, and the candidate must pass those tests unchanged. A holdout failure is a required-test
+failure: fix the candidate, never the holdout. Fast-lane runs fold this duty into stage 9's
+independent review instead of a separate pass.
+
 ## Stage 9 — Review the current candidate
 
 Re-read the requirement and classify semantic changes.
@@ -265,6 +277,9 @@ checks for low risk, plus the security/reliability reviewer for higher risk.
 
 - Validate clean candidate/context snapshots before and after review, adjudicate findings from
   code/spec evidence, and fix accepted blockers through tests.
+- Audit every test or acceptance-criteria edit in the candidate diff for weakening — deleted
+  assertions, loosened oracles, narrowed fixtures, skipped cases. A weakened check is a finding
+  even while suites stay green; repairs restore the check and fix the code, never the reverse.
 - When a challenger identifies a supported shortcoming, a separate host-selected balanced-class
   responder may repair accepted findings only in its own writable worktree; it is neither
   reviewer nor voter. Required independent reviews cannot be self-certified.

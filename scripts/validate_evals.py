@@ -89,7 +89,7 @@ def check_review_findings() -> None:
 def check_skill_quality() -> None:
     data = load("skill-quality-cases.json")
     ids = case_ids(data, "skill-quality-cases.json")
-    skills = {"specify", "run", "review", "walkthrough", "quiz", "ask"}
+    skills = {"specify", "run", "review", "walkthrough", "quiz", "ask", "uiux"}
     for case in data["cases"]:
         if case["skill"] not in skills:
             raise ValueError(f"skill-quality-cases.json: unknown skill {case['skill']!r}")
@@ -103,7 +103,39 @@ def check_skill_quality() -> None:
         raise ValueError(f"skill-quality-rubric.md: no rubric entry for {missing}")
 
 
-CHECKS = (check_workflow, check_freshness, check_review_findings, check_skill_quality)
+def check_trigger() -> None:
+    data = load("trigger-cases.json")
+    skills = set(data.get("skills") or ())
+    shipped = {"specify", "run", "review", "walkthrough", "quiz", "ask", "uiux"}
+    if skills != shipped:
+        raise ValueError(
+            f"trigger-cases.json: skills list must match the shipped skills, got {sorted(skills)}"
+        )
+    ids = case_ids(data, "trigger-cases.json")
+    positives: dict[str, int] = {}
+    negatives = 0
+    for case in data["cases"]:
+        if not case.get("query"):
+            raise ValueError(f"trigger-cases.json: case {case['id']} needs a query")
+        expected = case.get("expected_skill")
+        if expected not in shipped | {"none"}:
+            raise ValueError(
+                f"trigger-cases.json: case {case['id']} has invalid expected_skill {expected!r}"
+            )
+        if expected == "none":
+            negatives += 1
+        else:
+            positives[expected] = positives.get(expected, 0) + 1
+    thin = sorted(skill for skill, count in positives.items() if count < 2)
+    if thin:
+        raise ValueError(f"trigger-cases.json: fewer than 2 positive cases for {thin}")
+    if negatives < 5:
+        raise ValueError("trigger-cases.json: fewer than 5 near-miss negative cases")
+    if len(ids) < 20:
+        raise ValueError("trigger-cases.json: fewer than 20 cases")
+
+
+CHECKS = (check_workflow, check_freshness, check_review_findings, check_skill_quality, check_trigger)
 
 
 def main() -> int:

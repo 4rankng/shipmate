@@ -1,0 +1,4 @@
+interface:
+  display_name: "Walkthrough"
+  short_description: "Explore a merge request or local change in layered diagrams"
+  default_prompt: "Use $shipmate:walkthrough to explain this merge request or local change in layers, with a boundary map and sequence diagrams where useful."

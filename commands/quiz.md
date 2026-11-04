@@ -1,5 +1,5 @@
 ---
-description: Use when someone wants to check their understanding of a local change or pull request through an interactive quiz and a screenshot-ready report
+description: Use when someone wants to check their understanding of a local change or pull request through an interactive quiz and a screenshot-ready report. Not for grading others, approving a change, or proving the code correct.
 argument-hint: "[pull-request-branch-or-diff]"
 ---
 
@@ -20,7 +20,7 @@ Follow the complete procedure in [skills/quiz/SKILL.md](../skills/quiz/SKILL.md)
 Apply [contextual questions](../internal/user-questions.md), using its quiz rules: concrete,
 self-contained context without recommended, preselected or hinted answers.
 
-This is one of the plugin's six public entrypoints. It helps whoever runs it — author, reviewer
+This is one of the plugin's seven public entrypoints. It helps whoever runs it — author, reviewer
 or anyone taking ownership — check their understanding of a change or local branch,
 instead of blindly trusting a specification or unfamiliar code. There is one mode for everyone; do
 not detect or ask about roles. Each question teaches as well as tests: the explanation after every

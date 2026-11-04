@@ -44,8 +44,15 @@ description: Use when observable trigger conditions apply
 
 Requirements:
 
-- directory and `name` match;
-- description starts with `Use when` and contains trigger conditions, not the workflow summary;
+- directory and `name` match, and the name fits `^[a-z0-9]+(-[a-z0-9]+)*$` (the Agent Skills
+  standard rule: 1–64 chars, no leading/trailing hyphen, no doubled hyphens);
+- description starts with `Use when`, front-loads the trigger conditions, states what the skill
+  does and when to use it, and ends with near-miss negatives ("Not for …") for the contexts that
+  share its keywords but need something else; keep it within the standard's 1,024-character cap;
+- keep SKILL.md under 500 lines and about 5,000 tokens; clients drop content beyond that after
+  compaction — move heavier material to linked files and load them only at the moment they apply;
+- conventional subdirectories: `scripts/` for self-contained executables with good errors,
+  `references/` for on-demand documents, `assets/` for templates and data;
 - guidance uses precise observable conditions;
 - output contracts use positive structure and ordering;
 - discipline rules state hard boundaries and common rationalizations;
@@ -53,7 +60,9 @@ Requirements:
 - supporting files are used only for reusable tools or heavy reference;
 - privileged actions, protected data, and untrusted content are addressed explicitly.
 
-Re-run the same scenarios and confirm the behavior changed for the intended reason.
+Validate structure with the Agent Skills reference validator when available
+(`skills-ref validate <skill-dir>`); `scripts/test_skill_frontmatter.py` enforces the same
+name and description rules offline.
 
 ## REFACTOR: close demonstrated loopholes
 

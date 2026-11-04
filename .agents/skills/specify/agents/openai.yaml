@@ -1,0 +1,4 @@
+interface:
+  display_name: "Specify"
+  short_description: "Create a reviewed implementation contract"
+  default_prompt: "Use $shipmate:specify to turn this request into an implementation-ready contract."

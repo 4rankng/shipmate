@@ -1,7 +1,7 @@
 {
   "name": "@shipmate-marketplace/shipmate",
-  "version": "4.8.0",
-  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes and diagnostic interrogation.",
+  "version": "4.9.0",
+  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes, diagnostic interrogation and UI/UX review.",
   "author": {
     "name": "Frank Nguyen"
   },
@@ -39,13 +39,13 @@
   },
   "omp": {
     "name": "shipmate",
-    "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes and diagnostic interrogation.",
+    "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes, diagnostic interrogation and UI/UX review.",
     "skills": "./skills",
     "commands": "./commands"
   },
   "files": [
+    ".agents",
     "bin",
-    "commands",
     "configs",
     "index.ts",
     "internal",

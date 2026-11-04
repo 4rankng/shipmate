@@ -1,0 +1,111 @@
+{
+  "instructions": "Trigger/discovery evals for the seven shipped skills, following the Agent Skills ecosystem loop: run each query against a fresh session whose harness lists only the skills' name+description (no SKILL.md body), repeat each 3 times, and record whether the intended skill is selected. Positive cases must trigger their expected skill; negative cases are near-misses that share trigger keywords but must NOT select any shipped skill (record 'none'). Development trials only: no repository writes, no live tracker. Treat a trigger rate below 0.5 on validation cases as a description defect to fix in SKILL.md frontmatter, then regenerate adapters.",
+  "skills": ["specify", "run", "review", "walkthrough", "quiz", "ask", "uiux"],
+  "cases": [
+    {
+      "id": "specify-positive-rough-file",
+      "query": "I have docs/ideas/payment-retry.md with a rough idea — turn it into something an agent can implement",
+      "expected_skill": "specify"
+    },
+    {
+      "id": "specify-positive-interview",
+      "query": "Before anyone codes this, interview me about requirements and technical design and write the contract",
+      "expected_skill": "specify"
+    },
+    {
+      "id": "run-positive-deliver",
+      "query": "Take this requirement file and deliver it as a verified draft pull request with tests",
+      "expected_skill": "run"
+    },
+    {
+      "id": "run-positive-clear-task",
+      "query": "The task is clear: add the export endpoint and get it to a reviewed local commit",
+      "expected_skill": "run"
+    },
+    {
+      "id": "review-positive-spec-challenge",
+      "query": "Challenge this specification with independent reviewers before we plan any work on it",
+      "expected_skill": "review"
+    },
+    {
+      "id": "review-positive-candidate",
+      "query": "Here's the candidate commit and its diff — give it an evidence-bound review before it progresses",
+      "expected_skill": "review"
+    },
+    {
+      "id": "walkthrough-positive-layers",
+      "query": "Walk me through this merge request layer by layer with a boundary map and sequence diagrams",
+      "expected_skill": "walkthrough"
+    },
+    {
+      "id": "walkthrough-positive-before-after",
+      "query": "Explain what this local branch changes, behavior first, then the interactions and details",
+      "expected_skill": "walkthrough"
+    },
+    {
+      "id": "quiz-positive-understanding",
+      "query": "Quiz me on this pull request to check I actually understand it before I approve it",
+      "expected_skill": "quiz"
+    },
+    {
+      "id": "quiz-positive-report",
+      "query": "Give me an interactive comprehension check on this branch with a screenshot-ready report",
+      "expected_skill": "quiz"
+    },
+    {
+      "id": "ask-positive-root-cause",
+      "query": "Interrogate this incident: surface the multicausal root causes and hidden assumptions, read-only",
+      "expected_skill": "ask"
+    },
+    {
+      "id": "ask-positive-stress-design",
+      "query": "Stress-test this design decision — what must be true for it to work, and what does the frame hide?",
+      "expected_skill": "ask"
+    },
+    {
+      "id": "uiux-positive-build",
+      "query": "Build this landing page: pick a design direction, then accessible layout, typography and color",
+      "expected_skill": "uiux"
+    },
+    {
+      "id": "uiux-positive-audit",
+      "query": "Audit this settings screen for accessibility, contrast and responsive breakage with a ranked report",
+      "expected_skill": "uiux"
+    },
+    {
+      "id": "negative-implement-directly",
+      "query": "Just implement this function change now, no process, no review — it's a two-line fix",
+      "expected_skill": "none"
+    },
+    {
+      "id": "negative-explain-function",
+      "query": "Explain what this regex does in one paragraph",
+      "expected_skill": "none"
+    },
+    {
+      "id": "negative-quick-opinion",
+      "query": "Quick opinion: is this variable name okay?",
+      "expected_skill": "none"
+    },
+    {
+      "id": "negative-backend-api-work",
+      "query": "Design the database schema and REST endpoints for the billing service",
+      "expected_skill": "none"
+    },
+    {
+      "id": "negative-fix-ci-interactive",
+      "query": "SSH in and restart the CI worker, it's stuck again",
+      "expected_skill": "none"
+    },
+    {
+      "id": "negative-grade-team",
+      "query": "Grade these three interns' pull requests and rank the authors",
+      "expected_skill": "none"
+    },
+    {
+      "id": "negative-write-docs",
+      "query": "Write API reference documentation for the public SDK surface",
+      "expected_skill": "none"
+    }
+  ]
+}

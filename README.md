@@ -35,7 +35,7 @@ claude --plugin-dir /path/to/shipmate
 claude plugin validate /path/to/shipmate
 ```
 
-Once loaded, public slash commands `/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, and `/ask` are available immediately.
+Once loaded, public slash commands `/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, `/ask`, and `/uiux` are available immediately.
 
 ---
 
@@ -62,7 +62,7 @@ pi install /path/to/shipmate -l
 pi install /path/to/shipmate
 ```
 
-Commands (`/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, `/ask`) and skills are enabled automatically.
+Commands (`/specify`, `/run`, `/review`, `/walkthrough`, `/quiz`, `/ask`, `/uiux`) and skills are enabled automatically.
 
 ---
 
@@ -73,7 +73,7 @@ Install the plugin through the Codex plugin manager:
 codex plugin add /path/to/shipmate
 ```
 
-Codex reads the manifest from `.codex-plugin/plugin.json` and configures the default agent actions (`$shipmate:specify`, `$shipmate:run`, `$shipmate:review`, `$shipmate:walkthrough`, `$shipmate:quiz`, `$shipmate:ask`).
+Codex reads the manifest from `.codex-plugin/plugin.json` and configures the default agent actions (`$shipmate:specify`, `$shipmate:run`, `$shipmate:review`, `$shipmate:walkthrough`, `$shipmate:quiz`, `$shipmate:ask`, `$shipmate:uiux`).
 
 ---
 
@@ -89,13 +89,18 @@ Add the plugin path to your `~/.config/opencode/opencode.json` (or project-level
 }
 ```
 
-OpenCode automatically loads `opencode.mjs` and registers the six skills:
+OpenCode automatically loads `opencode.mjs` and registers the seven skills:
 * `shipmate:specify`
 * `shipmate:run`
 * `shipmate:review`
 * `shipmate:walkthrough`
 * `shipmate:quiz`
 * `shipmate:ask`
+* `shipmate:uiux`
+
+The repository also ships `.agents/skills/` — the cross-harness discovery directory scanned
+natively by OpenAI Codex CLI and opencode — so cloning this repo gives you all seven skills in
+those harnesses with zero installation.
 
 ---
 
@@ -171,6 +176,14 @@ cp /path/to/shipmate/.github/copilot-instructions.md .github/
 | Understand a ticket or change in layers, with grounded diagrams | `/walkthrough` |
 | Check your own understanding of a change before it reaches production | `/quiz` |
 | Stress-test the framing of a problem — root causes, hidden assumptions, trade-offs | `/ask` |
+| Build, polish or audit a web interface, ending in a ranked evidence-based report | `/uiux` |
+
+## Project steering
+
+Any repository can keep durable, human-owned context in `.shipmate/steering/*.md` (product
+context, tech stack, conventions). `specify`, `run`, `review` and `uiux` read it when present
+instead of re-asking — see [`internal/steering.md`](internal/steering.md). Repositories without
+steering documents work unchanged.
 
 ## Operating at $0
 
@@ -182,10 +195,10 @@ when you ask how to deliver or operate without paid tools.
 
 | Harness | Slash commands | Adapter source | Notes |
 |---|---|---|---|
-| Claude Code | ✅ `/specify` `/run` `/review` `/walkthrough` `/quiz` `/ask` | marketplace or `--plugin-dir` | validate with `claude plugin validate` |
-| Oh-My-Pi / Pi | ✅ all six | plugin link / `pi install` | commands and skills auto-enabled |
+| Claude Code | ✅ `/specify` `/run` `/review` `/walkthrough` `/quiz` `/ask` `/uiux` | marketplace or `--plugin-dir` | validate with `claude plugin validate` |
+| Oh-My-Pi / Pi | ✅ all seven | plugin link / `pi install` | commands and skills auto-enabled |
 | OpenAI Codex CLI | `$shipmate:*` agent actions | `.codex-plugin/` | manifest-validated |
-| OpenCode | six skills auto-registered | `opencode.mjs` | add the path to `plugins` |
+| OpenCode | seven skills auto-registered | `opencode.mjs`, `.agents/skills/` | add the path to `plugins`, or clone for zero-install |
 | Antigravity / Gemini CLI | plugin / extension load | `configs/antigravity-cli/` | validate with `agy plugin validate` |
 | Cursor | rules (no slash commands) | `.cursor/rules/`, `.cursorrules` | trigger by intent in chat |
 | Windsurf | workflows | `.windsurf/workflows/` | trigger `/specify` etc. in Cascade |

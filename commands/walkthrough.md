@@ -1,5 +1,5 @@
 ---
-description: Use when someone wants a guided explanation of a pull request or local branch, from behavior and interactions down to the important details, with grounded diagrams
+description: Use when someone wants a guided explanation of a pull request or local branch, from behavior and interactions down to the important details, with grounded diagrams. Not for judging, fixing or approving the change.
 argument-hint: "[pull-request-or-branch]"
 ---
 

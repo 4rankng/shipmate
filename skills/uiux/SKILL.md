@@ -1,6 +1,6 @@
 ---
 name: uiux
-description: Use when building, polishing or reviewing a web interface — design direction, accessibility, layout, typography, color, UI polish, motion and interface writing — ending in a ranked, evidence-based report
+description: Use when building, polishing or reviewing a web interface — design direction, accessibility, layout, typography, color, UI polish, motion and interface writing — ending in a ranked, evidence-based report. Not for backend, CLI, API or other non-visual work.
 ---
 
 # UI/UX
@@ -25,7 +25,7 @@ A trigger is a failure whatever the style guide says. A density, radius or voice
 
 ## Recon before judgment (AUDIT)
 
-Identify the framework, styling system, design tokens, supported viewports and any preview or test command. Read what the project says about its own interface — AGENTS.md, design-system docs, CONTRIBUTING — and name what you found. Write every fix in the project's own idiom, never as an adoption request.
+Identify the framework, styling system, design tokens, supported viewports and any preview or test command. Read what the project says about its own interface — AGENTS.md, design-system docs, CONTRIBUTING — and name what you found; the repository's [steering](../../internal/steering.md) documents count as its settled interface conventions when present. Write every fix in the project's own idiom, never as an adoption request.
 
 ## Escalation triggers — HIGH on sight
 

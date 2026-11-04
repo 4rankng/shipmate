@@ -1,18 +1,19 @@
 {
   "name": "shipmate",
-  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes and diagnostic interrogation.",
-  "version": "4.8.0",
+  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes, diagnostic interrogation and UI/UX review.",
+  "version": "4.9.0",
   "author": {
     "name": "Frank Nguyen"
   },
   "repository": "https://github.com/4rankng/shipmate",
   "license": "MIT",
-  "keywords": ["engineering", "sdlc", "requirements", "tdd", "github", "code-review"],
+  "keywords": ["engineering", "sdlc", "requirements", "tdd", "github", "code-review", "ui-ux"],
+  "category": "software-development",
   "skills": "./skills/",
   "interface": {
     "displayName": "Shipmate",
     "shortDescription": "Solo-developer spec-to-ship workflow",
-    "longDescription": "Six public actions—Specify, Run, Review, Walkthrough, Quiz and Ask—giving a solo developer independent review depth without a team.",
+    "longDescription": "Seven public actions—Specify, Run, Review, Walkthrough, Quiz, Ask and UI/UX—giving a solo developer independent review depth without a team.",
     "developerName": "Frank Nguyen",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
@@ -22,7 +23,8 @@
       "Use shipmate:review to challenge a specification, plan or candidate.",
       "Use shipmate:walkthrough to explain this merge request or local change in layers.",
       "Use shipmate:quiz to check my understanding of this merge request or local change and show a report.",
-      "Use shipmate:ask to interrogate this target and give me the findings register with causal tree."
+      "Use shipmate:ask to interrogate this target and give me the findings register with causal tree.",
+      "Use shipmate:uiux to build, polish or audit this web interface and give me the ranked report."
     ]
   }
 }

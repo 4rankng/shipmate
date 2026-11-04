@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI/UX"
+  short_description: "Build, polish or audit web interfaces"
+  default_prompt: "Use $shipmate:uiux to build, polish or audit this web interface and give me the ranked, evidence-based report."

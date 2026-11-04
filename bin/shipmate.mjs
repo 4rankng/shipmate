@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { execSync } from 'node:child_process';
@@ -52,12 +52,16 @@ function doctor() {
   console.log('  /walkthrough - Progressive layered explanation of a merge request or local change');
   console.log('  /quiz        - Diagnostic comprehension quiz and understanding report');
   console.log('  /ask         - Socratic root-cause and critical-thinking interrogation');
+  console.log('  /uiux        - Build, polish or audit web interfaces with a ranked report');
 }
 
 function listSkills() {
   printBanner();
   console.log('Available Shipmate Skills:');
-  const skills = ['specify', 'run', 'review', 'walkthrough', 'quiz', 'ask'];
+  const skills = readdirSync(join(ROOT, 'skills'), { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => entry.name)
+    .sort();
   for (const s of skills) {
     const skillPath = join(ROOT, 'skills', s, 'SKILL.md');
     if (existsSync(skillPath)) {

@@ -1,5 +1,5 @@
 ---
-description: Use when a local Markdown file or a rough task needs a requirements and technical-design interview before an implementation-ready specification
+description: Use when a local Markdown file or a rough task needs a requirements and technical-design interview before an implementation-ready specification. Not for implementing the change, reviewing a finished artifact, or explaining existing code.
 argument-hint: "[requirement-or-task]"
 ---
 
@@ -24,7 +24,9 @@ Turn intent into a short contract a human can review and an agent can implement.
 ## 1. Understand the problem
 
 Read the supplied brief/file completely. If no file and no clear task was supplied, ask one
-contextual question for the requirement source before investigating. Inspect owning code, a real caller, shared utilities,
+contextual question for the requirement source before investigating. Read the repository's
+[steering](../internal/steering.md) documents when present, and treat them as settled
+constraints rather than code evidence. Inspect owning code, a real caller, shared utilities,
 APIs and tests through [repo-context](../internal/repo-context/PROCEDURE.md). Separate observed
 behaviour, intended outcomes, settled decisions and unknowns. Diagnose the likely cause before
 accepting a proposed solution. Require a concrete capability gap before duplicating native code.

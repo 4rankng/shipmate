@@ -46,7 +46,7 @@ PLAIN_FIELDS = {
     "style": ["Style Category", "Keywords", "Effects & Animation", "Best For", "Do Not Use For", "Complexity"],
 }
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+DATA_DIR = Path(__file__).resolve().parents[1] / "assets"
 
 
 def tokenize(query):

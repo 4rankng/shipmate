@@ -5,6 +5,10 @@ use one compact task with files, AC evidence and risk instead. Keep this artifac
 unless repository policy or the user requires a committed design document. Follow
 [workflow-policy](../../workflow-policy.md); this template creates no additional approval gates.
 
+Mark a task title with `[P]` when it is parallel-safe: it touches no file another in-flight task
+touches and depends only on completed tasks. Independent `[P]` tasks may run as one concurrent
+wave in isolated worktrees; waves run sequentially. A task without the marker runs alone.
+
 ## Contract identity
 
 - **Work item:** `{id, kind, source_ref}`

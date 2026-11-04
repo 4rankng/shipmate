@@ -1,7 +1,7 @@
 {
   "name": "shipmate",
-  "version": "4.8.0",
-  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes and diagnostic interrogation.",
+  "version": "4.9.0",
+  "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes, diagnostic interrogation and UI/UX review.",
   "author": {
     "name": "Frank Nguyen"
   },
@@ -13,6 +13,7 @@
     "./skills/review",
     "./skills/walkthrough",
     "./skills/quiz",
-    "./skills/ask"
+    "./skills/ask",
+    "./skills/uiux"
   ]
 }

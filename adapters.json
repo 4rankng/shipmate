@@ -5,7 +5,8 @@
     "review",
     "walkthrough",
     "quiz",
-    "ask"
+    "ask",
+    "uiux"
   ],
   "titles": {
     "specify": "Specify",
@@ -13,7 +14,8 @@
     "review": "Review",
     "walkthrough": "Walkthrough",
     "quiz": "Quiz",
-    "ask": "Ask"
+    "ask": "Ask",
+    "uiux": "UI/UX"
   },
   "argument_hints": {
     "specify": "[requirement-or-task]",
@@ -21,7 +23,8 @@
     "review": "[spec-plan-or-diff]",
     "walkthrough": "[pull-request-or-branch]",
     "quiz": "[pull-request-branch-or-diff]",
-    "ask": "[mode-or-target]"
+    "ask": "[mode-or-target]",
+    "uiux": "[build-polish-or-audit]"
   },
   "trees": {
     "commands": {
@@ -43,6 +46,10 @@
       "file": "{skill}.prompt",
       "header": "---\nname: {skill}\ndescription: {description}\n---\n\nYou are running Shipmate's {skill} procedure. Follow the complete contract below.\n\n",
       "footer": "\n\nApply it to this request:\n\n{{{ input }}}\n"
+    },
+    ".agents/skills": {
+      "file": "{skill}/SKILL.md",
+      "copy_skill": true
     }
   }
 }

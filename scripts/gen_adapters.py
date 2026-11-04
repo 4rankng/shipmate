@@ -65,6 +65,30 @@ def render(surface: dict, skill_doc: dict, title: str, tree: str, argument_hint:
                 .replace("{argument_hint}", argument_hint))
 
 
+def copy_tree_files(root: Path, skill: str, tree: str) -> dict[str, str]:
+    """Copy a whole skill directory into a discovery tree such as .agents/skills.
+
+    Markdown files get the same link rewriting as generated single-file surfaces
+    so ../../internal/... links resolve from the new location; other files are
+    copied verbatim. The mirrored internal/ copy is excluded: one repo-root
+    internal/ already backs the rewritten links.
+    """
+    outputs: dict[str, str] = {}
+    source_root = root / "skills" / skill
+    output_root = root / tree / skill
+    for path in sorted(source_root.rglob("*")):
+        if not path.is_file() or "internal" in path.relative_to(source_root).parts:
+            continue
+        relative = path.relative_to(source_root).as_posix()
+        content = path.read_text(encoding="utf-8")
+        if path.suffix == ".md":
+            source_dir = posixpath.dirname(f"skills/{skill}/{relative}")
+            output_dir = posixpath.dirname(f"{tree}/{skill}/{relative}")
+            content = rewrite_links(content, source_dir=source_dir, output_dir=output_dir)
+        outputs[str(output_root / relative)] = content
+    return outputs
+
+
 def generate(root: Path) -> dict[str, str]:
     spec = json.loads((root / "adapters.json").read_text(encoding="utf-8"))
     titles = spec["titles"]
@@ -82,10 +106,15 @@ def generate(root: Path) -> dict[str, str]:
         doc = load_skill(root, skill)
         for tree, surface in spec["trees"].items():
             output_dir = root / tree
+            if surface.get("copy_skill"):
+                outputs.update(copy_tree_files(root, skill, tree))
+                continue
             body = render(surface, doc, titles[skill], tree, spec["argument_hints"][skill])
             outputs[str(output_dir / surface["file"].replace("{skill}", skill))] = body
         for relative, content in internal_files.items():
             outputs[f"skills/{skill}/{relative}"] = content
+        # Discovery copies of a skill dir must not carry the per-skill internal/
+        # mirror: their ../../internal links are rewritten to the repo root.
     return outputs
 
 
@@ -93,7 +122,15 @@ def expected_surface_files(root: Path, spec: dict) -> set[str]:
     expected = set()
     for skill in spec["skills"]:
         for tree, surface in spec["trees"].items():
-            expected.add(str(root / tree / surface["file"].replace("{skill}", skill)))
+            if surface.get("copy_skill"):
+                source_root = root / "skills" / skill
+                expected.update(
+                    str(root / tree / skill / path.relative_to(source_root).as_posix())
+                    for path in source_root.rglob("*")
+                    if path.is_file() and "internal" not in path.relative_to(source_root).parts
+                )
+            else:
+                expected.add(str(root / tree / surface["file"].replace("{skill}", skill)))
     return expected
 
 
@@ -105,16 +142,19 @@ def surface_set_mismatches(root: Path, spec: dict) -> list[str]:
     leave stale copies behind that still pass --check.
     """
     expected = expected_surface_files(root, spec)
-    suffixes = {Path(surface["file"]).suffix for surface in spec["trees"].values()}
-    actual = {
-        str(path)
-        for tree in spec["trees"]
-        for path in (root / tree).rglob("*")
-        if path.is_file() and path.suffix in suffixes
-    }
+    actual = set()
+    for tree, surface in spec["trees"].items():
+        for path in (root / tree).rglob("*"):
+            if not path.is_file():
+                continue
+            if surface.get("copy_skill") or path.suffix in {
+                Path(s["file"]).suffix for s in spec["trees"].values()
+            }:
+                actual.add(str(path))
     return sorted(
         f"missing: {path}" for path in expected - actual
     ) + sorted(f"orphan: {path}" for path in actual - expected)
+
 
 
 def main(argv=None) -> int:

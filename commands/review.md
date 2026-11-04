@@ -1,5 +1,5 @@
 ---
-description: Use when a specification, implementation plan, or code candidate needs independent evidence-bound review before progressing
+description: Use when a specification, implementation plan, or code candidate needs independent evidence-bound review before progressing. Not for implementing fixes, teaching a codebase, or casual opinions.
 argument-hint: "[spec-plan-or-diff]"
 ---
 
@@ -20,7 +20,7 @@ Follow the complete procedure in [skills/review/SKILL.md](../skills/review/SKILL
 Apply [contextual questions](../internal/user-questions.md) when a finding needs a human
 decision: show its triggering example, consequence and viable choices, not an unexplained verdict.
 
-This is one of the plugin's six public entrypoints. It challenges an artifact without changing
+This is one of the plugin's seven public entrypoints. It challenges an artifact without changing
 the artifact, its repository, or pipeline state.
 
 Read the bundled [coding guideline](../internal/coding-guideline.md) and
@@ -62,7 +62,9 @@ substitute similarly named global, personal, or other-plugin skills.
 
 ## Review gate
 
-1. Read the complete current input and required contracts. Apply the shared
+1. Read the complete current input and required contracts, and supply the repository's
+   [steering](../internal/steering.md) documents as context to every selected persona when
+   present. Apply the shared
    [freshness rules](../internal/reviewer/references/review-freshness.md): specification and plan
    reviews track meaning, not content hashes; only candidate evidence requires exact identities.
 2. Classify risk using the shared workflow policy and select only the applicable existing personas.

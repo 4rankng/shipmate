@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ask"
+  short_description: "Socratic root-cause and critical-thinking interrogation of a target"
+  default_prompt: "Use $shipmate:ask to interrogate this target and give me the findings register with causal tree."

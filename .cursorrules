@@ -9,6 +9,7 @@ Shipmate delivers engineering work from local requirements to verified draft mer
 - **Walkthrough**: Layered explanation of intent, architecture, changes, and verification (`skills/walkthrough/SKILL.md`).
 - **Quiz**: Diagnostic understanding quiz and report for tickets and merge requests (`skills/quiz/SKILL.md`).
 - **Ask**: Socratic root-cause and critical-thinking interrogation of a target, read-only (`skills/ask/SKILL.md`).
+- **UI/UX**: Build, polish and review web interfaces with a ranked evidence-based report (`skills/uiux/SKILL.md`).
 
 ## Development Principles
 - Strict Test-Driven Development (TDD): Red -> Green -> Refactor.
