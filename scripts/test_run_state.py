@@ -39,6 +39,25 @@ class ValidateRunStateTests(unittest.TestCase):
         ))
         self.assertTrue(result["valid"])
 
+    def test_accepts_and_rejects_usage_records(self):
+        result = validate(state(usage=[
+            {"stage": 8, "model": "efficient-class", "tokens_in": 12000,
+             "tokens_out": 3000, "cost_usd": 0.04},
+            {"stage": "review", "model": "balanced-class"},
+        ]))
+        self.assertTrue(result["valid"])
+        result = validate(state(usage=[
+            {"model": "efficient-class", "tokens_in": "many"},
+        ]))
+        self.assertFalse(result["valid"])
+        self.assertIn("usage stage must be a stage number or nonempty string",
+                      result["errors"])
+        self.assertIn("usage[0].tokens_in must be a number when present",
+                      result["errors"])
+        result = validate(state(usage="cheap"))
+        self.assertFalse(result["valid"])
+        self.assertIn("usage must be a list of per-stage records", result["errors"])
+
     def test_rejects_unknown_version_and_stage_range(self):
         result = validate(state(version=2, stage=12))
         self.assertFalse(result["valid"])

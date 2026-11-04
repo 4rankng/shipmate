@@ -5,7 +5,8 @@ Read JSON from a file path or stdin ("-" with --check): {"version": 1,
 "work_item": {"key": "...", "source": "file|local"}, "stage": 0-11,
 "updated_at": "...", "decisions": [{"text", "source"}], "candidate":
 {"branch", "sha", "base"}, "review": {"roster", "verdict"},
-"pending": {"question"}}. Prints a machine-readable verdict; exit 1 means
+"pending": {"question"}, "usage": [{"stage", "model", "tokens_in",
+"tokens_out", "cost_usd"}]}. Prints a machine-readable verdict; exit 1 means
 fix the state before resuming.
 """
 from __future__ import annotations
@@ -69,6 +70,30 @@ def validate(state) -> dict:
     for optional in ("candidate", "review"):
         if state.get(optional) is not None and not isinstance(state.get(optional), dict):
             errors.append(f"{optional} must be an object")
+    usage = state.get("usage")
+    if usage is not None:
+        if not isinstance(usage, list):
+            errors.append("usage must be a list of per-stage records")
+        else:
+            for index, entry in enumerate(usage):
+                if not isinstance(entry, dict):
+                    errors.append(f"usage[{index}] must be an object")
+                    continue
+                stage_value = entry.get("stage")
+                if not (
+                    _nonempty(stage_value)
+                    or isinstance(stage_value, int) and not isinstance(stage_value, bool)
+                    and stage_value in STAGES
+                ):
+                    errors.append("usage stage must be a stage number or nonempty string")
+                if not _nonempty(entry.get("model")):
+                    errors.append(f"usage[{index}].model must be a nonempty string")
+                for field in ("tokens_in", "tokens_out", "cost_usd"):
+                    value = entry.get(field)
+                    if value is not None and (
+                        isinstance(value, bool) or not isinstance(value, (int, float))
+                    ):
+                        errors.append(f"usage[{index}].{field} must be a number when present")
     candidate = state.get("candidate")
     if isinstance(candidate, dict):
         for field in ("branch", "sha", "base"):

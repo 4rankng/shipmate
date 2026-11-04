@@ -1,7 +1,7 @@
 {
   "name": "shipmate",
   "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes, diagnostic interrogation and UI/UX review.",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "author": {
     "name": "Frank Nguyen"
   },

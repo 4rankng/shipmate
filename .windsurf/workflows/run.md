@@ -112,10 +112,17 @@ describing its branch/conflict state, and preserve dirty user work.
 Persist `work_item` plus the current requirement machine-locally. Keep the run state in
 machine-local `.shipmate/run.json` (gitignored) following the bundled schema, and validate it
 with `python3 "${SHIPMATE_PLUGIN_ROOT}/scripts/run_state.py" --check .shipmate/run.json` after
-each stage transition; a `valid: false` result means fix the state before resuming. A clear
+each stage transition; a `valid: false` result means fix the state before resuming. When the
+host reports token or cost totals, append a `usage` record per stage (stage, model, tokens,
+cost when exposed) to the same state — unmeasured cost is unmanaged cost. A clear
 current requirement is
 sufficient admission: no previous approval, specification SHA, plan hash or
 historic attestation is required.
+When repository policy or the user asks for an in-repo resumable ledger, additionally append
+one line per completed stage to `.shipmate/runs/<run-id>/ledger.md` (committed with the
+project): stage, outcome and the evidence that proves it — a check output, a review verdict or
+an approval quote. A reply is a claim; advance the ledger only on evidence. The machine-local
+state stays the source of truth for in-flight resume either way.
 Read the supplied safe Markdown file, or materialize the stated request and
 verified facts into machine-local `requirements.md` using the concise `specify` format with
 Given/When/Then acceptance criteria. Do not ask the user to restate a clear request or approve a
@@ -314,7 +321,8 @@ green.
 Lead with the delivery reference — the PR link, or the delivered branch and commit — then report
 what changed, meaningful verification and
 limitations, and the next human
-action; keep internal traceability machine-local. State incomplete outcomes honestly:
+action; keep internal traceability machine-local. Report the run's measured token/cost totals
+from the `usage` records when they were kept. State incomplete outcomes honestly:
 `needs-input`, `review-pending`, `verification-pending`, or `stopped` with the concrete next
 action. Only verified requested delivery is `completed`; human review, merge and release remain
 separate, and PR creation is not workflow completion.

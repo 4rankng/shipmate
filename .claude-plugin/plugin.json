@@ -1,7 +1,11 @@
 {
   "name": "shipmate",
-  "version": "4.9.0",
+  "displayName": "Shipmate",
+  "version": "4.10.0",
   "description": "Engineering harness for solo developers: specify, TDD run, independent AI review, walkthroughs, quizzes, diagnostic interrogation and UI/UX review.",
+  "icon": "./icon.png",
+  "documentationUrl": "https://github.com/4rankng/shipmate#readme",
+  "supportUrl": "https://github.com/4rankng/shipmate/issues",
   "author": {
     "name": "Frank Nguyen"
   },
