@@ -8,7 +8,8 @@ Apply [contextual questions](../../internal/user-questions.md) when asking the u
 situation, compare options fairly, recommend only from known goals, and resume without
 repeating settled choices.
 
-This is one of the plugin's public entrypoints. Plan turns a settled requirement into a
+This is one of the plugin's public entrypoints. Plan turns a requirement — a settled
+specification, a clear task statement, or a rough idea — into a
 reviewed implementation plan: tasks with exact targets, acceptance-criterion traceability,
 verification evidence and risk — proportionate to the work, reviewed by an independent plan
 reviewer before handback. Plan is a planning surface, not an implementation authorization: it
@@ -28,9 +29,16 @@ dispatching its reviews.
 
 ## Intake
 
-The requirement source is a settled specification (a `shipmate:specify` output, a repository
-requirements file, or a clear task statement whose acceptance criteria are already observable).
-When no source is supplied, ask one contextual question for it before anything else. Read the
+No prior artifact is required. The requirement source may be a settled specification (a
+`shipmate:specify` output or a repository requirements file), a clear task statement, or a rough
+idea supplied in chat; with none of these, ask one contextual question for what to plan — never
+for a prior artifact. When the source is rough or silent on acceptance criteria, derive the
+working requirement yourself: materialize machine-locally, in the concise `specify` format with
+Given/When/Then acceptance criteria, what the request states plus facts verified in the
+repository, marking each unverifiable intention as an open question instead of inventing
+behaviour to complete it. This working requirement is plan input, not a published contract; when
+the user wants a reviewed, human-approved requirement contract as the deliverable, that is
+`shipmate:specify`. Read the
 repository's [steering](../../internal/steering.md) documents when present; the plan must
 respect the conventions they settle. Ground the target through
 [repo-context](../../internal/repo-context/PROCEDURE.md): owning modules, real callers, shared

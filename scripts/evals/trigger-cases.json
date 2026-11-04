@@ -23,6 +23,11 @@
       "expected_skill": "plan"
     },
     {
+      "id": "plan-positive-rough-idea",
+      "query": "I only have a rough idea: cache the dashboard so it loads faster — plan it out so I can see the tasks before committing to build it",
+      "expected_skill": "plan"
+    },
+    {
       "id": "run-positive-deliver",
       "query": "Take this requirement file and deliver it as a verified draft pull request with tests",
       "expected_skill": "run"

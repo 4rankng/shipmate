@@ -21,7 +21,7 @@
   },
   "argument_hints": {
     "specify": "[requirement-or-task]",
-    "plan": "[settled-requirement-or-spec]",
+    "plan": "[requirement-task-or-idea]",
     "run": "[requirement-or-task]",
     "review": "[spec-plan-or-diff]",
     "walkthrough": "[pull-request-or-branch]",

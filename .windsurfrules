@@ -2,7 +2,7 @@
 
 Shipmate provides structured engineering workflows from requirements to merge request:
 1. **Specify**: Formulate precise contracts from local requirements (`skills/specify/SKILL.md`).
-2. **Plan**: Turn a settled requirement into a reviewed implementation plan (`skills/plan/SKILL.md`).
+2. **Plan**: Turn any requirement, task, or rough idea into a reviewed implementation plan (`skills/plan/SKILL.md`).
 3. **Run**: Deliver verified code through TDD and persona reviews into a draft MR (`skills/run/SKILL.md`).
 4. **Review**: Challenge specs, plans, and diffs with independent persona reviews (`skills/review/SKILL.md`).
 5. **Walkthrough**: Explain tickets and MRs in layered detail (`skills/walkthrough/SKILL.md`).

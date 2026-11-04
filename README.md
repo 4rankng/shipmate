@@ -173,7 +173,7 @@ cp /path/to/shipmate/.github/copilot-instructions.md .github/
 |---|---|
 | Turn a local requirement file or rough task into a reviewed requirement contract | `/specify` |
 | Take a settled requirement to a verified draft PR or reviewed local commit through TDD and review | `/run` |
-| Turn a settled requirement into a reviewed, proportionate implementation plan before coding | `/plan` |
+| Turn any requirement, task, or rough idea into a reviewed, proportionate implementation plan before coding | `/plan` |
 | Get independent, evidence-bound challenge of a spec, plan, or candidate | `/review` |
 | Understand a ticket or change in layers, with grounded diagrams | `/walkthrough` |
 | Check your own understanding of a change before it reaches production | `/quiz` |

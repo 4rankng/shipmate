@@ -3,7 +3,7 @@
 Shipmate is an engineering workflow harness for solo developers (one-person software teams),
 providing 8 public capabilities:
 1. **Specify**: Formulates verified technical specifications from local requirements. See `skills/specify/SKILL.md`.
-2. **Plan**: Turns a settled requirement into a reviewed, proportionate implementation plan with AC traceability and `[P]` parallel markers. See `skills/plan/SKILL.md`.
+2. **Plan**: Turns any requirement, task, or rough idea into a reviewed, proportionate implementation plan with AC traceability and `[P]` parallel markers. See `skills/plan/SKILL.md`.
 3. **Run**: Takes requirements through strict TDD, plan reviews, and candidate reviews into a draft MR. See `skills/run/SKILL.md`.
 4. **Review**: Performs multi-persona adversarial review of specs, plans, and code diffs. See `skills/review/SKILL.md`.
 5. **Walkthrough**: Layered, diagram-backed explanation of behavior, interactions, and details with checkpoints. See `skills/walkthrough/SKILL.md`.
