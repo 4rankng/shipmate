@@ -149,7 +149,7 @@ Beside the draft, in chat only, name each observable default you chose without a
   authorized feature branch. Preserve `local-<run-id>` and read back written content. Never invent an external tracker to complete this path.
 
 Return the approved spec/location, publication state and any unresolved material question.
-Specify ends here; coding needs a subsequent authorized run with no open material decision.
+Specify ends here; coding needs a subsequent authorized run with no open material decision — or `shipmate:plan` first, when a reviewed implementation plan should precede implementation.
 
 ## Resume and finalize an existing specification
 

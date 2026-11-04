@@ -41,16 +41,42 @@ For a small fix, one task may be sufficient. Include only applicable details:
 - each acceptance criterion mapped to a focused test or observable verification;
 - up to five inputs or failure modes the requirement implies but no criterion names (for example empty, boundary, duplicate, malformed or unauthorized), each pinned to a test in its owning task, or `none found`;
 - risk, compatibility, recovery/rollback and authority boundaries when affected;
+- every task sized as one action with a checkable result, carrying a `Verify:` line with the
+  exact command and its expected result — a task whose verification is a prose assertion is
+  returned to the author, not shipped;
+- the change shape per task — exact file paths, signatures, test assertions and the
+  requirement's values — not full implementation bodies; include a body only where the
+  interface alone cannot determine the algorithm;
+- `Depends on:` edges only where a task's dependency is not the immediately preceding task;
+- every task traced to at least one acceptance criterion or named as an enabling step, and
+  every uncovered criterion explicitly in non-goals;
 - required checks, unavailable prerequisites and permitted equivalent CI evidence.
-
-Do not write a second specification or fill a ten-field template for every task. Avoid speculative
-frameworks, needless new runtime checks when existing injection/contracts suffice, and unrelated
-upgrades. Prefer exact commands read from the repository over generic invented commands.
 
 Run the bundled [unslop](../unslop/PROCEDURE.md) pass on human-facing prose without changing
 behaviour, identifiers or useful evidence. Formatting-only changes do not invalidate review.
 Material plan changes receive fresh reviews for affected scope, then continue; they are not
 rejected because a design hash changed.
+
+## Plan contract (single producer, mechanical freshness)
+
+This procedure is the only plan producer in the plugin: `shipmate:plan` runs it as its whole
+engine, and `run` stage 6 runs it when no reviewed plan exists. One requirement holds one
+canonical plan file with the identity fields from the
+[template](references/PLAN_TEMPLATE.md) — requirement reference and digest, plan status, pinned
+base — and revisions stay append-only in that file with stable task IDs; never spin a second
+plan file for the same requirement.
+
+Consumers (`run`, a later `plan` resume, or a human) validate instead of re-authoring:
+
+- **Adopt** a plan only when its requirement digest matches the current requirement artifact and
+  its recorded plan status is `reviewed`; a digest mismatch or a material post-review edit means
+  the plan is stale.
+- **Validate structure, not architecture**: tasks still order correctly against the current file
+  tree, `[P]` tasks still touch disjoint files, and each `Verify:` command still resolves. Do not
+  re-litigate reviewed design here — that is the reviewer personas' job, in this procedure.
+- **Escalate, never patch**: a stale or structurally broken plan returns here for a fresh
+  affected-scope review; a consumer never edits the plan in place.
+- **Re-read from disk** at execution start; never trust plan-shaped content lingering in context.
 
 ## Dependency-aware slices
 

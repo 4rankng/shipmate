@@ -202,12 +202,15 @@ files into the branch only when requested or required by repository policy.
 
 ## Stage 6 — Plan proportionally
 
-Persist a machine-local plan by default: a small fix needs one compact task with intended files,
-AC-to-test mapping and risk; add interface/dependency/rollback detail only where relevant.
-Mark parallel-safe tasks `[P]` per the plan template so authorized wave execution can schedule
-them; markers never authorize parallelism by themselves. A reviewed plan produced by
-`shipmate:plan` on the same requirement is valid input here: adopt it, re-review only what
-materially changed, and never discard verified planning work.
+Plan through the shared [writing-plans](../../../internal/writing-plans/PROCEDURE.md) procedure —
+the same engine `shipmate:plan` runs; this stage owns no separate planning rules. When a
+reviewed plan already exists for the current requirement (from `shipmate:plan` or a previous
+run), follow its [plan contract](../../../internal/writing-plans/PROCEDURE.md): adopt it only if
+the requirement digest matches, validate structure — task order against the current file tree,
+disjoint `[P]` files, resolving `Verify:` commands — and escalate a stale or broken plan back to
+the procedure with its affected-scope review instead of patching it. Never re-litigate reviewed
+design here, never discard verified planning work, and re-read the plan file from disk at stage 7
+start rather than trusting context memory.
 Committing a plan into the PR is not required unless repository policy or the user requests it,
 and a removed plan stays removed.
 Low-risk work dispatches an independent Architecture & Simplicity reviewer; higher-risk work adds

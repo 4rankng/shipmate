@@ -67,12 +67,13 @@ choices recorded in the plan, not questions.
 
 ## Write the plan proportionally
 
-Follow [writing-plans](../internal/writing-plans/PROCEDURE.md) and its
-[template](../internal/writing-plans/references/PLAN_TEMPLATE.md): a small change needs one
-compact task with intended files, AC-to-test mapping and risk; add interface, dependency and
-rollback detail only where the work justifies it. Every task names exact files and symbols,
-maps to the acceptance criterion it delivers, and states its fail-before and pass-after
-evidence. Mark parallel-safe tasks `[P]`; markers never authorize parallel execution by
+Author through [writing-plans](../internal/writing-plans/PROCEDURE.md) — this skill's whole
+planning engine, and the same procedure `run` stage 6 uses, so a plan produced here is exactly
+what run consumes. Its [template](../internal/writing-plans/references/PLAN_TEMPLATE.md)
+carries the plan contract: proportionate size, one
+action per task with a `Verify:` line, change shape instead of code bodies, stable task IDs,
+append-only revisions, requirement digest and plan status in the identity block. Mark
+parallel-safe tasks `[P]`; markers never authorize parallel execution by
 themselves. Record the plan machine-locally by default; commit it only when the user asks or
 repository policy requires it. Do not start implementation, and do not create the branch or
 worktree — that is run's Stage 5.

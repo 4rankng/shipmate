@@ -73,15 +73,17 @@ request final candidate approval from isolated slice PASS results.
 For each task:
 
 1. mark it in progress;
-2. read only the context needed for that task plus its declared interfaces;
-3. follow the bundled [`test-driven-development`](../test-driven-development/PROCEDURE.md) procedure for
+2. re-read this task from the plan file on disk — its `Verify:` line, files and interfaces —
+   never from context memory;
+3. read only the context needed for that task plus its declared interfaces;
+4. follow the bundled [`test-driven-development`](../test-driven-development/PROCEDURE.md) procedure for
    behavior changes;
-4. run the specified failing test and confirm the failure reason;
-5. implement the smallest conforming change;
-6. run task-specific tests and checks;
-7. inspect the diff for scope, data exposure, generated files, and accidental control changes;
-8. record evidence and mark the task complete;
-9. commit only when the plan defines a commit boundary. Outside L3 this requires user authority;
+5. run the specified failing test and confirm the failure reason;
+6. implement the smallest conforming change;
+7. run task-specific tests and checks;
+8. inspect the diff for scope, data exposure, generated files, and accidental control changes;
+9. record evidence and mark the task complete;
+10. commit only when the plan defines a commit boundary. Outside L3 this requires user authority;
    inside L3 its controller already owns local candidate commits on its feature branch.
 
 Do not silently skip a step because a command is slow or the change appears obvious.
