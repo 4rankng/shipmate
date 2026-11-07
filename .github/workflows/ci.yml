@@ -25,5 +25,7 @@ jobs:
         run: python3 scripts/check_links.py
       - name: Scan shipped instructions for dangerous patterns
         run: python3 scripts/scan_unsafe_instructions.py
+      - name: Scan the tree for credential-shaped literals
+        run: python3 scripts/scan_secrets.py
       - name: Validate eval datasets
         run: python3 scripts/validate_evals.py

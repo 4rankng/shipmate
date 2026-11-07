@@ -153,7 +153,7 @@ def scan(paths: list[str]) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("paths", nargs="*", default=["."], help="files or directories")
+    parser.add_argument("paths", nargs="*", help="files or directories (default: .)")
     parser.add_argument("--staged", action="store_true", help="scan git-staged files only")
     args = parser.parse_args()
 

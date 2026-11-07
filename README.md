@@ -208,8 +208,9 @@ when you ask how to deliver or operate without paid tools.
 | GitHub Copilot | instructions | `.github/copilot-instructions.md` | capability routing only |
 
 Every command, rule, workflow and prompt surface is **generated** from `skills/*/SKILL.md` by
-`scripts/gen_adapters.py` — edit the skill, then regenerate. `gen_adapters.py --check` and
-`stamp_version.py --check` run in CI, so hand-edited copies and version drift fail the build.
+`scripts/gen_adapters.py` — edit the skill, then regenerate. `gen_adapters.py --check`,
+`stamp_version.py --check` and `scan_secrets.py` run in CI, so hand-edited copies, version
+drift and committed credentials fail the build.
 
 ## Quick Setup Script
 
