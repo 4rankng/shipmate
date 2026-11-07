@@ -26,6 +26,7 @@ Tokenized OKLCH ramp formulas — build with a color library or the formulas, ne
 - Gradients interpolate `in oklab`; reach for `in oklch` when a two-hue gradient would go gray in the middle.
 - Contrast fixes change lightness, not hue — lightness is the channel contrast responds to.
 - One dark-switching mechanism: `prefers-color-scheme` XOR a `.dark` class, never both.
+- Declare the appearance — `color-scheme` on the root matching the themes the system ships, and `<meta name="theme-color">` matching the rendered background. Native `<select>` popups take explicit background and color — Windows dark mode renders white menus without them.
 - `prefers-contrast: more` gets per-appearance values, not one block overriding both appearances.
 - Text on a color with alpha is measured as rendered, or replaced with a solid token.
 - Declare the sRGB value before a p3-only chroma, with the vivid value inside `@media (color-gamut: p3)`.
@@ -43,6 +44,8 @@ Tokenized OKLCH ramp formulas — build with a color library or the formulas, ne
 | A status hue within 15° of the accent hue | Move it ≥15° away, or give the action a distinct treatment |
 | Dark tokens = the light ramp reversed | Own dark ramp: lower accent chroma, wider dark end, remeasure |
 | Dual switching mechanisms (`prefers-color-scheme` + `.dark`) | Pick one, use it throughout |
+| No `color-scheme` on the root or a matching `theme-color` | `color-scheme` on the root; `<meta name="theme-color">` per appearance |
+| A native `<select>` without explicit bg/color | Set both — Windows dark mode ignores page theming |
 | A contrast fix that changes hue, not lightness | Change lightness |
 | An unmeasured alpha text pair (`/50`, `rgba(`, `color-mix(`) | Measure the rendered result or use a solid token |
 | `text-white` on a `500` fill | Measure it; most hues need the fill at `600` |

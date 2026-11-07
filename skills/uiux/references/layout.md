@@ -19,6 +19,7 @@ Hit areas and focus behavior live in [accessibility.md](accessibility.md). Radiu
 - Borderless controls need 24px between visible glyphs, counting each button's own padding; 12px between adjacent bordered or filled controls where no density system exists. Compact layouts may go tighter only while hit areas never overlap and controls stay distinct.
 - Full-width buttons stay inside the layout margins — start near 16px inline on mobile. Edge-to-edge works only for established platform chrome that accounts for safe areas.
 - Content bleeds, controls float: backgrounds and media reach the viewport edges; controls and text stay inside margins and safe areas. `env(safe-area-inset-*)` resolves to 0 without `viewport-fit=cover` in the viewport meta.
+- Media declares its space — explicit `width`/`height` (or `aspect-ratio`) on images and video, so nothing below shifts when they load; below-fold media takes `loading="lazy"`.
 - Sticky chrome sets `scroll-padding-block-start` to its height, so anchored targets and focused elements never land beneath it.
 - Breakpoints come from the content, not device presets: hold the expanded layout until it stops fitting, then collapse. Prefer container queries for component-level adaptation. Test the smallest and largest supported sizes first.
 - Translated strings grow, short ones proportionally more — a one-word button label is the riskiest string on screen. Size text containers with `max-width`/`min-height`, never fixed dimensions; let rows wrap. Test with pseudo-localization and one long-string locale such as German.
@@ -39,3 +40,4 @@ Hit areas and focus behavior live in [accessibility.md](accessibility.md). Radiu
 | `float: left` on mirrored UI | `float: inline-start` |
 | `translateX` or `background-position: left` on mirrored UI | A `[dir="rtl"]` override — neither has a logical form |
 | Sticky header without `scroll-padding-block-start` | Set it to the header height |
+| An `<img>`/`<video>` without dimensions | Explicit `width`/`height` or `aspect-ratio`; `loading="lazy"` below the fold |

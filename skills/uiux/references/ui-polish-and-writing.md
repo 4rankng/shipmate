@@ -23,6 +23,11 @@ The reduced-motion requirement and focus rings live in [accessibility.md](access
 ## Motion
 
 - Press scale `0.96` over `150ms` with `ease-out`; a disabled control never scales. Opt out through the component's variant API or a `static` prop.
+- Easing by job: enter/exit on the default ease-out `cubic-bezier(0.2, 0, 0, 1)`; movement across the screen `ease-in-out`; constant progress `linear`. Never `ease-in` for UI motion — it starts slower than the gesture that caused it.
+- Duration bands by surface, not one number for everything: press `150ms`, tooltip or popover `150–200ms`, dropdown `150–250ms`, modal or drawer `200–300ms`. Interactive feedback never exceeds `300ms`.
+- Never enter from `scale(0)` — enter from `scale(0.95)` plus `opacity: 0`, or the arrival reads as a glitch.
+- A popover scales from its trigger: `transform-origin` follows the trigger's position; a modal stays centered.
+- Hold-to-confirm fills linearly through the whole hold — the user is deciding — and releases in `200ms` ease-out — the system responds.
 - High-frequency interactions — keystrokes, row hovers, tab switches — respond instantly, or with ≤150ms on `opacity`/`background-color` only. Expressive motion is for infrequent moments: first load, success, empty.
 - Stagger infrequent entrances `100ms` apart, each entering with opacity + `4px` blur + `12px` translateY over `300ms` with `ease-out`. Never stagger routine interactions.
 - Exits are shorter and smaller than enters: opacity + `4px` blur + a fixed `-12px` translateY over `150ms`. Remove instantly where motion adds nothing.
@@ -32,26 +37,31 @@ The reduced-motion requirement and focus rings live in [accessibility.md](access
 - `initial={false}` on a state-swap wrapper so the default state does not animate on mount; never around an intentional entrance.
 - Theme switch: disable every transition, force a style flush, restore after the next frame — otherwise every color transition fires at once.
 - Name transition properties, never `all`. `will-change` only after observed stutter, naming the animated property, limited to transform/opacity/filter.
+- An animated SVG transform wraps in a `<g>` with `transform-box: fill-box; transform-origin: center`, or it pivots on the viewBox origin.
 - Hover styling behind `@media (hover: hover)` — on touch, `:hover` latches after a tap. `-webkit-tap-highlight-color: transparent` where a control draws its own pressed state.
+- `touch-action: manipulation` on tap targets, so double-tap zoom never delays a single tap.
 - `overscroll-behavior: contain` on scrollable dialogs, drawers, menus and side panels, so scrolling past their end never scrolls the page behind.
+- Page rubber-band suppression is `overscroll-behavior: none` on the root, gated under `@media (pointer: fine)` — coarse pointers keep pull-to-refresh.
 
 ## Writing
 
 - Inventory the strings first: find the translation layer (`t(`, `i18n.`, `<FormattedMessage`) and its locale files; list the noun per object, the verb per action, the case per element type. New copy uses that vocabulary. A synonym is a finding only where the same thing is named two ways.
 - One voice, one vocabulary through a flow. Tone by stakes: success, onboarding and empty states warm; routine actions and settings neutral; errors and destructive confirmations calm and plain; data loss and security serious and explicit.
 - "You", not "the user".
+- Name from the user's side, not the system's: "notifications", never "webhook config".
 - Strings built whole: one message with placeholders and the locale's plural rules via `Intl`. Never `"You have " + n + " messages"`.
 - Verb-first button labels: "Export CSV", "Delete project" — never "OK!". Icon-button names name the action, not the glyph. Links describe their destination; no duplicate bare "Learn more".
 - One capitalization policy per element type; sentence case is the default.
 - Toggles label the ON state: "Send read receipts", never "Don't send read receipts".
 - Errors sit beside the field, state what happened and how to fix it — no blame, no "oops", no exclamation marks; positive phrasing: "Use at least 8 characters". An error that names no recovery is a HIGH trigger. A recurring error means redesign the interaction.
 - Undo beats confirmation when the action is reversible and common: act, then "Project archived. Undo". Confirm irreversible, other-affecting or bulk actions: the title names action + object ("Delete 'Q3 report'?"), the body states what is lost with counts, buttons are verb + object never Yes/No, and accounts/workspaces/repos ask for the name typed.
+- Warn before navigating away from a form with unsaved changes — leaving without warning is data loss the user did not choose.
 - Empty states orient and offer one clear action. Filtered empties name the query and the exit: "No results for 'quarterly'. Clear filters".
 - Placeholders show a realistic example in the accepted format — `name@example.com`, `DD/MM/YYYY` — never an instruction.
 
 ## Status copy
 
-- Loading — a skeleton or progress indicator for waits over `300ms`.
+- Loading — a skeleton or progress indicator for waits over `300ms`. Pending text ends with `…` — "Loading…", never "Loading".
 - Empty — orientation plus one action.
 - Error — what failed and the recovery path, near where it broke.
 - Success — a brief confirmation: "Changes saved", never "successfully".
@@ -78,3 +88,7 @@ The reduced-motion requirement and focus rings live in [accessibility.md](access
 | Negative toggle labels | Describe the ON state |
 | Glyph-named `aria-label`s | Name the action |
 | Locale-less `toLocaleDateString()` | `Intl.DateTimeFormat` with the user's locale |
+| Enter from `scale(0)` | Start `scale(0.95)` + `opacity: 0` |
+| `ease-in` on UI state | Ease-out; `ease-in-out` for on-screen movement |
+| Inline SVG transform with no `transform-box` | Wrap in `<g>`, `transform-box: fill-box; transform-origin: center` |
+| Rubber-band suppression outside `pointer: fine` | Gate `overscroll-behavior: none` under `@media (pointer: fine)` |
