@@ -25,7 +25,7 @@ Ask: "would any part of this appear unchanged for a different client in the same
 
 The primary generation method. Pick the closest, then adapt through the OKLCH formulas in [colors.md](colors.md). The catalog lookup below supplies candidates; these are the defaults.
 
-1. **Dense data dashboard.** Neutral OKLCH base L 0.95–0.30, one accent, 4/8px grid, 13–14px UI text, numerals set for column comparison. Anti-pattern: decorative illustration or rounded friendliness that costs density.
+1. **Dense data dashboard.** Neutral OKLCH base L 0.95–0.30, one accent, 4/8px grid, 13–14px UI text, numerals set for column comparison. Anti-pattern: decorative illustration or rounded friendliness that costs density. For the dark-first mission-control execution, load [dashboard-console.md](dashboard-console.md).
 2. **Monochrome tech.** Near-single-hue neutral ramp, one saturated signal color, generous dark surfaces. Anti-pattern: a second accent hue competing with the signal color.
 3. **Warm editorial.** Serif display over sans body, cream-neutral ramp, measure 60–75ch. Anti-pattern: dashboard density — dense tables and data grids.
 4. **Commerce trust.** Cool neutral ramp, green reserved for confirmation only, product imagery primary. Anti-pattern: playful accents on checkout or payment surfaces.

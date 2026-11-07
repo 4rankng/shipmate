@@ -9,7 +9,7 @@ Build, polish and review web interfaces in three modes. The domain rules live in
 
 ## Resolve the mode
 
-- **BUILD** — a new page, feature or surface from a brief. Load [design-direction.md](references/design-direction.md) first and state the chosen direction before writing code. Load each domain file as that domain is implemented: [accessibility.md](references/accessibility.md), [layout.md](references/layout.md), [typography.md](references/typography.md), [colors.md](references/colors.md), [ui-polish-and-writing.md](references/ui-polish-and-writing.md). While choosing palette, type pairing or style, optionally run `scripts/lookup.py` for candidates — BUILD only; an audit measures the rendered pair, never a catalog row.
+- **BUILD** — a new page, feature or surface from a brief. Load [design-direction.md](references/design-direction.md) first and state the chosen direction before writing code. For a dense dashboard or data console, load [dashboard-console.md](references/dashboard-console.md) right after it — that file fixes the dark-first console palette, shell, KPI strip, density rules and the responsive contract. Load each domain file as that domain is implemented: [accessibility.md](references/accessibility.md), [layout.md](references/layout.md), [typography.md](references/typography.md), [colors.md](references/colors.md), [ui-polish-and-writing.md](references/ui-polish-and-writing.md). While choosing palette, type pairing or style, optionally run `scripts/lookup.py` for candidates — BUILD only; an audit measures the rendered pair, never a catalog row.
 - **POLISH** — a small change to an existing surface. Load only the touched domain's file and apply its exact values.
 - **AUDIT** — review an existing screen, flow, branch or diff. Run the procedure below, walking the domain files sequentially in review order.
 
@@ -83,6 +83,7 @@ The report format lives in [review-report.md](references/review-report.md).
 | File | Load when |
 | --- | --- |
 | [references/design-direction.md](references/design-direction.md) | BUILD: brief, archetypes, palette and pairing defaults, anti-slop bans, restraint |
+| [references/dashboard-console.md](references/dashboard-console.md) | BUILD: dark-first mission-control direction for dense dashboards — tokens, backdrop, shell, KPI strip, panels, tables, charts, responsive contract |
 | [references/accessibility.md](references/accessibility.md) | Semantics, keyboard and focus, forms, announcements, hit areas, zoom, motion gating |
 | [references/layout.md](references/layout.md) | Grouping, alignment, reading order, responsive structure, RTL, growth |
 | [references/typography.md](references/typography.md) | Rendering: line-height, weights, measure, truncation, punctuation, floors |
