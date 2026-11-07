@@ -111,14 +111,27 @@ Sora for display, DM Sans or Inter for body, a system mono for every label, kick
 
 1. **Page header** — signal bar + kicker + title + meta + actions.
 2. **KPI strip** — 2 columns on phones, 3 on tablets, 4–6 on desktop. Icon chip + mono label + one figure + a one-line hint. This is the top-level answer, not decoration.
-3. **Body grid** — 12 columns, 8px gap. Pair heights deliberately: 8/4, 7/5, 6/6, 4/4/4. A tall panel beside a short one leaves a hole; either fill it with another data block or rebalance the pair.
+3. **Body gallery** — 12 columns, 8px gap. Pair heights deliberately (8/4, 7/5, 6/6, 4/4/4), then **pack** the gallery masonry-style so a short panel never leaves a row-height hole. Panels own their headers and carry 2–3 stat chips under the chart; see [Packed gallery](#packed-gallery).
 4. **Closing note** — one small muted line for the caveat; no large disclaimer card.
 
 Rules:
 
-- `items-start` on the grid. Do not stretch panels to equal height and then leave the body empty.
+- `items-start` on the grid. Do not stretch panels to equal height and then leave the body empty; pack instead.
 - Every cell must earn its place. If a cell repeats data already visible, delete it.
 - Full-bleed: content spans the container; panels share edges. No floating page wrapper with unused margins.
+
+## Packed gallery
+
+The latest toto.sg insights pass turns the page from a stack of cards into a **packed gallery**. Adopt the parts that transfer:
+
+- **Panel-owned header.** The kicker, title, one short meta line and actions belong to the panel, not to a detached section card above it. One panel = one instrument cell.
+- **Masonry packing.** On a 12-column track, measure each panel and span `1px` rows (`row dense`), adding the 12px gap, so a short panel can start exactly where its taller neighbour ends. Below `lg`, stack in one column and clear the spans. Feed it a `ResizeObserver` and re-pack on font load.
+- **Two-panel galleries** do not need masonry: a 4/8 or 6/6 grid with `items-stretch` and a panel that fills its row avoids a hole when one side is empty.
+- **Stat chips under the chart.** 2–3 compact figures (mono 9px label, 20px value, 10px hint) under every chart that carries a distribution. Bare variant: top hairline only, no card. They replace a paragraph of interpretation.
+- **Observed vs expected.** Pair every chart with a baseline, target or previous period — a dashed reference line/band or a `Δ` column — and let the figures carry it. **Do not add a sentence spelling the expectation out.**
+- **Non-zero row law.** A completed queue, a zero channel, or a row that is only navigation is not a task. Omit it; if every row is zero, show one all-clear line (or nothing).
+- **Compact empty states.** No large illustration inside a data cell. One 13px line, one 11px hint, one next action.
+- **Tight rows.** Panel header `px-3 py-2`; list rows `py-2`; hero/league rows `py-1`–`py-2`. Let cards meet at their natural height rather than stretching one and leaving air.
 
 ## Components
 
@@ -128,7 +141,7 @@ Icon chip 36px (signal/cyan/gold tint at 10% with a 30% ring), mono 9px label, d
 
 ### Panel
 
-Mono kicker, 13px title, 11px description, actions at the end. Header strip `surface-2/40` with a bottom hairline. Body 12px padding. Footer for a caption. No shadow beyond the signal glow.
+Mono kicker (signal), 13px title, one 11px meta line, actions at the end. Header strip `surface-2/40` with a bottom hairline. Body 12px padding. Footer for a caption. No shadow beyond the signal glow. The panel owns its header; never put a section-header card above a panel card.
 
 ### Data table
 
@@ -189,7 +202,12 @@ One row, always. Compact controls: the select trigger and menu text at 14px, the
 | Hamburger with four items | Put the items in the bar; shrink mono size/padding |
 | KPI value clipped in a 2-col tile | Compact the value (`S$13.1M`), keep the exact figure in a detail panel |
 | A progress bar wider than the data it explains | Sequence/values in the foreground; bars ≤120px or moved behind the content |
-| Card next to a taller card with empty body | `items-start` and either fill the shorter card or rebalance the pairing |
+| Card next to a taller card with empty body | `items-start` and pack the gallery (masonry) or rebalance the pairing |
+| Row-height hole under a short panel | Masonry pack the 12 columns; below `lg` stack normally |
+| Detached section header above every panel | Move kicker/title/actions into the panel header |
+| Zero-value row presented as a task | Non-zero row law; all-clear line when the queue is empty |
+| Large empty-state illustration in a data cell | Compact text + next action; no illustration |
+| A paragraph explaining the expected value | Dashed baseline/band or a `Δ` figure; no prose |
 | Empty lower half of a hero card | Add a real data block or shrink the hero |
 | Sticky table header painted over the first row | No vertical sticky inside a horizontal rail |
 | Sequence crammed at the end of the name line | Two-line row, sequence on its own line |
@@ -205,9 +223,9 @@ One row, always. Compact controls: the select trigger and menu text at 14px, the
 2. Paint the canvas: grid + two radial signal glows.
 3. Build the panel primitive: 8px radius, 1px line, surface, `panel-glow`, mono kicker header.
 4. Build the KPI card and the page header (signal bar + mono kicker).
-5. Lay the 12-column grid; place a KPI strip, then panels by height pairs; `items-start`.
+5. Lay the 12-column gallery; place a KPI strip, then pack panels (masonry) and put 2–3 stat chips under each chart.
 6. Add tables/rows/filters with the responsive contract.
-7. Add the two charts only where they add distribution or rate.
+7. Add the two charts only where they add distribution or rate; pair each with a dashed baseline or a `Δ` figure, never a prose explanation.
 8. Add the auto-hide top bar last.
 9. Verify at 320/390/768/1024/1440 in both appearances, then check focus, reduced motion and `scrollWidth`.
 
